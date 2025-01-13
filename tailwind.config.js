@@ -8,6 +8,8 @@ export default {
     extend: {
       colors: {
         'mainBlue': '#1E3A8A',
+        'accentLightBlue': '#4672F1',
+        'defaultText': '#333',
       },
     },
   },
