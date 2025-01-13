@@ -5,3 +5,9 @@ body{
     background-color: #F6F6F6;
     padding: 30px;
 }
+@font-face {
+    font-family: 'Nico Moji';
+    src: url('/Fonts/NicoMoji-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }

@@ -1,12 +1,12 @@
 import React from 'react';
 import './AuthLayout.css';
-import { Outlet } from 'react-router-dom';
-
+import Logo from '../../Logo/Logo';
 function AuthLayout() {
   return (
-    <div>
-      <h1>Welcome to Auth</h1>
-      <Outlet /> {/* Nested routes will render here */}
+    <div className='AuthLayout w-full h-full'>
+      <header className='AuthLayout_header w-full h-8'>
+      <Logo />
+      </header>
     </div>
   );
 }
