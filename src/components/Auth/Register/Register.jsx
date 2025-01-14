@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './Register.css';
-import Logo from '../../Logo/Logo';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import Logo from '../../Logo/Logo';
+import NewsletterSubBanner from '../../NewsletterSubBanner/NewsletterSubBanner';
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -61,6 +62,7 @@ export default function Register() {
             </div>
             </div>
           </div>
+          <NewsletterSubBanner />
         </div>
       </div>
     </LocalizationProvider>
