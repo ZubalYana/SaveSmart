@@ -6,7 +6,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Logo from '../../Logo/Logo';
-import NewsletterSubBanner from '../../NewsletterSubBanner/NewsletterSubBanner';
+import NewsletterSubBanner from '../NewsletterSubBanner/NewsletterSubBanner';
+import WhatIsNextBtn from '../WhatIsNextBtn/WhatIsNextBtn';
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,10 +32,10 @@ export default function Register() {
 
           <div className="Register_infoField">
             <div className="Register_inputCon w-[840px] flex justify-between mt-9">
-              <TextField id="outlined-basic" label="Name and last name" variant="outlined" className='w-[55%]' />
+              <TextField id="outlined-basic" label="Name and last name" variant="outlined" className='w-[55%] text-sm' />
               <DatePicker label="Date of birth" className='w-[42%]' />
             </div>
-            <div className="Register_inputCon w-[840px] flex justify-between mt-6">
+            <div className="Register_inputCon w-[840px] flex justify-between mt-4">
               <TextField id="outlined-basic" label="Your email" variant="outlined" className='w-[55%]' />
               <div className="passwordInputCon w-[42%]">
               <TextField
@@ -63,6 +64,7 @@ export default function Register() {
             </div>
           </div>
           <NewsletterSubBanner />
+          <WhatIsNextBtn />
         </div>
       </div>
     </LocalizationProvider>
