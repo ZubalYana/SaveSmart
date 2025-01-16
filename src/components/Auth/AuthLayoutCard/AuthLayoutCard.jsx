@@ -8,7 +8,7 @@ export default function AuthLayoutCard({ title, description, imgSrc, buttonText,
       <p className='text-sm font-normal text-defaultText text-center mt-2'>{description}</p>
       <img src={imgSrc} alt={`${title} illustration`} className='mt-11' />
       <button
-        className='w-[210px] h-[50px] flex bg-accentLightBlue bg-opacity-50 rounded-xl items-center justify-center mt-10 hover:bg-opacity-80 hover:shadow-lg transition-all duration-400'
+        className='w-[210px] h-[50px] flex bg-accentLightBlue bg-opacity-50 rounded-xl items-center justify-center mt-10         hover:bg-btnBgShade-500 hover:scale-105 hover:shadow-lg transition-all duration-400'
         onClick={onClick}
       >
         <img src={buttonIcon} alt={`${buttonText} icon`} />
