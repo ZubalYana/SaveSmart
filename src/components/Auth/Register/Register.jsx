@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { updateField } from '../../../redux/slices/registrationSlice';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -9,15 +10,27 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Logo from '../../Logo/Logo';
 import NewsletterSubBanner from '../NewsletterSubBanner/NewsletterSubBanner';
 import WhatIsNextBtn from '../WhatIsNextBtn/WhatIsNextBtn';
+import dayjs from "dayjs";
+import { nextStep } from '../../../redux/slices/registrationSlice';
 
 export default function Register() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { name, email, dateOfBirth, password } = useSelector((state) => state.registration);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const handleNextStep = () => {
+    if( !name || !email || !dateOfBirth || !password ){
+      alert('Please fill in all fields before proceeding.');
+      return;
+    }
+    dispatch(nextStep());
+    navigate('/auth/register/where-did-you-hear');
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -47,9 +60,10 @@ export default function Register() {
               <DatePicker
                 label="Date of birth"
                 className='w-[42%]'
-                value={dateOfBirth}
-                onChange={(date) => dispatch(updateField({ field: 'dateOfBirth', value: date }))}
+                value={dateOfBirth ? dayjs(dateOfBirth) : null}
+                onChange={(date) => dispatch(updateField({ field: 'dateOfBirth', value: date ? date.toISOString() : null }))}
               />
+
             </div>
             <div className="Register_inputCon w-[840px] flex justify-between mt-4">
               <TextField
@@ -87,7 +101,7 @@ export default function Register() {
             </div>
           </div>
           <NewsletterSubBanner />
-          <WhatIsNextBtn />
+          <WhatIsNextBtn onClick={handleNextStep} />
         </div>
       </div>
     </LocalizationProvider>

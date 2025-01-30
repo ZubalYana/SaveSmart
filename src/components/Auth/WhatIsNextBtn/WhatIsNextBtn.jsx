@@ -3,7 +3,7 @@ import "./WhatIsNextBtn.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-export default function WhatIsNextBtn() {
+export default function WhatIsNextBtn({onClick }) {
   return (
     <div
       className="
@@ -27,6 +27,7 @@ export default function WhatIsNextBtn() {
         mt-6
         cursor-pointer
       "
+      onClick={onClick}
     >
       What's next? 
       <FontAwesomeIcon 
