@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
-import './Register.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateField } from '../../../redux/slices/registrationSlice';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Logo from '../../Logo/Logo';
 import NewsletterSubBanner from '../NewsletterSubBanner/NewsletterSubBanner';
 import WhatIsNextBtn from '../WhatIsNextBtn/WhatIsNextBtn';
+
 export default function Register() {
+  const dispatch = useDispatch();
+  const { name, email, dateOfBirth, password } = useSelector((state) => state.registration);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className='Register w-full h-full'>
@@ -32,35 +37,53 @@ export default function Register() {
 
           <div className="Register_infoField">
             <div className="Register_inputCon w-[840px] flex justify-between mt-9">
-              <TextField id="outlined-basic" label="Name and last name" variant="outlined" className='w-[55%] text-sm' />
-              <DatePicker label="Date of birth" className='w-[42%]' />
+              <TextField
+                label="Name and last name"
+                variant="outlined"
+                className='w-[55%] text-sm'
+                value={name}
+                onChange={(e) => dispatch(updateField({ field: 'name', value: e.target.value }))}
+              />
+              <DatePicker
+                label="Date of birth"
+                className='w-[42%]'
+                value={dateOfBirth}
+                onChange={(date) => dispatch(updateField({ field: 'dateOfBirth', value: date }))}
+              />
             </div>
             <div className="Register_inputCon w-[840px] flex justify-between mt-4">
-              <TextField id="outlined-basic" label="Your email" variant="outlined" className='w-[55%]' />
-              <div className="passwordInputCon w-[42%]">
               <TextField
-              className='w-[100%]'
-              id="password-input"
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              variant="outlined"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleTogglePasswordVisibility} edge="end">
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <p className='text-xs text-defaultText font-extralight mt-1'>
-              <span className='mr-1'>8 symbols min.,</span>
-              <span className='mr-1'>numbers,</span>
-              <span className='mr-1'>special symbols,</span>
-              <span className='mr-1'>capital letter</span>
-            </p>
-            </div>
+                label="Your email"
+                variant="outlined"
+                className='w-[55%]'
+                value={email}
+                onChange={(e) => dispatch(updateField({ field: 'email', value: e.target.value }))}
+              />
+              <div className="passwordInputCon w-[42%]">
+                <TextField
+                  className='w-[100%]'
+                  label="Password"
+                  type={showPassword ? "text" : "password"}
+                  variant="outlined"
+                  value={password}
+                  onChange={(e) => dispatch(updateField({ field: 'password', value: e.target.value }))}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleTogglePasswordVisibility} edge="end">
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <p className='text-xs text-defaultText font-extralight mt-1'>
+                  <span className='mr-1'>8 symbols min.,</span>
+                  <span className='mr-1'>numbers,</span>
+                  <span className='mr-1'>special symbols,</span>
+                  <span className='mr-1'>capital letter</span>
+                </p>
+              </div>
             </div>
           </div>
           <NewsletterSubBanner />
