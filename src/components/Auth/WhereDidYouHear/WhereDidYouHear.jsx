@@ -3,7 +3,7 @@ import { Share2, Search, Users, Megaphone, MoreHorizontal } from 'lucide-react'
 import './WhereDidYouHear.css'
 import Logo from '../../Logo/Logo'
 import WhereDidYouHearOption from '../WhereDidYouHearOption/WhereDidYouHearOption'
-
+import WhatIsNextBtn from '../WhatIsNextBtn/WhatIsNextBtn'
 export default function WhereDidYouHear() {
   let options = [
     {
@@ -29,11 +29,11 @@ export default function WhereDidYouHear() {
   ]
 
   return (
-    <div className='WhereDidYouHear w-full h-full'>
+    <div className='WhereDidYouHear w-full h-[89vh]'>
       <header className='WhereDidYouHear_header w-full h-8 mb-3'>
         <Logo />
       </header>
-      <div className="WhereDidYouHear_content w-full h-full flex flex-col items-center text-defaultText text-2xl font-medium pt-7">
+      <div className="WhereDidYouHear_content w-full h-[90%] flex flex-col items-center justify-center text-defaultText text-2xl font-medium pt-7">
         <h1>Where did you hear about <span className='text-accentLightBlue'>SaveSmart</span>?</h1>
         <div className="optionsContainer w-[900px] flex justify-between flex-wrap mt-8">
           {options.map((option) => (
@@ -44,6 +44,7 @@ export default function WhereDidYouHear() {
             />
           ))}
         </div>
+        <WhatIsNextBtn />
       </div>
     </div>
   )

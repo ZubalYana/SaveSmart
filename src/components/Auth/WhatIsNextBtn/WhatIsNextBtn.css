@@ -1,8 +1,10 @@
-.whatIsNextButton .fa-arrow-right {
+.whatIsNextButton .fa-arrow-right{
     transition: transform 0.3s ease-in-out;
-  }
-  
-  .whatIsNextButton:hover .fa-arrow-right {
+}
+.whatIsNextButton:hover .fa-arrow-right{
     transform: translateX(12px); 
-  }
+}
+.whatIsNextButton:hover{
+  color: #F6F6F6;
+}
   
