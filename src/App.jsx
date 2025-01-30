@@ -7,6 +7,7 @@ import Register from './components/Auth/Register/Register';
 import ResetPassword from './components/Auth/ResetPassword/ResetPassword';
 import WhereDidYouHear from './components/Auth/WhereDidYouHear/WhereDidYouHear';
 import PurposeOfUsage from './components/Auth/PurposeOfUsage/PurposeOfUsage';
+import ThanksForRegistering from './components/Auth/ThanksForRegistering/ThanksForRegistering';
 function App() {
   return (
     <Router>
@@ -17,6 +18,7 @@ function App() {
           <Route path="/auth/register" element={<Register />} />
             <Route path="/auth/register/where-did-you-hear" element={<WhereDidYouHear />} />
             <Route path="/auth/register/purpose-of-usage" element={<PurposeOfUsage />} />
+            <Route path="/auth/register/thanks-for-registering" element={<ThanksForRegistering />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
       </Routes>
     </Router>
