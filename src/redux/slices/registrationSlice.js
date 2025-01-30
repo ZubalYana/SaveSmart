@@ -7,6 +7,7 @@ const initialState = {
   password: '',
   step: 1,
   subscribed: false,
+  heardFrom: '',
 };
 
 const registrationSlice = createSlice({
@@ -27,8 +28,11 @@ const registrationSlice = createSlice({
       state.step -= 1;
     },
     resetRegistration: () => initialState,
+    setHeardFrom: (state, action) => { 
+      state.heardFrom = action.payload;
+    }
   },
 });
 
-export const { updateField, toggleSubscription, nextStep, prevStep, resetRegistration } = registrationSlice.actions;
+export const { updateField, toggleSubscription, nextStep, prevStep, resetRegistration, setHeardFrom} = registrationSlice.actions;
 export default registrationSlice.reducer;

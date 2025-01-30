@@ -1,32 +1,37 @@
-import React from 'react'
-import { Share2, Search, Users, Megaphone, MoreHorizontal } from 'lucide-react' 
-import './WhereDidYouHear.css'
-import Logo from '../../Logo/Logo'
-import WhereDidYouHearOption from '../WhereDidYouHearOption/WhereDidYouHearOption'
-import WhatIsNextBtn from '../WhatIsNextBtn/WhatIsNextBtn'
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHeardFrom } from '../../../redux/slices/registrationSlice';
+import { Share2, Search, Users, Megaphone, MoreHorizontal } from 'lucide-react';
+import Logo from '../../Logo/Logo';
+import WhereDidYouHearOption from '../WhereDidYouHearOption/WhereDidYouHearOption';
+import WhatIsNextBtn from '../WhatIsNextBtn/WhatIsNextBtn';
+
 export default function WhereDidYouHear() {
-  let options = [
+  const dispatch = useDispatch();
+  const heardFrom = useSelector((state) => state.registration.heardFrom); 
+
+  const options = [
     {
       title: 'Social media (e.g. Instagram, TikTok, X)',
-      icon: <Share2 size={24} strokeWidth={2} />
+      icon: <Share2 size={24} strokeWidth={2} />,
     },
     {
       title: 'Self search and browsing',
-      icon: <Search size={24} strokeWidth={2} />
+      icon: <Search size={24} strokeWidth={2} />,
     },
     {
       title: 'Friend or family recommendation',
-      icon: <Users size={24} strokeWidth={2} />
+      icon: <Users size={24} strokeWidth={2} />,
     },
     {
       title: 'Advertisements online',
-      icon: <Megaphone size={24} strokeWidth={2} />
+      icon: <Megaphone size={24} strokeWidth={2} />,
     },
     {
       title: 'Other source',
-      icon: <MoreHorizontal size={24} strokeWidth={2} />
-    }
-  ]
+      icon: <MoreHorizontal size={24} strokeWidth={2} />,
+    },
+  ];
 
   return (
     <div className='WhereDidYouHear w-full h-[89vh]'>
@@ -41,11 +46,13 @@ export default function WhereDidYouHear() {
               key={option.title}
               title={option.title}
               icon={option.icon}
+              isSelected={heardFrom === option.title}
+              onClick={() => dispatch(setHeardFrom(option.title))}
             />
           ))}
         </div>
         <WhatIsNextBtn />
       </div>
     </div>
-  )
+  );
 }
