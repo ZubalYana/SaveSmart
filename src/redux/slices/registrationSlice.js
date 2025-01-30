@@ -8,6 +8,7 @@ const initialState = {
   step: 1,
   subscribed: false,
   heardFrom: '',
+  purposeOfUsage: '',
 };
 
 const registrationSlice = createSlice({
@@ -30,9 +31,12 @@ const registrationSlice = createSlice({
     resetRegistration: () => initialState,
     setHeardFrom: (state, action) => { 
       state.heardFrom = action.payload;
+    },
+    setPurposeOfUsage: (state, action) => { 
+      state.purposeOfUsage = action.payload;
     }
   },
 });
 
-export const { updateField, toggleSubscription, nextStep, prevStep, resetRegistration, setHeardFrom} = registrationSlice.actions;
+export const { updateField, toggleSubscription, nextStep, prevStep, resetRegistration, setHeardFrom, setPurposeOfUsage} = registrationSlice.actions;
 export default registrationSlice.reducer;

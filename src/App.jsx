@@ -18,7 +18,7 @@ function App() {
           <Route path="/auth/register" element={<Register />} />
             <Route path="/auth/register/where-did-you-hear" element={<WhereDidYouHear />} />
             <Route path="/auth/register/purpose-of-usage" element={<PurposeOfUsage />} />
-            <Route path="/auth/register/thanks-for-registering" element={<ThanksForRegistering />} />
+            <Route path="/auth/register/registration-complete" element={<ThanksForRegistering />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
       </Routes>
     </Router>

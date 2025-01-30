@@ -1,13 +1,16 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { setHeardFrom } from '../../../redux/slices/registrationSlice';
 import { Share2, Search, Users, Megaphone, MoreHorizontal } from 'lucide-react';
 import Logo from '../../Logo/Logo';
 import WhereDidYouHearOption from '../WhereDidYouHearOption/WhereDidYouHearOption';
 import WhatIsNextBtn from '../WhatIsNextBtn/WhatIsNextBtn';
+import { nextStep } from '../../../redux/slices/registrationSlice';
 
 export default function WhereDidYouHear() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const heardFrom = useSelector((state) => state.registration.heardFrom); 
 
   const options = [
@@ -33,6 +36,12 @@ export default function WhereDidYouHear() {
     },
   ];
 
+    const handleNextStep = () => {
+      if(!heardFrom) return alert('Please select an option');
+      dispatch(nextStep());
+      navigate('/auth/register/purpose-of-usage');
+    }
+
   return (
     <div className='WhereDidYouHear w-full h-[89vh]'>
       <header className='WhereDidYouHear_header w-full h-8 mb-3'>
@@ -51,7 +60,7 @@ export default function WhereDidYouHear() {
             />
           ))}
         </div>
-        <WhatIsNextBtn />
+        <WhatIsNextBtn onClick={handleNextStep} />
       </div>
     </div>
   );
