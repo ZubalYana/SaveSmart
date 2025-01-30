@@ -13,6 +13,7 @@ export default {
         btnBgShade: {
           500: '#4672F1', 
         },
+        customWhite: '#F6F6F6',
       },
     },
   },
