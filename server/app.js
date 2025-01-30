@@ -5,7 +5,6 @@ const path = require('path');
 const cors = require('cors');
 const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const mongoose = require('mongoose');
-
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => {
     console.log('Connected to MongoDB');
