@@ -1,0 +1,10 @@
+.PurposeOfUsageCard{
+    transition: all 0.3s ease-in-out;
+}
+.PurposeOfUsageCard:hover .coming-soon-tag {
+    background-color: #ff3b3b; 
+    color: white; 
+    transform: scale(1.1) rotate(5deg); 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+  
