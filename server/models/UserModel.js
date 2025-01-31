@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     password: String,
     dateOfBirth: String,
     subscribedToNewsletter: Boolean,
-    whereDidHear: String,
+    heardFrom: String,
     purposeOfUsage: String,
     createdAt: { type: Date, default: Date.now },
 })

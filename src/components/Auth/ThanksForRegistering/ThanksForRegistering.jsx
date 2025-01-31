@@ -3,11 +3,27 @@ import './ThanksForRegistering.css'
 import Logo from '../../Logo/Logo'
 import { useNavigate } from 'react-router-dom';
 import { User } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../../redux/slices/registrationSlice';
+
 export default function ThanksForRegistering() {
+  const dispatch = useDispatch();
+  const registrationData = useSelector((state) => state.registration);
   const navigate = useNavigate();
-  const handleHomepageRedirect = () => {
-    navigate('/');
-  }
+  const handleHomepageRedirect = async () => {
+    try {
+      const resultAction = await dispatch(registerUser(registrationData));
+  
+      if (registerUser.fulfilled.match(resultAction)) {
+        navigate('/');
+      } else {
+        console.error('Registration failed:', resultAction.payload);
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+    }
+  };
+  
   return (
     <div className='ThanksForRegistering w-full h-[75vh]'>
       <header className='ThanksForRegistering_header w-full h-8 mb-3'>

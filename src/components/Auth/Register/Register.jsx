@@ -61,7 +61,11 @@ export default function Register() {
                 label="Date of birth"
                 className='w-[42%]'
                 value={dateOfBirth ? dayjs(dateOfBirth) : null}
-                onChange={(date) => dispatch(updateField({ field: 'dateOfBirth', value: date ? date.toISOString() : null }))}
+                onChange={(date) => {
+                  const formattedDate = date && date.isValid() ? date.toISOString() : null;
+                  dispatch(updateField({ field: 'dateOfBirth', value: formattedDate }));
+                }}
+                
               />
 
             </div>
