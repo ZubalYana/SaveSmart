@@ -4,8 +4,7 @@ import './AuthLayout.css';
 import Logo from '../../Logo/Logo';
 import login from '/login.svg';
 import registration from '/registration.svg';
-import loginButtonIcon from '/loginButton.svg';
-import registrationButtonIcon from '/registrationButton.svg';
+import { UserPlus, LogIn } from 'lucide-react';
 import AuthLayoutCard from '../AuthLayoutCard/AuthLayoutCard';
 
 function AuthLayout() {
@@ -20,8 +19,7 @@ function AuthLayout() {
         <h1 className='text-5xl font-bold text-defaultText mb-2'>Hello there!</h1>
         <p className='text-base font-normal text-defaultText w-[850px] text-center'>
           <span className='text-accentLightBlue'>SaveSmart</span> is a financial tracker with all the functionality 
-          you’ll ever need to manage your finances! Don’t hesitate to give it a try: take control of your 
-          <span className='text-accentLightBlue'>expenses</span>, track your <span className='text-accentLightBlue'>income</span>, 
+          you’ll ever need to manage your finances! Don’t hesitate to give it a try: take control of your <span className='text-accentLightBlue'>expenses</span>, track your <span className='text-accentLightBlue'>income</span>, 
           and become financially <span className='text-accentLightBlue'>confident</span>!
         </p>
 
@@ -31,7 +29,7 @@ function AuthLayout() {
             description="Glad to see you here again! Let's regain control over your finances. Log back into your account."
             imgSrc={login}
             buttonText="Log in"
-            buttonIcon={loginButtonIcon}
+            buttonIcon={<LogIn className='w-5 h-5' />} 
             onClick={() => navigate('/auth/login')}
           />
           <AuthLayoutCard
@@ -39,7 +37,7 @@ function AuthLayout() {
             description="We're thrilled to see you here! Give us a try and let us help you manage your finances!"
             imgSrc={registration}
             buttonText="Sign Up"
-            buttonIcon={registrationButtonIcon}
+            buttonIcon={<UserPlus className='w-5 h-5' />} 
             onClick={() => navigate('/auth/register')}
           />
         </div>
