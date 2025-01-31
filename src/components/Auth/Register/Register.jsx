@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { updateField } from '../../../redux/slices/registrationSlice';
+import { updateField, nextStep } from '../../../redux/slices/registrationSlice';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -11,26 +11,41 @@ import Logo from '../../Logo/Logo';
 import NewsletterSubBanner from '../NewsletterSubBanner/NewsletterSubBanner';
 import WhatIsNextBtn from '../WhatIsNextBtn/WhatIsNextBtn';
 import dayjs from "dayjs";
-import { nextStep } from '../../../redux/slices/registrationSlice';
 
 export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { name, email, dateOfBirth, password } = useSelector((state) => state.registration);
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  const validatePassword = (password) => {
+    if (!password) return "Password is required";
+    if (password.length < 8) return "At least 8 characters required";
+    if (!/[A-Z]/.test(password)) return "Must contain an uppercase letter";
+    if (!/[0-9]/.test(password)) return "Must contain a number";
+    if (!/[!@#$%^&*]/.test(password)) return "Must contain a special symbol (!@#$%^&*)";
+    return ""; 
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    dispatch(updateField({ field: 'password', value: newPassword }));
+    setPasswordError(validatePassword(newPassword));
+  };
+
   const handleNextStep = () => {
-    if( !name || !email || !dateOfBirth || !password ){
-      alert('Please fill in all fields before proceeding.');
+    if (!name || !email || !dateOfBirth || !password || passwordError) {
+      alert('Please fill in all fields correctly before proceeding.');
       return;
     }
     dispatch(nextStep());
     navigate('/auth/register/where-did-you-hear');
-  }
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -65,9 +80,7 @@ export default function Register() {
                   const formattedDate = date && date.isValid() ? date.toISOString() : null;
                   dispatch(updateField({ field: 'dateOfBirth', value: formattedDate }));
                 }}
-                
               />
-
             </div>
             <div className="Register_inputCon w-[840px] flex justify-between mt-4">
               <TextField
@@ -84,7 +97,9 @@ export default function Register() {
                   type={showPassword ? "text" : "password"}
                   variant="outlined"
                   value={password}
-                  onChange={(e) => dispatch(updateField({ field: 'password', value: e.target.value }))}
+                  onChange={handlePasswordChange}
+                  error={!!passwordError}
+                  helperText={passwordError}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -95,17 +110,11 @@ export default function Register() {
                     ),
                   }}
                 />
-                <p className='text-xs text-defaultText font-extralight mt-1'>
-                  <span className='mr-1'>8 symbols min.,</span>
-                  <span className='mr-1'>numbers,</span>
-                  <span className='mr-1'>special symbols,</span>
-                  <span className='mr-1'>capital letter</span>
-                </p>
               </div>
             </div>
           </div>
           <NewsletterSubBanner />
-          <WhatIsNextBtn onClick={handleNextStep} />
+          <WhatIsNextBtn onClick={handleNextStep} disabled={!!passwordError} />
         </div>
       </div>
     </LocalizationProvider>
