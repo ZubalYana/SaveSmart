@@ -8,18 +8,24 @@ import ResetPassword from './components/Auth/ResetPassword/ResetPassword';
 import WhereDidYouHear from './components/Auth/WhereDidYouHear/WhereDidYouHear';
 import PurposeOfUsage from './components/Auth/PurposeOfUsage/PurposeOfUsage';
 import ThanksForRegistering from './components/Auth/ThanksForRegistering/ThanksForRegistering';
+import ProtectedRoute from './components/ProtectedRoute';
+
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Home />} />
+        </Route>
+
+        {/* Auth routes remain public */}
         <Route path="/auth" element={<AuthLayout />} />
-          <Route path="/auth/login" element={<Login />} />
-          <Route path="/auth/register" element={<Register />} />
-            <Route path="/auth/register/where-did-you-hear" element={<WhereDidYouHear />} />
-            <Route path="/auth/register/purpose-of-usage" element={<PurposeOfUsage />} />
-            <Route path="/auth/register/registration-complete" element={<ThanksForRegistering />} />
-          <Route path="/auth/reset-password" element={<ResetPassword />} />
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/register" element={<Register />} />
+        <Route path="/auth/register/where-did-you-hear" element={<WhereDidYouHear />} />
+        <Route path="/auth/register/purpose-of-usage" element={<PurposeOfUsage />} />
+        <Route path="/auth/register/registration-complete" element={<ThanksForRegistering />} />
+        <Route path="/auth/reset-password" element={<ResetPassword />} />
       </Routes>
     </Router>
   );

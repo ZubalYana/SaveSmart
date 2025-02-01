@@ -54,7 +54,7 @@ export default function Register() {
           <Logo />
         </header>
         <div className="Register_content w-full h-full flex flex-col items-center">
-          <h1 className='text-5xl font-semibold text-defaultText mb-2'>
+          <h1 className='text-4xl font-semibold text-defaultText mb-2'>
             Let’s get you into <span className='text-accentLightBlue'>SaveSmart</span>!
           </h1>
           <p className='text-base font-normal text-defaultText w-[850px] text-center'>
