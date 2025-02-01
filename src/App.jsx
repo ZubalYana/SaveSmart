@@ -9,16 +9,17 @@ import WhereDidYouHear from './components/Auth/WhereDidYouHear/WhereDidYouHear';
 import PurposeOfUsage from './components/Auth/PurposeOfUsage/PurposeOfUsage';
 import ThanksForRegistering from './components/Auth/ThanksForRegistering/ThanksForRegistering';
 import ProtectedRoute from './components/ProtectedRoute';
+import LayoutWithSidebar from './components/LayoutWithSidebar/LayoutWithSidebar'; 
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<LayoutWithSidebar><Home /></LayoutWithSidebar>} />
         </Route>
 
-        {/* Auth routes remain public */}
+        {/* Auth routes ( no sidebar, remain public ) */}
         <Route path="/auth" element={<AuthLayout />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
