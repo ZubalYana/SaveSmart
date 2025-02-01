@@ -15,7 +15,7 @@ export default function ThanksForRegistering() {
       const resultAction = await dispatch(registerUser(registrationData));
   
       if (registerUser.fulfilled.match(resultAction)) {
-        navigate('/');
+        navigate('/auth/login');
       } else {
         console.error('Registration failed:', resultAction.payload);
       }
