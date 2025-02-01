@@ -5,6 +5,9 @@ import { TextField, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { LogIn } from 'lucide-react';
+import googleIcon from '/google.svg';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faApple, faFacebook } from "@fortawesome/free-brands-svg-icons";
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -101,6 +104,24 @@ export default function Login() {
           >
             <LogIn className="mr-3" />
             Log in
+          </div>
+          <p className='text-sm font-light text-defaultText mt-5 flex items-center'>
+            <div className='w-[60px] h-[1px] bg-defaultText inline-block'></div>
+            <span className='mx-2'>other methods</span>
+            <div className='w-[60px] h-[1px] bg-defaultText inline-block'></div>
+          </p>
+          <div className="logInMethods">
+            <div className="google w-[500px] h-[50px] rounded-xl bg-white border border-defaultText flex justify-center items-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg mt-6 uppercase">
+              <img src={googleIcon} alt="google" className='w-[20px]' /><span className='ml-3'>Continue with Google</span> 
+            </div>
+            <div className="apple w-[500px] h-[50px] rounded-xl bg-defaultText text-customWhite flex justify-center items-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg mt-4 uppercase">
+              <FontAwesomeIcon icon={faApple} className='text-2xl' />
+              <span className='ml-3'>Continue with Apple</span>
+            </div>
+            <div className="facebook w-[500px] h-[50px] rounded-xl bg-[#4460A0] text-customWhite flex justify-center items-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg mt-4 uppercase">
+              <FontAwesomeIcon icon={faFacebook} className='text-2xl' />
+              <span className='ml-3'>Continue with Facebook</span>
+            </div>
           </div>
         </div>
       </div>
