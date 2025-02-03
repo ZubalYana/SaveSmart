@@ -9,13 +9,19 @@ const initialState = {
   subscribed: false,
   heardFrom: '',
   purposeOfUsage: '',
+  token: null, 
+  userId: null, 
+  loading: false,
+  error: null,
+  success: false
 };
+
 
 export const registerUser = createAsyncThunk(
   'registration/registerUser',
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await fetch('http://localhost:3000/api/register', {
+      const registerResponse = await fetch('http://localhost:3000/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,16 +29,34 @@ export const registerUser = createAsyncThunk(
         body: JSON.stringify(userData),
       });
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
+      const registerData = await registerResponse.json();
+      if (!registerResponse.ok) {
+        throw new Error(registerData.message || 'Registration failed');
       }
-      return data;
+
+      const loginResponse = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userData.email,
+          password: userData.password,
+        }),
+      });
+
+      const loginData = await loginResponse.json();
+      if (!loginResponse.ok) {
+        throw new Error(loginData.message || 'Login failed');
+      }
+
+      return { userId: registerData.userId, token: loginData.token };
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
+
 
 const registrationSlice = createSlice({
   name: 'registration',
@@ -67,8 +91,10 @@ const registrationSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        state.user = action.payload;
-      })
+        state.userId = action.payload.userId; 
+        state.token = action.payload.token; 
+        localStorage.setItem('token', action.payload.token); 
+      })      
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;

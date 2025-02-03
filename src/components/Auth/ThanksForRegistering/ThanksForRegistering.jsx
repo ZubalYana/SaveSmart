@@ -13,9 +13,9 @@ export default function ThanksForRegistering() {
   const handleHomepageRedirect = async () => {
     try {
       const resultAction = await dispatch(registerUser(registrationData));
-  
       if (registerUser.fulfilled.match(resultAction)) {
-        navigate('/auth/login');
+        localStorage.setItem('token', resultAction.payload.token);
+        navigate('/'); 
       } else {
         console.error('Registration failed:', resultAction.payload);
       }
@@ -23,6 +23,7 @@ export default function ThanksForRegistering() {
       console.error('Unexpected error:', error);
     }
   };
+  
   
   return (
     <div className='ThanksForRegistering w-full h-[75vh]'>
