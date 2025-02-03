@@ -4,10 +4,6 @@ const initialState = {
   isAuthenticated: false,
   user: null,
 };
-const storedToken = localStorage.getItem('token');
-if (storedToken) {
-  dispatch(setToken(storedToken)); 
-}
 
 const authSlice = createSlice({
   name: 'auth',
