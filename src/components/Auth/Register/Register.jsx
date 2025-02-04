@@ -49,7 +49,7 @@ export default function Register() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className='Register w-full h-full'>
+      <div className='Register w-full h-full p-8'>
         <header className='Register_header w-full h-8 mb-3'>
           <Logo />
         </header>

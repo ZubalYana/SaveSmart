@@ -11,7 +11,7 @@ function AuthLayout() {
   const navigate = useNavigate();
 
   return (
-    <div className='AuthLayout w-full h-full'>
+    <div className='AuthLayout w-full h-full p-8'>
       <header className='AuthLayout_header w-full h-8 mb-3'>
         <Logo />
       </header>

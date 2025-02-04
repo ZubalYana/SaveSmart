@@ -26,7 +26,7 @@ export default function ThanksForRegistering() {
   
   
   return (
-    <div className='ThanksForRegistering w-full h-[75vh]'>
+    <div className='ThanksForRegistering w-full h-[75vh] p-8'>
       <header className='ThanksForRegistering_header w-full h-8 mb-3'>
         <Logo />
       </header>

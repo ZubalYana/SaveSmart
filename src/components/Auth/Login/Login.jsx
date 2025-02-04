@@ -40,7 +40,7 @@ export default function Login() {
   };
 
   return (
-    <div className='Login w-full h-full'>
+    <div className='Login w-full h-full p-8'>
       <header className='Login_header w-full h-8 mb-3'>
         <Logo />
       </header>

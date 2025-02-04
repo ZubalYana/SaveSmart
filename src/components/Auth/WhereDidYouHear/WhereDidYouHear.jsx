@@ -43,7 +43,7 @@ export default function WhereDidYouHear() {
     }
 
   return (
-    <div className='WhereDidYouHear w-full h-[89vh]'>
+    <div className='WhereDidYouHear w-full h-[89vh] p-8'>
       <header className='WhereDidYouHear_header w-full h-8 mb-3'>
         <Logo />
       </header>
