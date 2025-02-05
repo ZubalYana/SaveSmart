@@ -10,12 +10,12 @@ body{
     font-weight: normal;
     font-style: normal;
 }
-h1{
+h1, li{
     font-family: Balsamiq Sans;
 }
 h2{
     font-family: Afacad;
 }
-p, span, button{
+p, span, button, a{
     font-family: Fredoka;
 }

@@ -12,6 +12,48 @@ export default function SideMenu() {
         animate={{ width: "116%" }}
         transition={{ duration: 1, ease: "easeOut" }}
       />
+      <ul className="SideMenu_navigationList text-customWhite mt-7">
+        <li className="SideMenu_navigationItem mt-3">
+          <a href="/" className="SideMenu_navigationLink">
+            Home
+          </a>
+        </li>
+        <li className="SideMenu_navigationItem mt-3">
+          <a href="#" className="SideMenu_navigationLink">
+            Budget
+          </a>
+        </li>
+        <li className="SideMenu_navigationItem mt-3">
+          <a href="#" className="SideMenu_navigationLink">
+            Income
+          </a>
+        </li>
+        <li className="SideMenu_navigationItem mt-3">
+          <a href="#" className="SideMenu_navigationLink">
+            Expenses
+          </a>
+        </li>
+        <li className="SideMenu_navigationItem mt-3">
+          <a href="#" className="SideMenu_navigationLink">
+            Goals
+          </a>
+        </li>
+        <li className="SideMenu_navigationItem mt-3">
+          <a href="#" className="SideMenu_navigationLink">
+            Emergency founds
+          </a>
+        </li>
+        <li className="SideMenu_navigationItem mt-3">
+          <a href="#" className="SideMenu_navigationLink">
+            Financial news
+          </a>
+        </li>
+        <li className="SideMenu_navigationItem mt-3">
+          <a href="#" className="SideMenu_navigationLink">
+            My profile
+          </a>
+        </li>
+      </ul>
     </div>
   );
 }
