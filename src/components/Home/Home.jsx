@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Home.css';
 import Tip from '../Tip/Tip';
+import { QueryClient, QueryClientProvider } from 'react-query';
+const queryClient = new QueryClient();
+
 export default function Home() {
   const [greeting, setGreeting] = useState('');
 
@@ -18,7 +21,9 @@ export default function Home() {
   return (
     <div className="Home screen p-7">
       <h1 className="dynamicGreeting text-2xl font-semibold">{greeting}!</h1>
-      <Tip />
+      <QueryClientProvider client={queryClient}>
+        <Tip />
+      </QueryClientProvider>
     </div>
   );
 }
