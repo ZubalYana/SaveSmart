@@ -1,17 +1,17 @@
 const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const path = require('path');
 const dotenv = require('dotenv');
 const User = require('./models/UserModel');
+const Tip = require('./models/TipSchema');
 const jwt = require('jsonwebtoken');
 const authenticateToken = require('./middleware/authMiddleware');
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-const router = express.Router();
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
@@ -22,6 +22,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 app.use(cors());
 app.use(express.json());
+app.use('/api', router);
 
 router.post('/register', async (req, res) => {
     try {
@@ -57,7 +58,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -84,8 +84,14 @@ router.post('/login', async (req, res) => {
     }
 });
 
-
-app.use('/api', router);
+router.get('/tips', async (req, res) => {
+    try {
+      const tips = await Tip.find();
+      res.json(tips);
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to fetch tips' });
+    }
+  });
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
