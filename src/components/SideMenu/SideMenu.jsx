@@ -19,37 +19,37 @@ export default function SideMenu() {
           </a>
         </li>
         <li className="SideMenu_navigationItem mt-3">
-          <a href="#" className="SideMenu_navigationLink">
+          <a href="/budget" className="SideMenu_navigationLink">
             Budget
           </a>
         </li>
         <li className="SideMenu_navigationItem mt-3">
-          <a href="#" className="SideMenu_navigationLink">
+          <a href="/income" className="SideMenu_navigationLink">
             Income
           </a>
         </li>
         <li className="SideMenu_navigationItem mt-3">
-          <a href="#" className="SideMenu_navigationLink">
+          <a href="/expenses" className="SideMenu_navigationLink">
             Expenses
           </a>
         </li>
         <li className="SideMenu_navigationItem mt-3">
-          <a href="#" className="SideMenu_navigationLink">
+          <a href="/goals" className="SideMenu_navigationLink">
             Goals
           </a>
         </li>
         <li className="SideMenu_navigationItem mt-3">
-          <a href="#" className="SideMenu_navigationLink">
+          <a href="/emergency-funds" className="SideMenu_navigationLink">
             Emergency founds
           </a>
         </li>
         <li className="SideMenu_navigationItem mt-3">
-          <a href="#" className="SideMenu_navigationLink">
+          <a href="/financial-news" className="SideMenu_navigationLink">
             Financial news
           </a>
         </li>
         <li className="SideMenu_navigationItem mt-3">
-          <a href="#" className="SideMenu_navigationLink">
+          <a href="/my-profile" className="SideMenu_navigationLink">
             My profile
           </a>
         </li>

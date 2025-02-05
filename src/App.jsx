@@ -10,13 +10,26 @@ import PurposeOfUsage from './components/Auth/PurposeOfUsage/PurposeOfUsage';
 import ThanksForRegistering from './components/Auth/ThanksForRegistering/ThanksForRegistering';
 import ProtectedRoute from './components/ProtectedRoute';
 import LayoutWithSidebar from './components/LayoutWithSidebar/LayoutWithSidebar'; 
-
+import Budget from './components/Budget/Budget';
+import Expenses from './components/Expenses/Expenses';
+import Income from './components/Income/Income';
+import Goals from './components/Goals/Goals';
+import EmergencyFunds from './components/EmergencyFunds/EmergencyFunds';
+import FinancialNews from './components/FinancialNews/FinancialNews';
+import MyProfile from './components/MyProfile/MyProfile';
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<LayoutWithSidebar><Home /></LayoutWithSidebar>} />
+          <Route path="/budget" element={<LayoutWithSidebar><Budget /></LayoutWithSidebar>} />
+          <Route path="/income" element={<LayoutWithSidebar><Income /></LayoutWithSidebar>} />
+          <Route path="/expenses" element={<LayoutWithSidebar><Expenses /></LayoutWithSidebar>} />
+          <Route path="/goals" element={<LayoutWithSidebar><Goals /></LayoutWithSidebar>} />
+          <Route path="/emergency-funds" element={<LayoutWithSidebar><EmergencyFunds /></LayoutWithSidebar>} />
+          <Route path="/financial-news" element={<LayoutWithSidebar><FinancialNews /></LayoutWithSidebar>} />
+          <Route path="/my-profile" element={<LayoutWithSidebar><MyProfile /></LayoutWithSidebar>} />
         </Route>
 
         {/* Auth routes ( no sidebar, remain public ) */}
