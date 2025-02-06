@@ -91,7 +91,7 @@ router.get('/tips', async (req, res) => {
     } catch (err) {
       res.status(500).json({ error: 'Failed to fetch tips' });
     }
-  });
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
