@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import './Home.css';
 import Tip from '../Tip/Tip';
 import FinancialState from '../FinancialState/FinancialState';
-
+import Upcomings from '../Upcomings/Upcomings';
 const queryClient = new QueryClient();
 
 export default function Home() {
@@ -21,12 +21,15 @@ export default function Home() {
   }, []); 
 
   return (
-    <div className="Home screen p-7">
+    <div className="Home screen">
       <h1 className="dynamicGreeting text-2xl font-semibold">{greeting}!</h1>
       <QueryClientProvider client={queryClient}>
         <Tip />
       </QueryClientProvider>
       <FinancialState />
+      <div className="UpcomingsAndCurrency w-full mt-4">
+        <Upcomings />
+      </div>
     </div>
   );
 }
