@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import './Home.css';
 import Tip from '../Tip/Tip';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import FinancialState from '../FinancialState/FinancialState';
+
 const queryClient = new QueryClient();
 
 export default function Home() {
@@ -24,6 +26,7 @@ export default function Home() {
       <QueryClientProvider client={queryClient}>
         <Tip />
       </QueryClientProvider>
+      <FinancialState />
     </div>
   );
 }
