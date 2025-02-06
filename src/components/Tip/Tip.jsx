@@ -13,14 +13,17 @@ export default function Tip() {
   console.log('Fetched Tips:', tips); 
 
   const dailyTip = tips?.length ? tips[new Date().getDate() % tips.length]?.tip || 'No tip available' : 'No tips available';
-  
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error fetching tips</div>;
 
   return (
-    <div className='Tip'>
-      <span>Today's tip: </span>
-      <span className='Tip_text'>{dailyTip}</span>
+    <div className='Tip w-[100%] flex items-center mt-2'>
+        <div className="tipMark w-[2px] h-[30px] bg-accentLightBlue mr-2"></div>
+        <p>
+          <span className='font-medium mr-1 text-black'>Today's tip: </span>
+          <span className='Tip_text font-light text-defaultText'>{dailyTip}</span>
+        </p>
     </div>
   );
 }
