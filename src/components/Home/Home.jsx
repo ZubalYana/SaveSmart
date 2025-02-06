@@ -4,6 +4,7 @@ import './Home.css';
 import Tip from '../Tip/Tip';
 import FinancialState from '../FinancialState/FinancialState';
 import Upcomings from '../Upcomings/Upcomings';
+import CurrencyExchangeRates from '../CurrencyExchangeRates/CurrencyExchangeRates';
 const queryClient = new QueryClient();
 
 export default function Home() {
@@ -27,8 +28,11 @@ export default function Home() {
         <Tip />
       </QueryClientProvider>
       <FinancialState />
-      <div className="UpcomingsAndCurrency w-full mt-4">
+      <div className="UpcomingsAndCurrency w-full mt-4 flex justify-between">
         <Upcomings />
+        <div className='w-[48%]'>
+          <CurrencyExchangeRates />
+        </div>
       </div>
     </div>
   );
