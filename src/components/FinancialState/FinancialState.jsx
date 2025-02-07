@@ -39,7 +39,7 @@ export default function FinancialState() {
 
   return (
     <div className='FinancialState text-defaultText mt-2'>
-        <p className='text-2xl font-semibold flex'>
+        <div className='text-2xl font-semibold flex'>
             <span style={{fontFamily: 'Afacad'}}>Your financial state:</span>
             <span 
                 className='flex ml-2' 
@@ -53,7 +53,7 @@ export default function FinancialState() {
                   className="FinancialState_hint w-4 h-4 rounded-full border-2 border-mainBlue text-mainBlue flex items-center justify-center cursor-pointer text-[12px] ml-1 font-bold"
                   onClick={openModal}>?</div>
             </span>
-        </p>
+        </div>
         <Modal
             isOpen={isModalOpen}
             onRequestClose={closeModal}

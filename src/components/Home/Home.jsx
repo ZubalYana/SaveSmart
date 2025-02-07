@@ -31,7 +31,7 @@ export default function Home() {
       <div className="UpcomingsAndCurrency w-full mt-4 flex justify-between">
         <Upcomings />
         <div className='w-[48%]'>
-          <CurrencyExchangeRates />
+            <CurrencyExchangeRates />
         </div>
       </div>
     </div>
