@@ -5,6 +5,7 @@ import Tip from '../Tip/Tip';
 import FinancialState from '../FinancialState/FinancialState';
 import Upcomings from '../Upcomings/Upcomings';
 import CurrencyExchangeRates from '../CurrencyExchangeRates/CurrencyExchangeRates';
+import CurrencyConverter from '../CurrencyConverter/CurrencyConverter';
 const queryClient = new QueryClient();
 
 export default function Home() {
@@ -32,6 +33,7 @@ export default function Home() {
         <Upcomings />
         <div className='w-[48%]'>
             <CurrencyExchangeRates />
+            <CurrencyConverter />
         </div>
       </div>
     </div>
