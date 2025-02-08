@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, Autocomplete, Box } from "@mui/material";
+import { TextField, Autocomplete } from "@mui/material";
 import './CurrencyConverter.css';
+import { ArrowRightCircle } from 'lucide-react';
 const CURRENCY_NAMES = {
     "8": "Albanian Lek (ALL)",
     "12": "Algerian Dinar (DZD)",
@@ -189,14 +190,15 @@ export default function CurrencyConverter() {
         />
         </div>
         <div
-            onClick={handleConvert}
-            className="bg-accentLightBlue text-white py-2 rounded-md w-full flex justify-center items-center cursor-pointer uppercase font-semibold h-12 transition-all duration-300 ease-in-out transform hover:bg-mainBlue hover:scale-105 hover:shadow-lg"
-        >
-            Convert
-        </div>
+    onClick={handleConvert}
+    className="bg-accentLightBlue text-white py-2 rounded-md w-full flex justify-center items-center cursor-pointer uppercase font-semibold h-12 transition-all duration-300 ease-in-out transform hover:bg-mainBlue hover:scale-105 hover:shadow-lg"
+>
+    Convert
+    <ArrowRightCircle className="ml-2 text-white" size={20} />
+</div>
         
         {result !== null && (
-            <p className="text-xl font-semibold text-mainBlue mt-4">
+            <p className="text-xl font-semibold text-mainBlue mt-2">
                 Converted Amount: {result}
             </p>
         )}

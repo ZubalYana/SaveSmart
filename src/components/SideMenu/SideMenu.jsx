@@ -2,19 +2,20 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useLocation, Link } from 'react-router-dom';
 import LightLogo from '../LightLogo/LightLogo';
+import { Home, DollarSign, CreditCard, BarChart, Target, Bookmark, User } from 'lucide-react';
 
 export default function SideMenu() {
   const location = useLocation();
 
   const menuItems = [
-    { name: 'Home', path: '/' },
-    { name: 'Budget', path: '/budget' },
-    { name: 'Income', path: '/income' },
-    { name: 'Expenses', path: '/expenses' },
-    { name: 'Goals', path: '/goals' },
-    { name: 'Emergency Funds', path: '/emergency-funds' },
-    { name: 'Financial News', path: '/financial-news' },
-    { name: 'My Profile', path: '/my-profile' },
+    { name: 'Home', path: '/', icon: <Home size={20} /> },
+    { name: 'Budget', path: '/budget', icon: <DollarSign size={20} /> },
+    { name: 'Income', path: '/income', icon: <CreditCard size={20} /> },
+    { name: 'Expenses', path: '/expenses', icon: <BarChart size={20} /> },
+    { name: 'Goals', path: '/goals', icon: <Target size={20} /> },
+    { name: 'Emergency Funds', path: '/emergency-funds', icon: <Bookmark size={20} /> },
+    { name: 'Financial News', path: '/financial-news', icon: <BarChart size={20} /> },
+    { name: 'My Profile', path: '/my-profile', icon: <User size={20} /> },
   ];
 
   return (
@@ -27,7 +28,7 @@ export default function SideMenu() {
         transition={{ duration: 1, ease: "easeOut" }}
       />
       <ul className="SideMenu_navigationList text-customWhite mt-7">
-        {menuItems.map(({ name, path }) => {
+        {menuItems.map(({ name, path, icon }) => {
           const isActive = location.pathname === path;
           return (
             <li key={path} className="SideMenu_navigationItem mt-3">
@@ -39,7 +40,9 @@ export default function SideMenu() {
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
                 )}
-                <span className="relative z-10">{name}</span>
+                <span className="relative z-10 flex items-center gap-2">
+                  {icon}{name}
+                </span>
               </Link>
             </li>
           );
