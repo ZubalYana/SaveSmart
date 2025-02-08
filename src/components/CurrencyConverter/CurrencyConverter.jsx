@@ -157,7 +157,7 @@ export default function CurrencyConverter() {
     };
 
     return (
-<div className="w-[300px] mt-6">
+<div className="w-[400px] ml-10">
     <h2 className="text-xl font-bold mb-4 text-mainBlue">
         Currency Converter
     </h2>

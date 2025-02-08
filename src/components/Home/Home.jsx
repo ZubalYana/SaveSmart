@@ -29,9 +29,9 @@ export default function Home() {
         <Tip />
       </QueryClientProvider>
       <FinancialState />
-      <div className="UpcomingsAndCurrency w-full mt-4 flex justify-between">
+      <div className="UpcomingsAndCurrency w-full mt-4">
         <Upcomings />
-        <div className='w-[48%]'>
+        <div className='w-[100%] flex mt-4'>
             <CurrencyExchangeRates />
             <CurrencyConverter />
         </div>
