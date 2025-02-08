@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-
+import { TextField, Button, Autocomplete, Box } from "@mui/material";
+import { styled } from "@mui/system";
+import './CurrencyConverter.css';
 const CURRENCY_NAMES = {
     "8": "Albanian Lek (ALL)",
     "12": "Algerian Dinar (DZD)",
@@ -103,8 +105,9 @@ const CURRENCY_NAMES = {
     "980": "Ukrainian Hryvnia (UAH)",
     "985": "Polish Złoty (PLN)",
     "986": "Brazilian Real (BRL)"
-  }
+}
   
+
 
 export default function CurrencyConverter() {
     const [amount, setAmount] = useState("");
@@ -154,50 +157,54 @@ export default function CurrencyConverter() {
     };
 
     return (
-        <div className="w-[300px] mt-6">
-            <h2 className="text-xl font-bold mb-4 text-mainBlue">Currency Converter</h2>
-            <div className="flex flex-col gap-3">
-                <input
-                    type="number"
-                    className="border p-2 rounded-md"
-                    placeholder="Enter amount"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                />
-                <select
-                    className="border p-2 rounded-md"
-                    value={fromCurrency || ""}
-                    onChange={(e) => setFromCurrency(Number(e.target.value))}
-                >
-                    {availableCurrencies.map((code) => (
-                        <option key={code} value={code}>
-                            {CURRENCY_NAMES[code] || `Unknown (${code})`}
-                        </option>
-                    ))}
-                </select>
-                <select
-                    className="border p-2 rounded-md"
-                    value={toCurrency || ""}
-                    onChange={(e) => setToCurrency(Number(e.target.value))}
-                >
-                    {availableCurrencies.map((code) => (
-                        <option key={code} value={code}>
-                            {CURRENCY_NAMES[code] || `Unknown (${code})`}
-                        </option>
-                    ))}
-                </select>
-                <button
-                    className="bg-mainBlue text-white py-2 rounded-md hover:bg-opacity-80"
-                    onClick={handleConvert}
-                >
-                    Convert
-                </button>
-                {result !== null && (
-                    <p className="text-lg font-semibold mt-2 text-mainBlue">
-                        Converted Amount: {result}
-                    </p>
-                )}
-            </div>
-        </div>
+<div className="w-[300px] mt-6">
+    <h2 className="text-xl font-bold mb-4 text-mainBlue">
+        Currency Converter
+    </h2>
+    <div className="flex flex-col gap-3">
+        <TextField
+            label="Amount"
+            type="number"
+            variant="outlined"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            fullWidth
+            className="w-full"
+        />
+        <Autocomplete
+            value={fromCurrency}
+            onChange={(event, newValue) => setFromCurrency(newValue)}
+            options={availableCurrencies}
+            getOptionLabel={(option) => CURRENCY_NAMES[option] || `Unknown (${option})`}
+            renderInput={(params) => <TextField {...params} label="From Currency" />}
+            fullWidth
+            className="w-full"
+        />
+        <Autocomplete
+            value={toCurrency}
+            onChange={(event, newValue) => setToCurrency(newValue)}
+            options={availableCurrencies}
+            getOptionLabel={(option) => CURRENCY_NAMES[option] || `Unknown (${option})`}
+            renderInput={(params) => <TextField {...params} label="To Currency" />}
+            fullWidth
+            className="w-full"
+        />
+        <Button
+            variant="contained"
+            color="primary"
+            onClick={handleConvert}
+            fullWidth
+            className="bg-blue-500 text-white py-2 rounded-md"
+        >
+            Convert
+        </Button>
+        {result !== null && (
+            <p className="text-lg font-semibold text-[#1E3A8A] mt-4">
+                Converted Amount: {result}
+            </p>
+        )}
+    </div>
+</div>
+
     );
 }
