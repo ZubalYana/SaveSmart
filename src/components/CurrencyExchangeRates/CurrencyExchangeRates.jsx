@@ -52,10 +52,10 @@ export default function CurrencyExchangeRates() {
 <div className=" w-[300px]">
     <h2 className="text-xl font-bold mb-4 text-mainBlue">Currency Exchange Rates</h2>
     <div className="w-full">
-        <div className="w-full h-10 flex items-center bg-accentLightBlue bg-opacity-20 px-2 rounded-md mb-2">
-            <p className="text-base font-semibold w-[45%] text-defaultText">Pair</p>
-            <p className="text-sm font-semibold w-[30%] text-defaultText">Buy</p>
-            <p className="text-sm font-semibold w-[25%] text-defaultText">Sell</p>
+        <div className="w-full h-10 flex items-center bg-accentLightBlue bg-opacity-100 px-2 rounded-md mb-2 text-customWhite">
+            <p className="text-base font-medium w-[45%]">Pair</p>
+            <p className="text-sm font-medium w-[30%]">Buy</p>
+            <p className="text-sm font-medium w-[25%]">Sell</p>
         </div>
         {filteredRates.map(({ label, buy, sell }, index) => (
             <div
