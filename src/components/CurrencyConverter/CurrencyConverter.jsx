@@ -157,7 +157,7 @@ export default function CurrencyConverter() {
     };
 
     return (
-<div className="w-[400px] ml-10">
+<div className="w-[600px] ml-10">
     <h2 className="text-xl font-bold mb-4 text-mainBlue">
         Currency Converter
     </h2>
@@ -171,6 +171,7 @@ export default function CurrencyConverter() {
             fullWidth
             className="w-full"
         />
+        <div className="w-full flex gap-3">
         <Autocomplete
             value={fromCurrency}
             onChange={(event, newValue) => setFromCurrency(newValue)}
@@ -189,6 +190,7 @@ export default function CurrencyConverter() {
             fullWidth
             className="w-full"
         />
+        </div>
         <Button
             variant="contained"
             color="primary"
