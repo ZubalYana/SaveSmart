@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 const TARGET_PAIRS = [
     { base: 978, quote: 840, label: "EUR/USD" }, 
     { base: 840, quote: 980, label: "USD/UAH" },
-    { base: 978, quote: 980, label: "EUR/UAH" }, 
+    { base: 978, quote: 980, label: "EUR/UAH" },
 ];
 
 const fetchCurrencyData = async () => {
@@ -49,7 +49,7 @@ export default function CurrencyExchangeRates() {
     });
 
     return (
-<div className=" w-[300px]">
+<div className=" w-[350px] ml-10">
     <h2 className="text-xl font-bold mb-4 text-mainBlue">Currency Exchange Rates</h2>
     <div className="w-full">
         <div className="w-full h-10 flex items-center bg-accentLightBlue bg-opacity-100 px-2 rounded-md mb-2 text-customWhite">
@@ -60,7 +60,7 @@ export default function CurrencyExchangeRates() {
         {filteredRates.map(({ label, buy, sell }, index) => (
             <div
                 key={index}
-                className="w-full h-10 flex items-center px-2 rounded-md bg-white transition duration-200 hover:bg-accentLightBlue hover:bg-opacity-20 cursor-pointer"
+                className="w-full h-10 flex items-center px-2 rounded-md bg-white transition duration-200 hover:bg-accentLightBlue hover:bg-opacity-20 cursor-pointer mt-2"
             >
                 <p className="text-base font-medium w-[45%] text-defaultText">{label}</p>
                 <p className="text-sm font-medium w-[30%] text-defaultText">{buy}</p>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Autocomplete, Box } from "@mui/material";
-import { styled } from "@mui/system";
 import './CurrencyConverter.css';
 const CURRENCY_NAMES = {
     "8": "Albanian Lek (ALL)",
@@ -106,8 +105,6 @@ const CURRENCY_NAMES = {
     "985": "Polish Złoty (PLN)",
     "986": "Brazilian Real (BRL)"
 }
-  
-
 
 export default function CurrencyConverter() {
     const [amount, setAmount] = useState("");
@@ -157,7 +154,7 @@ export default function CurrencyConverter() {
     };
 
     return (
-<div className="w-[600px] ml-10">
+<div className="w-[600px]">
     <h2 className="text-xl font-bold mb-4 text-mainBlue">
         Currency Converter
     </h2>
@@ -191,17 +188,15 @@ export default function CurrencyConverter() {
             className="w-full"
         />
         </div>
-        <Button
-            variant="contained"
-            color="primary"
+        <div
             onClick={handleConvert}
-            fullWidth
-            className="bg-blue-500 text-white py-2 rounded-md"
+            className="bg-accentLightBlue text-white py-2 rounded-md w-full flex justify-center items-center cursor-pointer uppercase font-semibold h-12 transition-all duration-300 ease-in-out transform hover:bg-mainBlue hover:scale-105 hover:shadow-lg"
         >
             Convert
-        </Button>
+        </div>
+        
         {result !== null && (
-            <p className="text-lg font-semibold text-[#1E3A8A] mt-4">
+            <p className="text-xl font-semibold text-mainBlue mt-4">
                 Converted Amount: {result}
             </p>
         )}
