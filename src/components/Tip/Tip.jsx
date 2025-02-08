@@ -10,7 +10,6 @@ const fetchTips = async () => {
 
 export default function Tip() {
   const { data: tips, error, isLoading } = useQuery('tips', fetchTips);
-  console.log('Fetched Tips:', tips); 
 
   const dailyTip = tips?.length ? tips[new Date().getDate() % tips.length]?.tip || 'No tip available' : 'No tips available';
 

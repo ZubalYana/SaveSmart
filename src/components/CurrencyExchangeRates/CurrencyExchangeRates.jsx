@@ -18,6 +18,7 @@ const fetchCurrencyData = async () => {
         }
 
         const response = await axios.get("https://api.monobank.ua/bank/currency");
+        console.log(response.data);
         localStorage.setItem("currencyData", JSON.stringify(response.data));
         localStorage.setItem("currencyFetchTime", Date.now());
 
@@ -48,22 +49,26 @@ export default function CurrencyExchangeRates() {
     });
 
     return (
-        <div className="bg-accentLightBlue bg-opacity-15 p-6 rounded-2xl w-[300px]">
-            <h2 className="text-xl font-bold mb-4">Currency Exchange Rates</h2>
-            <div className="w-[100%]">
-                <div className="w-[100%] h-[40px] flex items-center">
-                    <p className="text-base font-medium w-[45%]">Pair:</p>
-                    <p className="text-sm font-medium w-[30%]">Buy:</p>
-                    <p className="text-sm font-medium w-[25%]">Sell:</p>
-                </div>
-                {filteredRates.map(({ label, buy, sell }) => (
-                    <div className="w-[100%] h-[40px] flex items-center">
-                        <p className="text-base font-medium w-[45%]">{label}</p>
-                        <p className="text-sm font-medium w-[30%]">{buy}</p>
-                        <p className="text-sm font-medium w-[25%]">{sell}</p>
-                    </div>
-                ))}
-            </div>
+<div className=" w-[300px]">
+    <h2 className="text-xl font-bold mb-4 text-mainBlue">Currency Exchange Rates</h2>
+    <div className="w-full">
+        <div className="w-full h-10 flex items-center bg-accentLightBlue bg-opacity-20 px-2 rounded-md mb-2">
+            <p className="text-base font-semibold w-[45%] text-defaultText">Pair</p>
+            <p className="text-sm font-semibold w-[30%] text-defaultText">Buy</p>
+            <p className="text-sm font-semibold w-[25%] text-defaultText">Sell</p>
         </div>
+        {filteredRates.map(({ label, buy, sell }, index) => (
+            <div
+                key={index}
+                className="w-full h-10 flex items-center px-2 rounded-md bg-white transition duration-200 hover:bg-accentLightBlue hover:bg-opacity-20 cursor-pointer"
+            >
+                <p className="text-base font-medium w-[45%] text-defaultText">{label}</p>
+                <p className="text-sm font-medium w-[30%] text-defaultText">{buy}</p>
+                <p className="text-sm font-medium w-[25%] text-defaultText">{sell}</p>
+            </div>
+        ))}
+    </div>
+</div>
+
     );
 }
