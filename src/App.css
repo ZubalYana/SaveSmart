@@ -4,6 +4,10 @@ body{
     box-sizing: border-box;
     background-color: #F6F6F6;
 }
+::selection{
+    background-color: #4672F1;
+    color: #F6F6F6;
+}
 @font-face {
     font-family: 'Nico Moji';
     src: url('/Fonts/NicoMoji-Regular.ttf') format('truetype');
