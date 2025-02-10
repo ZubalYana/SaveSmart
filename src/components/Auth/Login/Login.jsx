@@ -40,14 +40,14 @@ export default function Login() {
   };
 
   return (
-    <div className='Login w-full h-full p-8'>
+    <div className='Login w-full h-full p-8 xs:p-4 md:p-6 lg:p-8'>
       <header className='Login_header w-full h-8 mb-3'>
         <Logo />
       </header>
       <div className="Login_content w-full h-full flex flex-col items-center">
-        <h1 className='text-4xl font-semibold text-defaultText mb-2'>Welcome back, old friend!</h1>
+        <h1 className='text-4xl font-semibold text-defaultText mb-2 xs:text-3xl xs:mt-3 lg:text-4xl'>Welcome back, old friend!</h1>
 
-        <div className="Login_inputCon w-[500px] flex flex-col mt-5 items-center">
+        <div className="Login_inputCon w-[500px] flex flex-col mt-5 items-center xs:w-full lg:w-[500px]">
           <TextField
             label="Your email"
             variant="outlined"
@@ -105,20 +105,20 @@ export default function Login() {
             <LogIn className="mr-3" />
             Log in
           </div>
-          <p className='text-sm font-light text-defaultText mt-5 flex items-center'>
+          <div className='text-sm font-light text-defaultText mt-5 flex items-center'>
             <div className='w-[60px] h-[1px] bg-defaultText inline-block'></div>
             <span className='mx-2'>other methods</span>
             <div className='w-[60px] h-[1px] bg-defaultText inline-block'></div>
-          </p>
-          <div className="logInMethods">
-            <div className="google w-[500px] h-[50px] rounded-xl bg-white border border-defaultText flex justify-center items-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg mt-6 uppercase">
+          </div>
+          <div className="logInMethods xs:w-full lg:w-auto">
+            <div className="google w-[500px] h-[50px] rounded-xl bg-white border border-defaultText flex justify-center items-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg mt-6 uppercase xs:w-full lg:w-[500px]">
               <img src={googleIcon} alt="google" className='w-[20px]' /><span className='ml-3'>Continue with Google</span> 
             </div>
-            <div className="apple w-[500px] h-[50px] rounded-xl bg-defaultText text-customWhite flex justify-center items-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg mt-4 uppercase">
+            <div className="apple w-[500px] h-[50px] rounded-xl bg-defaultText text-customWhite flex justify-center items-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg mt-4 uppercase xs:w-full lg:w-[500px]">
               <FontAwesomeIcon icon={faApple} className='text-2xl' />
               <span className='ml-3'>Continue with Apple</span>
             </div>
-            <div className="facebook w-[500px] h-[50px] rounded-xl bg-[#4460A0] text-customWhite flex justify-center items-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg mt-4 uppercase">
+            <div className="facebook w-[500px] h-[50px] rounded-xl bg-[#4460A0] text-customWhite flex justify-center items-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg mt-4 uppercase xs:w-full lg:w-[500px]">
               <FontAwesomeIcon icon={faFacebook} className='text-2xl' />
               <span className='ml-3'>Continue with Facebook</span>
             </div>
