@@ -49,22 +49,22 @@ export default function Register() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className='Register w-full h-full p-8'>
+      <div className='Register w-full h-full p-8 xs:p-4 md:p-6 lg:p-8'>
         <header className='Register_header w-full h-8 mb-3'>
           <Logo />
         </header>
         <div className="Register_content w-full h-full flex flex-col items-center">
-          <h1 className='text-4xl font-semibold text-defaultText mb-2'>
+          <h1 className='text-4xl font-semibold text-defaultText mb-2 xs:text-3xl xs:mt-3 lg:text-4xl'>
             Let’s get you into <span className='text-accentLightBlue'>SaveSmart</span>!
           </h1>
-          <p className='text-base font-normal text-defaultText w-[850px] text-center'>
+          <p className='text-base font-normal text-defaultText w-[850px] text-center xs:w-full xs:text-xs xs:text-start lg:w-[850px] lg:text-base '>
             Tell us a little about yourself! The information you provide will help us tailor a
             <span className='text-accentLightBlue'> personalized</span> experience. Your data is
             <span className='text-accentLightBlue'> safe</span> with us and will not be shared with anyone – it stays just between us.
           </p>
 
           <div className="Register_infoField">
-            <div className="Register_inputCon w-[840px] flex justify-between mt-9">
+            <div className="Register_inputCon w-[840px] flex justify-between mt-9 xs:w-full xs:flex-col">
               <TextField
                 label="Name and last name"
                 variant="outlined"
