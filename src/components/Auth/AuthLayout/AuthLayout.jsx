@@ -11,19 +11,19 @@ function AuthLayout() {
   const navigate = useNavigate();
 
   return (
-    <div className='AuthLayout w-full h-full p-8 xs:p-4'>
+    <div className='AuthLayout w-full h-full p-8 xs:p-4 md:p-6 lg:p-8'>
       <header className='AuthLayout_header w-full h-8 mb-3'>
         <Logo />
       </header>
       <div className="AuthLayout_content w-full h-full flex flex-col items-center">
-        <h1 className='text-5xl font-bold text-defaultText mb-2 xs:text-3xl xs:mt-3'>Hello there!</h1>
-        <p className='text-base font-normal text-defaultText w-[850px] text-center xs:w-full xs:text-xs'>
+        <h1 className='text-5xl font-bold text-defaultText mb-2 xs:text-3xl xs:mt-3 lg:text-5xl'>Hello there!</h1>
+        <p className='text-base font-normal text-defaultText w-[850px] text-center xs:w-full xs:text-xs lg:w-[850px] lg:text-base'>
           <span className='text-accentLightBlue'>SaveSmart</span> is a financial tracker with all the functionality 
           you’ll ever need to manage your finances! Don’t hesitate to give it a try: take control of your <span className='text-accentLightBlue'>expenses</span>, track your <span className='text-accentLightBlue'>income</span>, 
           and become financially <span className='text-accentLightBlue'>confident</span>!
         </p>
 
-        <div className="AuthLayout_cards w-[870px] flex justify-between mt-10 xs:w-full xs:flex-col">
+        <div className="AuthLayout_cards w-[870px] flex justify-between mt-10 xs:w-full xs:flex-col md:flex-row lg:w-[870px]">
           <AuthLayoutCard
             title="I’m back here!"
             description="Glad to see you here again! Let's regain control over your finances. Log back into your account."
