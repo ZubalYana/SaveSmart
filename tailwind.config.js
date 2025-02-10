@@ -18,6 +18,7 @@ export default {
       screens: {
         'xs': '320px',
         '2xs': '375px',
+        '3xs': '425px',
       },
     },
   },

@@ -3,7 +3,7 @@ import './AuthLayoutCard.css';
 
 export default function AuthLayoutCard({ title, description, imgSrc, buttonText, buttonIcon, onClick }) {
   return (
-    <div className="AuthLayout_card w-[380px] h-[420px] bg-accentLightBlue bg-opacity-10 rounded-xl p-7 flex flex-col items-center xs:w-full xs:mb-5 xs:p-5 xs:h-[390px]">
+    <div className="AuthLayout_card w-[380px] h-[420px] bg-accentLightBlue bg-opacity-10 rounded-xl p-7 flex flex-col items-center xs:w-full xs:mb-5 xs:p-5 xs:h-[390px] 2xs:h-[370px]">
       <p className='text-3xl font-medium text-mainBlue xs:text-2xl'>{title}</p>
       <p className='text-sm font-normal text-defaultText text-center mt-2 xs:text-sm'>{description}</p>
       <img src={imgSrc} alt={`${title} illustration`} className='mt-11 xs:w-[120px] xs:mt-6' />
