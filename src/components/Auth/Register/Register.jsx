@@ -63,18 +63,18 @@ export default function Register() {
             <span className='text-accentLightBlue'> safe</span> with us and will not be shared with anyone – it stays just between us.
           </p>
 
-          <div className="Register_infoField">
+          <div className="Register_infoField xs:w-full">
             <div className="Register_inputCon w-[840px] flex justify-between mt-9 xs:w-full xs:flex-col">
               <TextField
                 label="Name and last name"
                 variant="outlined"
-                className='w-[55%] text-sm'
+                className='w-[55%] text-sm xs:w-full lg:w-[55%]'
                 value={name}
                 onChange={(e) => dispatch(updateField({ field: 'name', value: e.target.value }))}
               />
               <DatePicker
                 label="Date of birth"
-                className='w-[42%]'
+                className='w-[42%] xs:w-full xs:mt-4 lg:w-[55%]'
                 value={dateOfBirth ? dayjs(dateOfBirth) : null}
                 onChange={(date) => {
                   const formattedDate = date && date.isValid() ? date.toISOString() : null;
@@ -82,15 +82,15 @@ export default function Register() {
                 }}
               />
             </div>
-            <div className="Register_inputCon w-[840px] flex justify-between mt-4">
+            <div className="Register_inputCon w-[840px] flex justify-between mt-4 xs:w-full xs:flex-col">
               <TextField
                 label="Your email"
                 variant="outlined"
-                className='w-[55%]'
+                className='w-[55%] xs:w-full lg:w-[55%]'
                 value={email}
                 onChange={(e) => dispatch(updateField({ field: 'email', value: e.target.value }))}
               />
-              <div className="passwordInputCon w-[42%]">
+              <div className="passwordInputCon w-[42%] xs:w-full lg:w-[55%]">
                 <TextField
                   className='w-[100%]'
                   label="Password"
