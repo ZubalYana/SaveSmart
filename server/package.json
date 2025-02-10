@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "build": "echo 'No build necessary for backend'",
+    "build": "cd ../client && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/app.js"
   },

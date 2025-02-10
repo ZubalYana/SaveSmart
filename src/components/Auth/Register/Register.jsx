@@ -64,7 +64,7 @@ export default function Register() {
           </p>
 
           <div className="Register_infoField xs:w-full">
-            <div className="Register_inputCon w-[840px] flex justify-between mt-9 xs:w-full xs:flex-col">
+            <div className="Register_inputCon w-[840px] flex justify-between mt-9 xs:w-full xs:flex-col xs:h-[125px]">
               <TextField
                 label="Name and last name"
                 variant="outlined"
@@ -74,7 +74,7 @@ export default function Register() {
               />
               <DatePicker
                 label="Date of birth"
-                className='w-[42%] xs:w-full xs:mt-4 lg:w-[55%]'
+                className='w-[42%] xs:w-full lg:w-[55%]'
                 value={dateOfBirth ? dayjs(dateOfBirth) : null}
                 onChange={(date) => {
                   const formattedDate = date && date.isValid() ? date.toISOString() : null;
@@ -82,7 +82,7 @@ export default function Register() {
                 }}
               />
             </div>
-            <div className="Register_inputCon w-[840px] flex justify-between mt-4 xs:w-full xs:flex-col">
+            <div className="Register_inputCon w-[840px] flex justify-between mt-3 xs:w-full xs:flex-col xs:h-[125px]">
               <TextField
                 label="Your email"
                 variant="outlined"
