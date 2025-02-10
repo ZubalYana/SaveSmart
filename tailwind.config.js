@@ -15,6 +15,9 @@ export default {
         },
         customWhite: '#F6F6F6',
       },
+      screens: {
+        'xl': '320px',
+      },
     },
   },
   plugins: [],
