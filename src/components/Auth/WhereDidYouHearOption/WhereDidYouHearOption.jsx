@@ -9,7 +9,7 @@ export default function WhereDidYouHearOption({ title, icon, isSelected, onClick
       onClick={onClick}
     >
       <div className="w-[25px] h-[25px]">{icon}</div>
-      <p className="text-sm font-extralight ml-3">{title}</p>
+      <p className="text-sm font-extralight ml-3 xs:text-xs sm:text-sm">{title}</p>
     </div>
   );
 }
