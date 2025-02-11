@@ -40,13 +40,13 @@ export default function PurposeOfUsage() {
   };
 
   return (
-    <div className='PurposeOfUsage w-full h-[89vh] p-8'>
+    <div className='PurposeOfUsage w-full h-[89vh] p-8 xs:p-4 md:p-6 lg:p-8'>
       <header className='PurposeOfUsage_header w-full h-8 mb-3'>
         <Logo />
       </header>
-      <div className="PurposeOfUsage_content w-full h-[90%] flex flex-col items-center justify-center text-defaultText text-2xl font-medium pt-7">
-        <h1>How are you going to use <span className='text-accentLightBlue'>SaveSmart</span>?</h1>
-        <div className="purposesContainer w-[60%] flex justify-between mt-8 mb-3">
+      <div className="PurposeOfUsage_content w-full h-[90%] flex flex-col items-center justify-center text-defaultText text-2xl font-medium pt-7 xs:h-auto xs:pt-3 lg:pt-7">
+        <h1 className='xs:text-xl lg:text-2xl xs:text-center'>How are you going to use <span className='text-accentLightBlue'>SaveSmart</span>?</h1>
+        <div className="purposesContainer w-[60%] flex justify-between mt-8 mb-3 xs:w-full xs:flex-col xs:items-center xs:mt-3 lg:flex-row lg:w-[60%]">
           {purposes.map((purpose) => (
             <PurposeOfUsageCard
               key={purpose.title}

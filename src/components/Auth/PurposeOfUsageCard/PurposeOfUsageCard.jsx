@@ -3,7 +3,7 @@ import React from 'react';
 export default function PurposeOfUsageCard({ icon, title, subtitle, available, isSelected, onClick }) {
   return (
     <div
-      className={`PurposeOfUsageCard text-defaultText w-[250px] h-[290px] rounded-2xl flex flex-col items-center justify-center p-5 text-center relative transition-all duration-300 cursor-pointer ${
+      className={`PurposeOfUsageCard text-defaultText w-[250px] h-[290px] rounded-2xl flex flex-col items-center justify-center p-5 text-center relative transition-all duration-300 cursor-pointer xs:mt-6 ${
         available
           ? isSelected
             ? 'bg-btnBgShade-500 text-white scale-105 shadow-lg'  

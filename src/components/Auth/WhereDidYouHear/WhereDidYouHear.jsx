@@ -48,7 +48,7 @@ export default function WhereDidYouHear() {
         <Logo />
       </header>
       <div className="WhereDidYouHear_content w-full h-[90%] flex flex-col items-center justify-center text-defaultText text-2xl font-medium pt-7 xs:pt-0 xs:h-auto lg:pt-7 lg:h-[90%]">
-        <h1 className='xs:text-xl xs:mt-3 lg:text-2xl'>Where did you hear about <span className='text-accentLightBlue'>SaveSmart</span>?</h1>
+        <h1 className='xs:text-xl xs:mt-3 lg:text-2xl xs:text-center'>Where did you hear about <span className='text-accentLightBlue'>SaveSmart</span>?</h1>
         <div className="optionsContainer w-[900px] flex justify-between flex-wrap mt-8 xs:w-full xs:mt-5 md:justify-center lg:w-[900px] lg:mt-8 lg:justify-between">
           {options.map((option) => (
             <WhereDidYouHearOption
