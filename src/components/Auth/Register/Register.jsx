@@ -57,14 +57,14 @@ export default function Register() {
           <h1 className='text-4xl font-semibold text-defaultText mb-2 xs:text-3xl xs:mt-3 lg:text-4xl'>
             Let’s get you into <span className='text-accentLightBlue'>SaveSmart</span>!
           </h1>
-          <p className='text-base font-normal text-defaultText w-[850px] text-center xs:w-full xs:text-xs xs:text-start lg:w-[850px] lg:text-base '>
+          <p className='text-base font-normal text-defaultText w-[850px] text-center xs:w-full xs:text-xs xs:text-start lg:w-[850px] lg:text-base md:text-center'>
             Tell us a little about yourself! The information you provide will help us tailor a
             <span className='text-accentLightBlue'> personalized</span> experience. Your data is
             <span className='text-accentLightBlue'> safe</span> with us and will not be shared with anyone – it stays just between us.
           </p>
 
-          <div className="Register_infoField xs:w-full">
-            <div className="Register_inputCon w-[840px] flex justify-between mt-9 xs:w-full xs:flex-col xs:h-[125px]">
+          <div className="Register_infoField xs:w-full lg:flex lg:flex-col lg:items-center">
+            <div className="Register_inputCon w-[840px] flex justify-between mt-9 xs:w-full xs:flex-col xs:h-[125px] lg:w-[840px] lg:mt-9 lg:flex-row lg:h-auto">
               <TextField
                 label="Name and last name"
                 variant="outlined"
@@ -74,7 +74,7 @@ export default function Register() {
               />
               <DatePicker
                 label="Date of birth"
-                className='w-[42%] xs:w-full lg:w-[55%]'
+                className='w-[42%] xs:w-full lg:w-[42%]'
                 value={dateOfBirth ? dayjs(dateOfBirth) : null}
                 onChange={(date) => {
                   const formattedDate = date && date.isValid() ? date.toISOString() : null;
@@ -82,7 +82,7 @@ export default function Register() {
                 }}
               />
             </div>
-            <div className="Register_inputCon w-[840px] flex justify-between mt-3 xs:w-full xs:flex-col xs:h-auth">
+            <div className="Register_inputCon w-[840px] flex justify-between mt-3 xs:w-full xs:flex-col xs:h-[125px] lg:w-[840px] lg:mt-4 lg:flex-row lg:h-auto">
               <TextField
                 label="Your email"
                 variant="outlined"
@@ -90,7 +90,7 @@ export default function Register() {
                 value={email}
                 onChange={(e) => dispatch(updateField({ field: 'email', value: e.target.value }))}
               />
-              <div className="passwordInputCon w-[42%] xs:w-full lg:w-[55%] xs:mt-4">
+              <div className="passwordInputCon w-[42%] xs:w-full lg:w-[42%] xs:mt-4 lg:mt-0">
                 <TextField
                   className='w-[100%]'
                   label="Password"

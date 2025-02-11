@@ -7,7 +7,7 @@ export default function NewsletterSubBanner() {
   const subscribed = useSelector((state) => state.registration.subscribed);
 
   return (
-    <div className='NewsletterSubBanner w-[840px] h-[140px] rounded-xl bg-accentLightBlue bg-opacity-20 p-4 mt-6 xs:w-[100%] xs:h-auto'>
+    <div className='NewsletterSubBanner w-[840px] h-[140px] rounded-xl bg-accentLightBlue bg-opacity-20 p-4 mt-6 xs:w-[100%] xs:h-auto lg:w-[840px]'>
       <h2 className='uppercase text-xl font-bold text-defaultText'>
         {subscribed ? "You're subscribed! 🎉" : "Subscribe to our newsletter"}
       </h2>
