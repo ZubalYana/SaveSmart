@@ -26,15 +26,15 @@ export default function ThanksForRegistering() {
   
   
   return (
-    <div className='ThanksForRegistering w-full h-[75vh] p-8'>
+    <div className='ThanksForRegistering w-full h-[75vh] p-8 xs:p-4 md:p-6 lg:p-8'>
       <header className='ThanksForRegistering_header w-full h-8 mb-3'>
         <Logo />
       </header>
       <div className="ThanksForRegistering_content w-full h-full flex flex-col items-center justify-center">
-      <h1 className='text-5xl font-semibold text-defaultText mb-2'>
+      <h1 className='text-5xl font-semibold text-defaultText mb-2 xs:text-xl md:text-3xl lg:text-5xl'>
         Thanks for your <span className='text-accentLightBlue'>registration</span>!
       </h1>
-      <p className='text-base font-normal text-defaultText w-[850px] text-center mt-3'>
+      <p className='text-base font-normal text-defaultText w-[850px] text-center mt-3 xs:w-full xs:text-xs md:text-base lg:w-[850px]'>
       We’ll now redirect you to the main page. Take your time to explore the application and learn how to manage your finances effectively. A quick tutorial will be provided to help you understand everything and get started
       </p>
       <div
@@ -59,6 +59,12 @@ export default function ThanksForRegistering() {
           hover:rotate-3
           mt-8
           cursor-pointer
+          xs:w-[200px]
+          xs:h-[50px]
+          xs:text-sm
+          md:w-[250px]
+          md:h-[60px]
+          md:text-lg
         "
         onClick={handleHomepageRedirect}
       >
