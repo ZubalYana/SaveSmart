@@ -82,7 +82,7 @@ export default function Register() {
                 }}
               />
             </div>
-            <div className="Register_inputCon w-[840px] flex justify-between mt-3 xs:w-full xs:flex-col xs:h-[125px]">
+            <div className="Register_inputCon w-[840px] flex justify-between mt-3 xs:w-full xs:flex-col xs:h-auth">
               <TextField
                 label="Your email"
                 variant="outlined"
@@ -90,7 +90,7 @@ export default function Register() {
                 value={email}
                 onChange={(e) => dispatch(updateField({ field: 'email', value: e.target.value }))}
               />
-              <div className="passwordInputCon w-[42%] xs:w-full lg:w-[55%]">
+              <div className="passwordInputCon w-[42%] xs:w-full lg:w-[55%] xs:mt-4">
                 <TextField
                   className='w-[100%]'
                   label="Password"

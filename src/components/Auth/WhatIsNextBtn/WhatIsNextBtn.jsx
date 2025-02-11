@@ -26,6 +26,7 @@ export default function WhatIsNextBtn({onClick }) {
         hover:shadow-lg
         mt-6
         cursor-pointer
+        xs:mb-5
       "
       onClick={onClick}
     >
