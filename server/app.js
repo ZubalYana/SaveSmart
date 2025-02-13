@@ -26,15 +26,12 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use(cors());
 app.use(express.json());
 app.use('/api', router);
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, '../dist')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
-// Swagger Configuration
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
@@ -49,7 +46,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ['./app.js'], // Define API routes documentation in this file
+  apis: ['./app.js'], 
 };
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

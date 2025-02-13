@@ -2,14 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "main": "app.js",
+  "type": "commonjs",  
   "scripts": {
     "start": "node app.js",
     "build": "cd .. && npm install && npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
