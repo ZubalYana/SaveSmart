@@ -39,10 +39,10 @@ export default function FinancialState() {
 
   return (
     <div className='FinancialState text-defaultText mt-2'>
-        <div className='text-2xl font-semibold flex xs:text-sm lg:text-2xl'>
+        <div className='text-2xl font-semibold flex xs:text-base lg:text-2xl'>
             <span style={{fontFamily: 'Afacad'}}>Your financial state:</span>
             <span 
-                className='flex ml-2' 
+                className='flex ml-2 xs:ml-1 lg:ml-2' 
                 style={{ 
                     fontFamily: 'Afacad', 
                     color: financialState === "Normal" ? '#1E3A8A' : 'red' 
@@ -50,14 +50,14 @@ export default function FinancialState() {
             >
                 {financialState}
                 <div 
-                  className="FinancialState_hint w-4 h-4 rounded-full border-2 border-mainBlue text-mainBlue flex items-center justify-center cursor-pointer text-[12px] ml-1 font-bold"
+                  className="FinancialState_hint w-4 h-4 rounded-full border-2 border-mainBlue text-mainBlue flex items-center justify-center cursor-pointer text-[12px] ml-1 font-bold xs:w-3 xs:h-3 xs:text-[10px] lg:w-4 lg:h-4 lg:text-[12px]"
                   onClick={openModal}>?</div>
             </span>
         </div>
         <Modal
             isOpen={isModalOpen}
             onRequestClose={closeModal}
-            contentLabel="Example Modal"
+            contentLabel="User Financial State Modal"
             style={{
                 overlay: {
                     position: 'fixed',
@@ -85,14 +85,14 @@ export default function FinancialState() {
             }}
         >  
             <XIcon className='absolute top-4 right-4 text-mainBlue cursor-pointer' onClick={closeModal} />
-            <h2 className='text-3xl text-mainBlue font-bold'>What is user financial state?</h2>
-            <p className='mt-2 text-sm font-light text-defaultText'>Your <span className='text-accentLightBlue'>Financial State</span> represents an overview of your current financial health based on your income, expenses, savings, and spending habits. It gives you insights into how well you’re managing your <span className='text-accentLightBlue'>money</span> and whether you’re on track to achieve your financial goals.</p>
+            <h2 className='text-3xl text-mainBlue font-bold xs:text-xl xs:w-[80%] lg:text-3xl lg:w-auto'>What is user financial state?</h2>
+            <p className='mt-2 text-sm font-light text-defaultText xs:text-xs lg:text-sm'>Your <span className='text-accentLightBlue'>Financial State</span> represents an overview of your current financial health based on your income, expenses, savings, and spending habits. It gives you insights into how well you’re managing your <span className='text-accentLightBlue'>money</span> and whether you’re on track to achieve your financial goals.</p>
             <p className='mt-3 text-base font-medium text-defaultText'>Possible financial states:</p>
             <div className='w-[100%] flex flex-wrap gap-[3%]'>
             {financialStatesDescriptions.map((state, index) => (
-                <div key={index} className='w-[48%] h-[110px] rounded-xl p-3 bg-accentLightBlue bg-opacity-30 mt-4'>
-                    <p className='font-medium text-base' style={{color: state.nameColor}}>{state.name}</p>
-                    <p className='font-light text-sm'>{state.desctiption}</p>
+                <div key={index} className='w-[48%] h-[110px] rounded-xl p-3 bg-accentLightBlue bg-opacity-30 mt-4 xs:w-full xs:min-h-min lg:w-[48%] lg:h-[110px]'>
+                    <p className='font-medium text-base xs:text-sm lg:text-base' style={{color: state.nameColor}}>{state.name}</p>
+                    <p className='font-light text-sm xs:text-xs xs:mt-1 lg:text-sm lg:mt-0'>{state.desctiption}</p>
                 </div>
             ))}
             </div>

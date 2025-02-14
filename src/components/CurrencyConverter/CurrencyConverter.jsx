@@ -155,8 +155,8 @@ export default function CurrencyConverter() {
     };
 
     return (
-<div className="w-[600px] xs:w-full lg:w-[600px]">
-    <h2 className="text-xl font-bold mb-4 text-mainBlue">
+<div className="w-[600px] xs:w-full xs:mt-5 xs:mb-14 lg:mt-0 lg:w-[600px]">
+    <h2 className="text-xl font-bold mb-4 text-mainBlue xs:text-lg lg:text-xl xs:mb-3 lg:mb-4">
         Currency Converter
     </h2>
     <div className="flex flex-col gap-3">
@@ -198,7 +198,7 @@ export default function CurrencyConverter() {
 </div>
         
         {result !== null && (
-            <p className="text-xl font-semibold text-mainBlue mt-2">
+            <p className="text-xl font-semibold text-mainBlue mt-2 xs:text-base lg:text-xl">
                 Converted Amount: {result}
             </p>
         )}

@@ -50,21 +50,21 @@ export default function CurrencyExchangeRates() {
 
     return (
 <div className=" w-[350px] ml-10 xs:ml-0 xs:w-full lg:ml-10 lg:w-[350px]">
-    <h2 className="text-xl font-bold mb-4 text-mainBlue xs:mb-3 lg:mb-4">Currency Exchange Rates</h2>
+    <h2 className="text-xl font-bold mb-4 text-mainBlue xs:mb-3 xs:text-lg lg:mb-4 lg:text-xl">Currency Exchange Rates</h2>
     <div className="w-full">
         <div className="w-full h-10 flex items-center bg-accentLightBlue bg-opacity-100 px-2 rounded-md mb-2 text-customWhite">
-            <p className="text-base font-medium w-[45%]">Pair</p>
-            <p className="text-sm font-medium w-[30%]">Buy</p>
-            <p className="text-sm font-medium w-[25%]">Sell</p>
+            <p className="text-base font-medium w-[45%] xs:text-sm lg:text-base">Pair</p>
+            <p className="text-sm font-medium w-[30%] xs:text-xs lg:text-sm">Buy</p>
+            <p className="text-sm font-medium w-[25%] xs:text-xs lg:text-sm">Sell</p>
         </div>
         {filteredRates.map(({ label, buy, sell }, index) => (
             <div
                 key={index}
                 className="w-full h-10 flex items-center px-2 rounded-md bg-white transition duration-200 hover:bg-accentLightBlue hover:bg-opacity-20 cursor-pointer mt-2"
             >
-                <p className="text-base font-medium w-[45%] text-defaultText">{label}</p>
-                <p className="text-sm font-medium w-[30%] text-defaultText">{buy}</p>
-                <p className="text-sm font-medium w-[25%] text-defaultText">{sell}</p>
+                <p className="text-base font-medium w-[45%] text-defaultText xs:text-sm lg:text-base">{label}</p>
+                <p className="text-sm font-medium w-[30%] text-defaultText xs:text-xs lg:text-sm">{buy}</p>
+                <p className="text-sm font-medium w-[25%] text-defaultText xs:text-xs lg:text-sm">{sell}</p>
             </div>
         ))}
     </div>
