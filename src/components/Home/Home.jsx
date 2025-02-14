@@ -6,6 +6,7 @@ import FinancialState from '../FinancialState/FinancialState';
 import Upcomings from '../Upcomings/Upcomings';
 import CurrencyExchangeRates from '../CurrencyExchangeRates/CurrencyExchangeRates';
 import CurrencyConverter from '../CurrencyConverter/CurrencyConverter';
+import Burger from '../Burger/Burger';
 const queryClient = new QueryClient();
 
 export default function Home() {
@@ -24,6 +25,7 @@ export default function Home() {
 
   return (
     <div className="Home screen xs:p-4 md:p-6 lg:p-7">
+      <Burger />
       <h1 className="dynamicGreeting text-2xl font-semibold xs:text-xl lg:text-2xl">{greeting}!</h1>
       <QueryClientProvider client={queryClient}>
         <Tip />
