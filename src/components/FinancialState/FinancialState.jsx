@@ -39,7 +39,7 @@ export default function FinancialState() {
 
   return (
     <div className='FinancialState text-defaultText mt-2'>
-        <div className='text-2xl font-semibold flex'>
+        <div className='text-2xl font-semibold flex xs:text-sm lg:text-2xl'>
             <span style={{fontFamily: 'Afacad'}}>Your financial state:</span>
             <span 
                 className='flex ml-2' 

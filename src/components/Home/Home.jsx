@@ -23,7 +23,7 @@ export default function Home() {
   }, []); 
 
   return (
-    <div className="Home screen">
+    <div className="Home screen xs:p-4 md:p-6 lg:p-7">
       <h1 className="dynamicGreeting text-2xl font-semibold">{greeting}!</h1>
       <QueryClientProvider client={queryClient}>
         <Tip />
@@ -31,7 +31,7 @@ export default function Home() {
       <FinancialState />
       <div className="UpcomingsAndCurrency w-full mt-4">
         <Upcomings />
-        <div className='w-[100%] flex mt-4'>
+        <div className='w-[100%] flex mt-4 xs:flex-col-reverse lg:flex-row'>
           <CurrencyConverter />
           <CurrencyExchangeRates />
         </div>

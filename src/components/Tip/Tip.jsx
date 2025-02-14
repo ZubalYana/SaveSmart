@@ -18,8 +18,8 @@ export default function Tip() {
 
   return (
     <div className='Tip w-[100%] flex items-center mt-2'>
-        <div className="tipMark w-[2px] h-[30px] bg-accentLightBlue mr-2"></div>
-        <p>
+        <div className="tipMark w-[2px] h-[30px] bg-accentLightBlue mr-2 xs:w-[3px] xs:h-[50px] lg:w-[2px] lg:h-[30px]"></div>
+        <p className='xs:text-xs lg:text-base'>
           <span className='font-medium mr-1 text-black'>Today's tip: </span>
           <span className='Tip_text font-light text-defaultText'>{dailyTip}</span>
         </p>

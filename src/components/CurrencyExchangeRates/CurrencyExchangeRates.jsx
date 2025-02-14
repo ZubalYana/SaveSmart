@@ -49,8 +49,8 @@ export default function CurrencyExchangeRates() {
     });
 
     return (
-<div className=" w-[350px] ml-10">
-    <h2 className="text-xl font-bold mb-4 text-mainBlue">Currency Exchange Rates</h2>
+<div className=" w-[350px] ml-10 xs:ml-0 xs:w-full lg:ml-10 lg:w-[350px]">
+    <h2 className="text-xl font-bold mb-4 text-mainBlue xs:mb-3 lg:mb-4">Currency Exchange Rates</h2>
     <div className="w-full">
         <div className="w-full h-10 flex items-center bg-accentLightBlue bg-opacity-100 px-2 rounded-md mb-2 text-customWhite">
             <p className="text-base font-medium w-[45%]">Pair</p>

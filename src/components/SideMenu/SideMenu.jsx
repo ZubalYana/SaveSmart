@@ -19,7 +19,7 @@ export default function SideMenu() {
   ];
 
   return (
-    <div className="SideMenu w-[19%] h-[100vh] bg-mainBlue p-8 z-50">
+    <div className="SideMenu w-[19%] h-[100vh] bg-mainBlue p-8 z-50 xs:hidden lg:block">
       <LightLogo />
       <motion.div
         className="animatedLine bg-customWhite h-[1px] mt-2"
