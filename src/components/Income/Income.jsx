@@ -1,24 +1,33 @@
 import React, { useState } from 'react'
 import './Income.css'
 import Burger from '../Burger/Burger'
-import { Plus, ListChecks, Pencil, Clock3, Zap } from 'lucide-react'
+import { Plus, ListChecks, Pencil, Clock3, Zap, ArrowLeft } from 'lucide-react'
 import Modal from 'react-modal';
 Modal.setAppElement('#root');
 
 export default function Income() {
   const [isIncomeLoggingModalOpen, setisIncomeLoggingModalOpen] = useState(false);
   const [selectedIncomeType, setSelectedIncomeType] = useState(null);
+  const [modalStep, setModalStep] = useState(1);
 
   const openIncomeLoggingModal = () => {
     setisIncomeLoggingModalOpen(true);
+    setSelectedIncomeType(null);
+    setModalStep(1);
   };
 
-  const closeopenIncomeLoggingModal = () => {
+  const closeIncomeLoggingModal = () => {
     setisIncomeLoggingModalOpen(false);
   };
 
   const handleCardSelect = (type) => {
     setSelectedIncomeType(type);
+    setModalStep(2);
+  };
+
+  const handleGoBack = () => {
+    setModalStep(1);
+    setSelectedIncomeType(null);
   };
 
   return (
@@ -44,7 +53,7 @@ export default function Income() {
 
       <Modal
         isOpen={isIncomeLoggingModalOpen}
-        onRequestClose={closeopenIncomeLoggingModal}
+        onRequestClose={closeIncomeLoggingModal}
         contentLabel="User Financial State Modal"
         style={{
           overlay: {
@@ -64,7 +73,6 @@ export default function Income() {
             width: '60%',
             height: '62%',
             overflow: 'auto',
-            WebkitOverflowScrolling: 'touch',
             borderRadius: '8px',
             outline: 'none',
             padding: '35px',
@@ -72,30 +80,50 @@ export default function Income() {
           },
         }}
       >
-        <div className="modalIncomeType_screen w-full h-full flex flex-col items-center">
-          <h3 className='mb-1 text-4xl text-mainBlue font-semibold' style={{ fontFamily: 'Balsamiq Sans'}}>Let’s create a new income!</h3>
-          <p className='text-lg text-defaultText'>Choose the income type:</p>
-          <div className='w-[100%] flex justify-between mt-8 px-3'>
-            {['Regular income', 'Irregular income'].map((type, index) => (
-              <div
-                key={index}
-                onClick={() => handleCardSelect(type)}
-                className={`w-[47%] h-[200px] p-4 border-2 rounded-xl flex flex-col items-center justify-center transition-all duration-300 cursor-pointer shadow-lg 
-                  ${selectedIncomeType === type 
-                    ? 'bg-btnBgShade-500 text-white shadow-lg scale-105' 
-                    : 'bg-accentLightBlue bg-opacity-20 text-defaultText hover:bg-btnBgShade-500 hover:scale-105 hover:shadow-lg hover:text-customWhite'}`}
-              >
-                <h4 className='text-2xl font-semibold flex items-center'>
-                  {type === 'Regular income' ? <Clock3 className='mr-2' /> : <Zap className='mr-2' />}
-                  {type}
-                </h4>
-                <p className='text-sm font-light text-center mt-4'>{type === 'Regular income' 
-                  ? 'This refers to income you receive regularly over a specific period, such as a salary, scholarship, pension, rental income, royalties, or dividends.' 
-                  : 'This basically means that the income is occasional. For example, it can refer to selling something or receiving money as a gift, etc.'}
-                </p>
-              </div>
-            ))}
+        {modalStep === 1 && (
+          <div className="modalIncomeType_screen w-full h-auto flex flex-col items-center">
+            <h3 className='mb-1 text-4xl text-mainBlue font-semibold' style={{ fontFamily: 'Balsamiq Sans'}}>Let’s create a new income!</h3>
+            <p className='text-lg text-defaultText'>Choose the income type:</p>
+            <div className='w-[100%] flex justify-between mt-8 px-3'>
+              {[{ type: 'Regular income', icon: <Clock3 /> }, { type: 'Irregular income', icon: <Zap /> }].map((item, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleCardSelect(item.type)}
+                  className={`w-[47%] h-[200px] p-4 border-2 rounded-xl flex flex-col items-center justify-center transition-all duration-300 cursor-pointer shadow-lg 
+                    ${selectedIncomeType === item.type
+                      ? 'bg-btnBgShade-500 text-white shadow-lg scale-105'
+                      : 'bg-accentLightBlue bg-opacity-20 text-defaultText hover:bg-btnBgShade-500 hover:scale-105 hover:shadow-lg hover:text-customWhite'}`}
+                >
+                  <h4 className='text-2xl font-semibold flex items-center'>
+                    {item.icon} <span className='ml-2'>{item.type}</span>
+                  </h4>
+                  <p className='text-sm font-light text-center mt-4'>
+                    {item.type === 'Regular income'
+                      ? 'This refers to income you receive regularly over a specific period, such as a salary, scholarship, pension, rental income, royalties, or dividends.'
+                      : 'This basically means that the income is occasional. For example, it can refer to selling something or receiving money as a gift, etc.'}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
+        )}
+
+        {modalStep === 2 && (
+          <div className="modalIncomeDetails_screen w-full h-auto flex flex-col items-center">
+            <div className='w-full flex items-center justify-start mb-4 cursor-pointer' onClick={handleGoBack}>
+              <ArrowLeft />
+              <span className='ml-2 text-mainBlue'>Go back</span>
+            </div>
+            <h3 className='mb-1 text-3xl text-mainBlue font-semibold'>
+              {selectedIncomeType === 'Regular income' ? 'Creating a Regular Income' : 'Logging an Irregular Income'}
+            </h3>
+            <p className='text-lg text-defaultText'>Fill in the required information for your income.</p>
+          </div>
+        )}
+
+        <div className="modalScreenIdentifier w-full flex justify-center absolute bottom-7 left-0">
+          <div className={`w-2 h-2 border-mainBlue border-2 rounded-full mr-3 ${modalStep === 1 ? 'bg-mainBlue' : ''}`}></div>
+          <div className={`w-2 h-2 border-mainBlue border-2 rounded-full ${modalStep === 2 ? 'bg-mainBlue' : ''}`}></div>
         </div>
       </Modal>
     </div>
