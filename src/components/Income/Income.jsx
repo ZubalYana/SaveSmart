@@ -22,6 +22,7 @@ export default function Income() {
   const [selectedPeriodicity, setSelectedPeriodicity] = useState('');
   const [dayOfMonth, setDayOfMonth] = useState('');
   const [yearlyDate, setYearlyDate] = useState(dayjs());
+  const [dayOfWeek, setDayOfWeek] = useState('');
 
   const openIncomeLoggingModal = () => {
     setisIncomeLoggingModalOpen(true);
@@ -30,6 +31,7 @@ export default function Income() {
     setSelectedPeriodicity('');
     setDayOfMonth('');
     setYearlyDate(dayjs());
+    setDayOfWeek('');
   };
 
   const closeIncomeLoggingModal = () => setisIncomeLoggingModalOpen(false);
@@ -48,8 +50,12 @@ export default function Income() {
     setSelectedPeriodicity(event.target.value);
   };
 
-  const periodicityOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
+  const handleDayOfWeekChange = (event) => {
+    setDayOfWeek(event.target.value);
+  };
 
+  const periodicityOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className='Income screen xs:p-4 md:p-6 lg:p-7'>
@@ -150,6 +156,21 @@ export default function Income() {
                     ))}
                   </Select>
                 </FormControl>
+                {selectedPeriodicity === 'Weekly' && (
+                  <FormControl sx={{ m: 1, width: 300 }}>
+                    <InputLabel id="day-of-week-label">Day of the week</InputLabel>
+                    <Select
+                      labelId="day-of-week-label"
+                      value={dayOfWeek}
+                      onChange={handleDayOfWeekChange}
+                      input={<OutlinedInput label="Day of the week" />}
+                    >
+                      {daysOfWeek.map((day) => (
+                        <MenuItem key={day} value={day}>{day}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                )}
                 {selectedPeriodicity === 'Monthly' && (
                   <TextField
                     id="day-of-month"
