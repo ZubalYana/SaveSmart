@@ -127,7 +127,7 @@ export default function Income() {
   const [dayOfMonth, setDayOfMonth] = useState('');
   const [yearlyDate, setYearlyDate] = useState(dayjs());
   const [dayOfWeek, setDayOfWeek] = useState('');
-  const [selectedCurrency, setSelectedCurrency] = useState(null);
+  const [selectedCurrency, setSelectedCurrency] = useState("840");
   const [savingMethod, setSavingMethod] = useState("");
   const [receivingSum, setReceivingSum] = useState('');
 
@@ -143,6 +143,7 @@ export default function Income() {
     setSelectedCurrency(null);
     setSavingMethod('');
     setReceivingSum('');
+    setSelectedCurrency("840");;
   };
 
   const closeIncomeLoggingModal = () => setisIncomeLoggingModalOpen(false);
@@ -241,113 +242,121 @@ export default function Income() {
               </div>
             </div>
           )}
-
           {modalStep === 2 && (
-            <div className="modalIncomeDetails_screen w-full h-auto flex flex-col items-center">
-              <div className='flex items-center justify-start cursor-pointer absolute top-[35px] left-[35px]' onClick={handleGoBack}>
-                <ArrowLeft />
-                <span className='ml-2 text-defaultText'>Go back</span>
-              </div>
-              <h3 className='mb-1 text-3xl text-mainBlue font-semibold' style={{ fontFamily: 'Balsamiq Sans' }}>
-                {selectedIncomeType === 'Regular income' ? 'Creating a Regular Income' : 'Logging an Irregular Income'}
-              </h3>
-              <p className='text-base text-defaultText'>Fill in the required information for your income.</p>
+  <div className="modalIncomeDetails_screen w-full h-auto flex flex-col items-center">
+    <div className='flex items-center justify-start cursor-pointer absolute top-[35px] left-[35px]' onClick={handleGoBack}>
+      <ArrowLeft />
+      <span className='ml-2 text-defaultText'>Go back</span>
+    </div>
+    <h3 className='mb-1 text-3xl text-mainBlue font-semibold' style={{ fontFamily: 'Balsamiq Sans' }}>
+      {selectedIncomeType === 'Regular income' ? 'Creating a Regular Income' : 'Logging an Irregular Income'}
+    </h3>
+    <p className='text-base text-defaultText'>Fill in the required information for your income.</p>
 
-              <div className="regularIncomeInputs w-full mt-7">
-                <div className='w-full flex '>
-                <TextField id="outlined-basic" label="Income name (e.g. salary, scholarship)" variant="outlined" className='w-[350px]' />
+    {selectedIncomeType === 'Regular income' && (
+      <div className="regularIncomeInputs w-full mt-7">
+        <div className='w-full flex'>
+          <TextField id="outlined-basic" label="Income name (e.g. salary, scholarship)" variant="outlined" className='w-[350px]' />
 
-                <FormControl sx={{width: 210, mx: 2.5 }}>
-                  <InputLabel id="periodicity-label">Receiving periodicity</InputLabel>
-                  <Select
-                    labelId="periodicity-label"
-                    value={selectedPeriodicity}
-                    onChange={handlePeriodicityChange}
-                    input={<OutlinedInput label="Receiving periodicity" />}
-                  >
-                    {periodicityOptions.map((option) => (
-                      <MenuItem key={option} value={option}>{option}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                {selectedPeriodicity === 'Weekly' && (
-                  <FormControl sx={{width: 250}}>
-                    <InputLabel id="day-of-week-label">Day of the week</InputLabel>
-                    <Select
-                      labelId="day-of-week-label"
-                      value={dayOfWeek}
-                      onChange={handleDayOfWeekChange}
-                      input={<OutlinedInput label="Day of the week" />}
-                    >
-                      {daysOfWeek.map((day) => (
-                        <MenuItem key={day} value={day}>{day}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                )}
-                {selectedPeriodicity === 'Monthly' && (
-                  <TextField
-                    id="day-of-month"
-                    label="Day of the month (1-31)"
-                    type="number"
-                    inputProps={{ min: 1, max: 31 }}
-                    value={dayOfMonth}
-                    onChange={(e) => setDayOfMonth(e.target.value)}
-                    variant="outlined"
-                    sx={{width: 250}}
-                  />
-                )}
-                {selectedPeriodicity === 'Yearly' && (
-                  <DatePicker
-                    views={['month', 'day']}
-                    label="Select specific date"
-                    value={yearlyDate}
-                    onChange={(newValue) => setYearlyDate(newValue)}
-                    renderInput={(params) => <TextField {...params} sx={{width: 250}} />}
-                    sx={{width: 250}}
-                  />
-                )}
-                </div>
-                <div className='w-full flex justify-between mt-4'>
-                <TextField
-                  id="receiving-sum"
-                  label="Receiving sum"
-                  type="number"
-                  inputProps={{ min: 1, max: 31 }}
-                  value={receivingSum}
-                  onChange={(e) => setReceivingSum(e.target.value)}
-                  variant="outlined"
-                  sx={{width: 260}}
-                />
-                <Autocomplete
-                  value={selectedCurrency}
-                  onChange={(event, newValue) => setSelectedCurrency(newValue)}
-                  options={Object.keys(CURRENCY_NAMES)}
-                  getOptionLabel={(option) => CURRENCY_NAMES[option] || `Unknown (${option})`}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Saving currency" variant="outlined" />
-                  )}
-                  className="w-[300px]"
-                />
-                <Autocomplete
-                  value={savingMethod}
-                  onChange={(event, newValue) => setSavingMethod(newValue)}
-                  options={savingMethods}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Saving Method" variant="outlined" />
-                  )}
-                  className="w-[250px]"
-                />
-                </div>
-                <div className='w-full flex justify-center mt-7'>
-                  <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'>
-                  <Plus className='mr-2' />
-                    Create income
-                  </button>
-                </div>
-              </div>
-            </div>
+          <FormControl sx={{ width: 210, mx: 2.5 }}>
+            <InputLabel id="periodicity-label">Receiving periodicity</InputLabel>
+            <Select
+              labelId="periodicity-label"
+              value={selectedPeriodicity}
+              onChange={handlePeriodicityChange}
+              input={<OutlinedInput label="Receiving periodicity" />}
+            >
+              {periodicityOptions.map((option) => (
+                <MenuItem key={option} value={option}>{option}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          {selectedPeriodicity === 'Weekly' && (
+            <FormControl sx={{ width: 250 }}>
+              <InputLabel id="day-of-week-label">Day of the week</InputLabel>
+              <Select
+                labelId="day-of-week-label"
+                value={dayOfWeek}
+                onChange={handleDayOfWeekChange}
+                input={<OutlinedInput label="Day of the week" />}
+              >
+                {daysOfWeek.map((day) => (
+                  <MenuItem key={day} value={day}>{day}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           )}
+
+          {selectedPeriodicity === 'Monthly' && (
+            <TextField
+              id="day-of-month"
+              label="Day of the month (1-31)"
+              type="number"
+              inputProps={{ min: 1, max: 31 }}
+              value={dayOfMonth}
+              onChange={(e) => setDayOfMonth(e.target.value)}
+              variant="outlined"
+              sx={{ width: 250 }}
+            />
+          )}
+
+          {selectedPeriodicity === 'Yearly' && (
+            <DatePicker
+              views={['month', 'day']}
+              label="Select specific date"
+              value={yearlyDate}
+              onChange={(newValue) => setYearlyDate(newValue)}
+              renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
+            />
+          )}
+        </div>
+
+        <div className='w-full flex justify-between mt-4'>
+          <TextField
+            id="receiving-sum"
+            label="Receiving sum"
+            type="number"
+            inputProps={{ min: 1 }}
+            value={receivingSum}
+            onChange={(e) => setReceivingSum(e.target.value)}
+            variant="outlined"
+            sx={{ width: 260 }}
+          />
+
+          <Autocomplete
+            value={selectedCurrency}
+            onChange={(event, newValue) => setSelectedCurrency(newValue)}
+            options={Object.keys(CURRENCY_NAMES)}
+            getOptionLabel={(option) => CURRENCY_NAMES[option] || `Unknown (${option})`}
+            renderInput={(params) => (
+              <TextField {...params} label="Saving currency" variant="outlined" />
+            )}
+            className="w-[300px]"
+          />
+
+          <Autocomplete
+            value={savingMethod}
+            onChange={(event, newValue) => setSavingMethod(newValue)}
+            options={savingMethods}
+            renderInput={(params) => (
+              <TextField {...params} label="Saving Method" variant="outlined" />
+            )}
+            className="w-[250px]"
+          />
+        </div>
+
+        <div className='w-full flex justify-center mt-7'>
+          <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'>
+            <Plus className='mr-2' />
+            Create income
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+)}
+
 
           <div className="modalScreenIdentifier w-full flex justify-center absolute bottom-7 left-0">
             <div className={`w-2 h-2 border-mainBlue border-2 rounded-full mr-3 ${modalStep === 1 ? 'bg-mainBlue' : ''}`}></div>
