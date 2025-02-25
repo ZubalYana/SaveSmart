@@ -250,9 +250,11 @@ export default function Income() {
               </h3>
               <p className='text-base text-defaultText'>Fill in the required information for your income.</p>
 
-              <div className="regularIncomeInputs w-full flex flex-wrap mt-5">
+              <div className="regularIncomeInputs w-full mt-7">
+                <div className='w-full flex '>
                 <TextField id="outlined-basic" label="Income name (e.g. salary, scholarship)" variant="outlined" className='w-[350px]' />
-                <FormControl sx={{width: 210, mx: 2 }}>
+
+                <FormControl sx={{width: 210, mx: 2.5 }}>
                   <InputLabel id="periodicity-label">Receiving periodicity</InputLabel>
                   <Select
                     labelId="periodicity-label"
@@ -266,7 +268,7 @@ export default function Income() {
                   </Select>
                 </FormControl>
                 {selectedPeriodicity === 'Weekly' && (
-                  <FormControl sx={{width: 200}}>
+                  <FormControl sx={{width: 250}}>
                     <InputLabel id="day-of-week-label">Day of the week</InputLabel>
                     <Select
                       labelId="day-of-week-label"
@@ -289,7 +291,7 @@ export default function Income() {
                     value={dayOfMonth}
                     onChange={(e) => setDayOfMonth(e.target.value)}
                     variant="outlined"
-                    sx={{width: 230}}
+                    sx={{width: 250}}
                   />
                 )}
                 {selectedPeriodicity === 'Yearly' && (
@@ -298,10 +300,12 @@ export default function Income() {
                     label="Select specific date"
                     value={yearlyDate}
                     onChange={(newValue) => setYearlyDate(newValue)}
-                    renderInput={(params) => <TextField {...params} sx={{width: 230}} />}
+                    renderInput={(params) => <TextField {...params} sx={{width: 250}} />}
+                    sx={{width: 250}}
                   />
                 )}
-
+                </div>
+                <div className='w-full flex justify-between mt-4'>
                 <TextField
                   id="receiving-sum"
                   label="Receiving sum"
@@ -310,7 +314,7 @@ export default function Income() {
                   value={dayOfMonth}
                   onChange={(e) => setDayOfMonth(e.target.value)}
                   variant="outlined"
-                  sx={{width: 230}}
+                  sx={{width: 260}}
                 />
                 <Autocomplete
                   value={selectedCurrency}
@@ -320,7 +324,7 @@ export default function Income() {
                   renderInput={(params) => (
                     <TextField {...params} label="Saving currency" variant="outlined" />
                   )}
-                  className="w-[250px]"
+                  className="w-[300px]"
                 />
                 <Autocomplete
                   value={savingMethod}
@@ -329,12 +333,15 @@ export default function Income() {
                   renderInput={(params) => (
                     <TextField {...params} label="Saving Method" variant="outlined" />
                   )}
-                  className="w-[250px] mx-2"
+                  className="w-[250px]"
                 />
-
-
-
-                
+                </div>
+                <div className='w-full flex justify-center mt-7'>
+                  <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'>
+                  <Plus className='mr-2' />
+                    Create income
+                  </button>
+                </div>
               </div>
             </div>
           )}
