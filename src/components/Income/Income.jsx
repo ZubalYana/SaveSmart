@@ -131,7 +131,10 @@ export default function Income() {
   const [savingMethod, setSavingMethod] = useState("");
   const [receivingSum, setReceivingSum] = useState('');
 
-
+  const [receivedIncome, setReceivedIncome] = useState(dayjs());
+  const [irregularSelectedCurrency, setIrregularSelectedCurrency] = useState("840");
+  const [irregularSavingMethod, setIrregularSavingMethod] = useState("");
+  const [irregularReceivingSum, setirregularReceivingSum] = useState('');
   const openIncomeLoggingModal = () => {
     setisIncomeLoggingModalOpen(true);
     setSelectedIncomeType(null);
@@ -144,6 +147,9 @@ export default function Income() {
     setSavingMethod('');
     setReceivingSum('');
     setSelectedCurrency("840");;
+    setIrregularSelectedCurrency("840");
+    setIrregularSavingMethod("");
+    setirregularReceivingSum('');
   };
 
   const closeIncomeLoggingModal = () => setisIncomeLoggingModalOpen(false);
@@ -311,7 +317,6 @@ export default function Income() {
             />
           )}
         </div>
-
         <div className='w-full flex justify-between mt-4'>
           <TextField
             id="receiving-sum"
@@ -345,11 +350,64 @@ export default function Income() {
             className="w-[250px]"
           />
         </div>
-
         <div className='w-full flex justify-center mt-7'>
           <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'>
             <Plus className='mr-2' />
             Create income
+          </button>
+        </div>
+      </div>
+    )}
+    {selectedIncomeType === 'Irregular income' && (
+      <div className="irregularIncomeInputs w-full mt-7">
+        <div className='w-full flex justify-between'>
+          <TextField id="outlined-basic" label="Income source ( e.g. sold a car, birthday gift )" variant="outlined" className='w-[530px]' />
+          <DatePicker
+            views={['month', 'day']}
+            label="Received at:"
+            value={receivedIncome}
+            onChange={(newValue) => setReceivedIncome(newValue)}
+            renderInput={(params) => <TextField {...params} sx={{ width: 300 }} />}
+            sx={{ width: 300 }}
+          />
+        </div>
+        <div className='w-full flex justify-between mt-4'>
+          <TextField
+            id="receiving-sum"
+            label="Receiving sum"
+            type="number"
+            inputProps={{ min: 1 }}
+            value={irregularReceivingSum}
+            onChange={(e) => setReceivingSum(e.target.value)}
+            variant="outlined"
+            sx={{ width: 260 }}
+          />
+
+          <Autocomplete
+            value={irregularSelectedCurrency}
+            onChange={(event, newValue) => setSelectedCurrency(newValue)}
+            options={Object.keys(CURRENCY_NAMES)}
+            getOptionLabel={(option) => CURRENCY_NAMES[option] || `Unknown (${option})`}
+            renderInput={(params) => (
+              <TextField {...params} label="Saving currency" variant="outlined" />
+            )}
+            className="w-[300px]"
+          />
+
+          <Autocomplete
+            value={irregularSavingMethod}
+            onChange={(event, newValue) => setSavingMethod(newValue)}
+            options={savingMethods}
+            renderInput={(params) => (
+              <TextField {...params} label="Saving Method" variant="outlined" />
+            )}
+            className="w-[250px]"
+          />
+        </div>
+        <div className='w-full flex justify-center mt-7'>
+          <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'>
+            <Plus className='mr-2' />
+            Log income
           </button>
         </div>
       </div>
