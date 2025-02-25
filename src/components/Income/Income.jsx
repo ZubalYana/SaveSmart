@@ -129,6 +129,8 @@ export default function Income() {
   const [dayOfWeek, setDayOfWeek] = useState('');
   const [selectedCurrency, setSelectedCurrency] = useState(null);
   const [savingMethod, setSavingMethod] = useState("");
+  const [receivingSum, setReceivingSum] = useState('');
+
 
   const openIncomeLoggingModal = () => {
     setisIncomeLoggingModalOpen(true);
@@ -140,6 +142,7 @@ export default function Income() {
     setDayOfWeek('');
     setSelectedCurrency(null);
     setSavingMethod('');
+    setReceivingSum('');
   };
 
   const closeIncomeLoggingModal = () => setisIncomeLoggingModalOpen(false);
@@ -311,8 +314,8 @@ export default function Income() {
                   label="Receiving sum"
                   type="number"
                   inputProps={{ min: 1, max: 31 }}
-                  value={dayOfMonth}
-                  onChange={(e) => setDayOfMonth(e.target.value)}
+                  value={receivingSum}
+                  onChange={(e) => setReceivingSum(e.target.value)}
                   variant="outlined"
                   sx={{width: 260}}
                 />
