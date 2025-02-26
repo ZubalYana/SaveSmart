@@ -21,7 +21,7 @@ export const registerUser = createAsyncThunk(
   'registration/registerUser',
   async (userData, { rejectWithValue }) => {
     try {
-      const registerResponse = await fetch('http://localhost:3000/api/register', {
+      const registerResponse = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export const registerUser = createAsyncThunk(
         throw new Error(registerData.message || 'Registration failed');
       }
 
-      const loginResponse = await fetch('http://localhost:3000/api/login', {
+      const loginResponse = await fetch('http://localhost:3000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
