@@ -3,10 +3,10 @@ const router = express.Router();
 const Income = require('../models/IncomeSchema');
 const authenticateToken = require('../middleware/authMiddleware');
 
-//get all user incomes
+//get all user incomes (sorted by date)
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    const incomes = await Income.find({ userId: req.user.userId });
+    const incomes = await Income.find({ userId: req.user.userId }).sort({ dateReceived: -1 });
     res.json(incomes);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch incomes', error: error.message });
@@ -20,6 +20,15 @@ router.post('/', authenticateToken, async (req, res) => {
 
     if (!amount || !currency || !method || (isRegular && !periodicity) || (!isRegular && !dateReceived)) {
       return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    if (isRegular) {
+      if (periodicity === 'Monthly' && !dayOfMonth) {
+        return res.status(400).json({ message: 'Monthly income requires a dayOfMonth' });
+      }
+      if (periodicity === 'Weekly' && !dayOfWeek) {
+        return res.status(400).json({ message: 'Weekly income requires a dayOfWeek' });
+      }
     }
 
     const newIncome = new Income({
@@ -38,6 +47,25 @@ router.post('/', authenticateToken, async (req, res) => {
     res.status(201).json({ message: 'Income added successfully', income: newIncome });
   } catch (error) {
     res.status(500).json({ message: 'Error adding income', error: error.message });
+  }
+});
+
+//edit an income
+router.put('/:id', authenticateToken, async (req, res) => {
+  try {
+    const updatedIncome = await Income.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.userId },
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedIncome) {
+      return res.status(404).json({ message: 'Income not found' });
+    }
+
+    res.json({ message: 'Income updated successfully', income: updatedIncome });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating income', error: error.message });
   }
 });
 
