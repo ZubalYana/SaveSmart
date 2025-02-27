@@ -196,12 +196,12 @@ export default function Income() {
     console.log("Saving income data:", incomeData);
   
     try {
-      const token = localStorage.getItem('token'); // Get stored JWT
+      const token = localStorage.getItem('token'); 
       const response = await fetch('http://localhost:3000/api/income', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Include token
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(incomeData),
       });
@@ -228,7 +228,7 @@ export default function Income() {
 
   
   const incomes = useSelector(state => state.income.incomes);
-  console.log("Redux store incomes:", incomes);
+  // console.log("Redux store incomes:", incomes);
   const periodicityOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   const savingMethods = ["Cash", "Card", "Bank Transfer", "Mobile Payment", "Cryptocurrency"];
