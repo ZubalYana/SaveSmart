@@ -137,7 +137,6 @@ export default function Income() {
   const [selectedCurrency, setSelectedCurrency] = useState("840");
   const [savingMethod, setSavingMethod] = useState("");
   const [receivingSum, setReceivingSum] = useState('');
-
   const [receivedIncome, setReceivedIncome] = useState(dayjs());
   const [irregularSelectedCurrency, setIrregularSelectedCurrency] = useState("840");
   const [irregularSavingMethod, setIrregularSavingMethod] = useState("");
@@ -160,27 +159,21 @@ export default function Income() {
     setIrregularSavingMethod("");
     setirregularReceivingSum('');
   };
-
   const closeIncomeLoggingModal = () => setisIncomeLoggingModalOpen(false);
-
   const handleCardSelect = (type) => {
     setSelectedIncomeType(type);
     setModalStep(2);
   };
-
   const handleGoBack = () => {
     setModalStep(1);
     setSelectedIncomeType(null);
   };
-
   const handlePeriodicityChange = (event) => {
     setSelectedPeriodicity(event.target.value);
   };
-
   const handleDayOfWeekChange = (event) => {
     setDayOfWeek(event.target.value);
   };
-
   const handleSaveIncome = async () => {
     const isRegular = selectedIncomeType === "Regular income";
   
@@ -225,10 +218,11 @@ export default function Income() {
     closeIncomeLoggingModal();
   };
   
-
+  const [isIncomesListModalOpen, setisIncomesListModalOpen] = useState(false);
+  const openIncomesListModal = () => setisIncomesListModalOpen(true);
+  const closeIncomesListModal = () => setisIncomesListModalOpen(false);
   
   const incomes = useSelector(state => state.income.incomes);
-  // console.log("Redux store incomes:", incomes);
   const periodicityOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   const savingMethods = ["Cash", "Card", "Bank Transfer", "Mobile Payment", "Cryptocurrency"];
@@ -244,7 +238,10 @@ export default function Income() {
             <Plus className='mr-2' />
             Log new income
           </button>
-          <button className='uppercase p-4 flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-sm font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'>
+          <button 
+          className='uppercase p-4 flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-sm font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'
+          onClick={openIncomesListModal}
+          >
             <ListChecks className='mr-2' />
             Incomes list
           </button>
@@ -253,7 +250,7 @@ export default function Income() {
         <Modal
           isOpen={isIncomeLoggingModalOpen}
           onRequestClose={closeIncomeLoggingModal}
-          contentLabel="User Financial State Modal"
+          contentLabel="Creating incomes modal"
           style={{
             overlay: {
               position: 'fixed',
@@ -477,6 +474,38 @@ export default function Income() {
             <div className={`w-2 h-2 border-mainBlue border-2 rounded-full mr-3 ${modalStep === 1 ? 'bg-mainBlue' : ''}`}></div>
             <div className={`w-2 h-2 border-mainBlue border-2 rounded-full ${modalStep === 2 ? 'bg-mainBlue' : ''}`}></div>
           </div>
+        </Modal>
+
+        <Modal
+        isOpen={isIncomesListModalOpen}
+        onRequestClose={closeIncomesListModal}
+        contentLabel="Incomes list modal"
+        style={{
+          overlay: {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 1000
+          },
+          content: {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '60%',
+            height: '62%',
+            overflow: 'auto',
+            borderRadius: '8px',
+            outline: 'none',
+            padding: '35px',
+            backgroundColor: '#fff',
+          },
+        }}
+        >
+
         </Modal>
       </div>
     </LocalizationProvider>
