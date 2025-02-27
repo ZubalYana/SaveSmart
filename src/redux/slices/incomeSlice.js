@@ -9,7 +9,7 @@ const incomeSlice = createSlice({
   initialState: { incomes: [] },
   reducers: {
     addIncome: (state, action) => {
-      console.log("Reducer received:", action.payload);
+      // console.log("Reducer received:", action.payload);
       state.incomes.push(action.payload);
     },
     removeIncome: (state, action) => {
