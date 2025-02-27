@@ -4,8 +4,9 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
 const dotenv = require('dotenv');
+const authMiddleware = require('./middleware/authMiddleware');
 
-// Import Routes
+//import Routes
 const authRoutes = require('./routes/authRoutes');
 const incomeRoutes = require('./routes/incomeRoutes');
 const tipRoutes = require('./routes/tipRoutes');
@@ -22,9 +23,9 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use(cors());
 app.use(express.json());
 
-// Use Routes
+//use Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/income', incomeRoutes);
+app.use('/api/income', authMiddleware, incomeRoutes);
 app.use('/api/tips', tipRoutes);
 
 const PORT = process.env.PORT || 3000;

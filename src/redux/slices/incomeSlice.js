@@ -1,11 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    type: '', //either 'regular' or 'irregular'
-    name: '', //just income name
-    periodicity: '', //only for 'regular' income
-    received: '', //only for 'irregular' income
-    amount: '', //amout of money to receive
-    wayOfSaving: '', //either 'card' or 'cash'
-    loggingDate: '', //date ( and time ) of logging the income into the database
+  incomes: []
 };
+
+const incomeSlice = createSlice({
+  name: "income",
+  initialState: { incomes: [] },
+  reducers: {
+    addIncome: (state, action) => {
+      console.log("Reducer received:", action.payload);
+      state.incomes.push(action.payload);
+    },
+    removeIncome: (state, action) => {
+      state.incomes = state.incomes.filter(income => income.id !== action.payload);
+    }
+  }
+});
+
+export const { addIncome, removeIncome } = incomeSlice.actions;
+export default incomeSlice.reducer;

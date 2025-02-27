@@ -14,7 +14,7 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
 //create a new income
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const { amount, currency, method, isRegular, periodicity, dayOfMonth, dayOfWeek, dateReceived } = req.body;
 
@@ -46,6 +46,7 @@ router.post('/', authenticateToken, async (req, res) => {
     await newIncome.save();
     res.status(201).json({ message: 'Income added successfully', income: newIncome });
   } catch (error) {
+    console.error('Error adding income:', error);
     res.status(500).json({ message: 'Error adding income', error: error.message });
   }
 });

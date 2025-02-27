@@ -119,6 +119,11 @@ const CURRENCY_NAMES = {
   "985": "Polish Złoty (PLN)",
   "986": "Brazilian Real (BRL)"
 }
+
+//redux imports
+import { useDispatch, useSelector } from "react-redux";
+import { addIncome } from "../../redux/slices/incomeSlice";
+
 export default function Income() {
   const [isIncomeLoggingModalOpen, setisIncomeLoggingModalOpen] = useState(false);
   const [selectedIncomeType, setSelectedIncomeType] = useState(null);
@@ -135,6 +140,8 @@ export default function Income() {
   const [irregularSelectedCurrency, setIrregularSelectedCurrency] = useState("840");
   const [irregularSavingMethod, setIrregularSavingMethod] = useState("");
   const [irregularReceivingSum, setirregularReceivingSum] = useState('');
+
+  const dispatch = useDispatch();
   const openIncomeLoggingModal = () => {
     setisIncomeLoggingModalOpen(true);
     setSelectedIncomeType(null);
@@ -172,6 +179,56 @@ export default function Income() {
     setDayOfWeek(event.target.value);
   };
 
+  const handleSaveIncome = async () => {
+    const isRegular = selectedIncomeType === "Regular income";
+  
+    const incomeData = {
+      amount: isRegular ? receivingSum : irregularReceivingSum,
+      currency: isRegular ? selectedCurrency : irregularSelectedCurrency,
+      method: isRegular ? savingMethod : irregularSavingMethod,
+      isRegular,
+      periodicity: isRegular ? selectedPeriodicity : null,
+      dayOfMonth: isRegular && selectedPeriodicity === "Monthly" ? selectedDayOfMonth : null,
+      dayOfWeek: isRegular && selectedPeriodicity === "Weekly" ? selectedDayOfWeek : null,
+      dateReceived: isRegular ? null : receivedIncome.toISOString(),
+    };
+  
+    console.log("Saving income data:", incomeData);
+  
+    try {
+      const token = localStorage.getItem('token'); // Get stored JWT
+      const response = await fetch('http://localhost:3000/api/income', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Include token
+        },
+        body: JSON.stringify(incomeData),
+      });
+      
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to save income');
+      }
+  
+      const savedIncome = await response.json();
+      dispatch(addIncome(savedIncome.income)); 
+      console.log('Income saved successfully:', savedIncome);
+  
+    } catch (error) {
+      console.error('Error saving income:', error);
+    }
+  
+    closeIncomeLoggingModal();
+  };
+  
+  
+  
+
+  
+  const incomes = useSelector(state => state.income.incomes);
+  console.log("Redux store incomes:", incomes);
   const periodicityOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   const savingMethods = ["Cash", "Card", "Bank Transfer", "Mobile Payment", "Cryptocurrency"];
@@ -191,7 +248,8 @@ export default function Income() {
             <ListChecks className='mr-2' />
             Incomes list
           </button>
-          <button className='uppercase p-4 flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-sm font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'>
+          <button 
+            className='uppercase p-4 flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-sm font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'>
             <Pencil className='mr-2' size={20} />
             Edit incomes
           </button>
@@ -351,7 +409,9 @@ export default function Income() {
           />
         </div>
         <div className='w-full flex justify-center mt-7'>
-          <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'>
+          <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'
+          onClick={handleSaveIncome}
+          >
             <Plus className='mr-2' />
             Create income
           </button>
@@ -405,7 +465,9 @@ export default function Income() {
           />
         </div>
         <div className='w-full flex justify-center mt-7'>
-          <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'>
+          <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'
+          onClick={handleSaveIncome}
+          >
             <Plus className='mr-2' />
             Log income
           </button>
