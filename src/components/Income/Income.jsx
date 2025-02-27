@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Income.css';
 import Burger from '../Burger/Burger';
 import { Plus, ListChecks, Pencil, Clock3, Zap, ArrowLeft } from 'lucide-react';
@@ -217,10 +217,39 @@ export default function Income() {
   
     closeIncomeLoggingModal();
   };
+
   
   const [isIncomesListModalOpen, setisIncomesListModalOpen] = useState(false);
   const openIncomesListModal = () => setisIncomesListModalOpen(true);
   const closeIncomesListModal = () => setisIncomesListModalOpen(false);
+  function getIncomes() {
+    const token = localStorage.getItem('token');
+    fetch('http://localhost:3000/api/income', { 
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Incomes:', data);  
+    })
+    .catch(error => {
+      console.error('Error fetching incomes:', error);
+    });
+  }
+
+  useEffect(() => {
+    getIncomes();
+  }, []);
+  
+  
   
   const incomes = useSelector(state => state.income.incomes);
   const periodicityOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
