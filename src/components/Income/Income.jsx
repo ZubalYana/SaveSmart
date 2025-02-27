@@ -190,7 +190,8 @@ export default function Income() {
       periodicity: isRegular ? selectedPeriodicity : null,
       dayOfMonth: isRegular && selectedPeriodicity === "Monthly" ? dayOfMonth : null,
       dayOfWeek: isRegular && selectedPeriodicity === "Weekly" ? dayOfWeek : null,
-      dateReceived: isRegular ? null : receivedIncome.toISOString(),
+      yearlyDate: isRegular && selectedPeriodicity === "Yearly" ? yearlyDate.format('YYYY-MM-DD') : null, // Ensure correct format
+      dateReceived: isRegular ? null : receivedIncome.format('YYYY-MM-DD'),
     };
   
     console.log("Saving income data:", incomeData);
@@ -205,7 +206,6 @@ export default function Income() {
         },
         body: JSON.stringify(incomeData),
       });
-      
   
       if (!response.ok) {
         const errorData = await response.json();
@@ -215,15 +215,12 @@ export default function Income() {
       const savedIncome = await response.json();
       dispatch(addIncome(savedIncome.income)); 
       console.log('Income saved successfully:', savedIncome);
-  
     } catch (error) {
       console.error('Error saving income:', error);
     }
   
     closeIncomeLoggingModal();
   };
-  
-  
   
 
   

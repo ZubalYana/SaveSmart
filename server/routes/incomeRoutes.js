@@ -16,7 +16,7 @@ router.get('/', authenticateToken, async (req, res) => {
 //create a new income
 router.post('/', async (req, res) => {
   try {
-    const { amount, currency, method, isRegular, periodicity, dayOfMonth, dayOfWeek, dateReceived } = req.body;
+    const { amount, currency, method, isRegular, periodicity, dayOfMonth, dayOfWeek, dateReceived, yearlyDate } = req.body;
 
     if (!amount || !currency || !method || (isRegular && !periodicity) || (!isRegular && !dateReceived)) {
       return res.status(400).json({ message: 'Missing required fields' });
@@ -29,6 +29,18 @@ router.post('/', async (req, res) => {
       if (periodicity === 'Weekly' && !dayOfWeek) {
         return res.status(400).json({ message: 'Weekly income requires a dayOfWeek' });
       }
+      if (periodicity === 'Yearly' && !yearlyDate) {
+        return res.status(400).json({ message: 'Yearly income requires a date' });
+      }
+    }
+
+    // Parse yearly date
+    let yearlyDay = null;
+    let yearlyMonth = null;
+    if (isRegular && periodicity === 'Yearly' && yearlyDate) {
+      const dateObj = new Date(yearlyDate);
+      yearlyDay = dateObj.getDate();
+      yearlyMonth = dateObj.getMonth() + 1; // Months are 0-indexed in JS
     }
 
     const newIncome = new Income({
@@ -40,6 +52,8 @@ router.post('/', async (req, res) => {
       periodicity: isRegular ? periodicity : null,
       dayOfMonth: isRegular && periodicity === 'Monthly' ? dayOfMonth : null,
       dayOfWeek: isRegular && periodicity === 'Weekly' ? dayOfWeek : null,
+      yearlyDay,
+      yearlyMonth,
       dateReceived: isRegular ? null : dateReceived,
     });
 
@@ -50,6 +64,7 @@ router.post('/', async (req, res) => {
     res.status(500).json({ message: 'Error adding income', error: error.message });
   }
 });
+
 
 //edit an income
 router.put('/:id', authenticateToken, async (req, res) => {

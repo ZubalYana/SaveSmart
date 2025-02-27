@@ -11,6 +11,7 @@ const IncomeSchema = new mongoose.Schema({
     dayOfWeek: { type: String, default: null },
     yearlyMonth: { type: Number, min: 1, max: 12, default: null }, 
     yearlyDay: { type: Number, min: 1, max: 31, default: null },
+    yearlyMonth: { type: Number, default: null },
     dateReceived: { type: Date, required: function () { return !this.isRegular; } }, 
     createdAt: { type: Date, default: Date.now },
   });
