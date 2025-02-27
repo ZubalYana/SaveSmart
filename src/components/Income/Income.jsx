@@ -128,6 +128,7 @@ export default function Income() {
   const [isIncomeLoggingModalOpen, setisIncomeLoggingModalOpen] = useState(false);
   const [selectedIncomeType, setSelectedIncomeType] = useState(null);
   const [modalStep, setModalStep] = useState(1);
+  const [incomeName, setIncomeName] = useState('');
   const [selectedPeriodicity, setSelectedPeriodicity] = useState('');
   const [dayOfMonth, setDayOfMonth] = useState('');
   const [yearlyDate, setYearlyDate] = useState(dayjs());
@@ -183,6 +184,7 @@ export default function Income() {
     const isRegular = selectedIncomeType === "Regular income";
   
     const incomeData = {
+      name: incomeName,
       amount: isRegular ? receivingSum : irregularReceivingSum,
       currency: isRegular ? selectedCurrency : irregularSelectedCurrency,
       method: isRegular ? savingMethod : irregularSavingMethod,
@@ -190,7 +192,7 @@ export default function Income() {
       periodicity: isRegular ? selectedPeriodicity : null,
       dayOfMonth: isRegular && selectedPeriodicity === "Monthly" ? dayOfMonth : null,
       dayOfWeek: isRegular && selectedPeriodicity === "Weekly" ? dayOfWeek : null,
-      yearlyDate: isRegular && selectedPeriodicity === "Yearly" ? yearlyDate.format('YYYY-MM-DD') : null, // Ensure correct format
+      yearlyDate: isRegular && selectedPeriodicity === "Yearly" ? yearlyDate.format('YYYY-MM-DD') : null,
       dateReceived: isRegular ? null : receivedIncome.format('YYYY-MM-DD'),
     };
   
@@ -317,7 +319,7 @@ export default function Income() {
     {selectedIncomeType === 'Regular income' && (
       <div className="regularIncomeInputs w-full mt-7">
         <div className='w-full flex'>
-          <TextField id="outlined-basic" label="Income name (e.g. salary, scholarship)" variant="outlined" className='w-[350px]' />
+          <TextField id="outlined-basic" label="Income name (e.g. salary, scholarship)" variant="outlined" className='w-[350px]' value={incomeName} onChange={(e) => setIncomeName(e.target.value)} />
 
           <FormControl sx={{ width: 210, mx: 2.5 }}>
             <InputLabel id="periodicity-label">Receiving periodicity</InputLabel>

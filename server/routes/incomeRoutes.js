@@ -16,9 +16,9 @@ router.get('/', authenticateToken, async (req, res) => {
 //create a new income
 router.post('/', async (req, res) => {
   try {
-    const { amount, currency, method, isRegular, periodicity, dayOfMonth, dayOfWeek, dateReceived, yearlyDate } = req.body;
+    const { name, amount, currency, method, isRegular, periodicity, dayOfMonth, dayOfWeek, dateReceived, yearlyDate } = req.body;
 
-    if (!amount || !currency || !method || (isRegular && !periodicity) || (!isRegular && !dateReceived)) {
+    if (!name ||!amount || !currency || !method || (isRegular && !periodicity) || (!isRegular && !dateReceived)) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
@@ -34,17 +34,17 @@ router.post('/', async (req, res) => {
       }
     }
 
-    // Parse yearly date
     let yearlyDay = null;
     let yearlyMonth = null;
     if (isRegular && periodicity === 'Yearly' && yearlyDate) {
       const dateObj = new Date(yearlyDate);
       yearlyDay = dateObj.getDate();
-      yearlyMonth = dateObj.getMonth() + 1; // Months are 0-indexed in JS
+      yearlyMonth = dateObj.getMonth() + 1;
     }
 
     const newIncome = new Income({
       userId: req.user.userId,
+      name,
       amount,
       currency,
       method,
