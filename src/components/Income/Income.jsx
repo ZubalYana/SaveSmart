@@ -188,8 +188,8 @@ export default function Income() {
       method: isRegular ? savingMethod : irregularSavingMethod,
       isRegular,
       periodicity: isRegular ? selectedPeriodicity : null,
-      dayOfMonth: isRegular && selectedPeriodicity === "Monthly" ? selectedDayOfMonth : null,
-      dayOfWeek: isRegular && selectedPeriodicity === "Weekly" ? selectedDayOfWeek : null,
+      dayOfMonth: isRegular && selectedPeriodicity === "Monthly" ? dayOfMonth : null,
+      dayOfWeek: isRegular && selectedPeriodicity === "Weekly" ? dayOfWeek : null,
       dateReceived: isRegular ? null : receivedIncome.toISOString(),
     };
   
