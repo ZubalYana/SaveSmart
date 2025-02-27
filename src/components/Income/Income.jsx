@@ -129,6 +129,7 @@ export default function Income() {
   const [selectedIncomeType, setSelectedIncomeType] = useState(null);
   const [modalStep, setModalStep] = useState(1);
   const [incomeName, setIncomeName] = useState('');
+  const [irregularIncomeName, setIrregularIncomeName] = useState('');
   const [selectedPeriodicity, setSelectedPeriodicity] = useState('');
   const [dayOfMonth, setDayOfMonth] = useState('');
   const [yearlyDate, setYearlyDate] = useState(dayjs());
@@ -184,7 +185,7 @@ export default function Income() {
     const isRegular = selectedIncomeType === "Regular income";
   
     const incomeData = {
-      name: incomeName,
+      name: isRegular ? incomeName : irregularIncomeName,
       amount: isRegular ? receivingSum : irregularReceivingSum,
       currency: isRegular ? selectedCurrency : irregularSelectedCurrency,
       method: isRegular ? savingMethod : irregularSavingMethod,
@@ -420,7 +421,7 @@ export default function Income() {
     {selectedIncomeType === 'Irregular income' && (
       <div className="irregularIncomeInputs w-full mt-7">
         <div className='w-full flex justify-between'>
-          <TextField id="outlined-basic" label="Income source ( e.g. sold a car, birthday gift )" variant="outlined" className='w-[530px]' />
+          <TextField id="outlined-basic" label="Income source ( e.g. sold a car, birthday gift )" variant="outlined" className='w-[530px]' value={irregularIncomeName} onChange={(e) => setIrregularIncomeName(e.target.value)}  />
           <DatePicker
             views={['month', 'day']}
             label="Received at:"
@@ -437,7 +438,7 @@ export default function Income() {
             type="number"
             inputProps={{ min: 1 }}
             value={irregularReceivingSum}
-            onChange={(e) => setReceivingSum(e.target.value)}
+            onChange={(e) => setirregularReceivingSum(Number(e.target.value))}
             variant="outlined"
             sx={{ width: 260 }}
           />
@@ -455,7 +456,7 @@ export default function Income() {
 
           <Autocomplete
             value={irregularSavingMethod}
-            onChange={(event, newValue) => setSavingMethod(newValue)}
+            onChange={(event, newValue) => setIrregularSavingMethod(newValue)}
             options={savingMethods}
             renderInput={(params) => (
               <TextField {...params} label="Saving Method" variant="outlined" />
