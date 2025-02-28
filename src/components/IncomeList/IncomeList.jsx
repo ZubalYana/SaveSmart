@@ -80,6 +80,14 @@ const IncomeList = () => {
 
   return (
     <div className='w-full'>
+      <div className='w-full flex items-center px-6 mb-2'>
+        <p className='w-[23%] uppercase text-sm font-medium text-defaultText'>Source</p>
+        <p className='w-[18%] uppercase text-sm font-medium text-defaultText'>Income</p>
+        <p className='w-[27%] uppercase text-sm font-medium text-defaultText'>Receiving every</p>
+        <p className='w-[27%] uppercase text-sm font-medium text-defaultText'>Saving way</p>
+        <p className='uppercase text-sm font-medium text-defaultText'>Actions</p>
+      </div>
+      <div className='w-full'>
       {regularIncomes.map((income, index) => (
         <div 
           key={index} 
@@ -90,7 +98,7 @@ const IncomeList = () => {
           <p className="w-[140px] text-base font-normal text-[#1E8A35]">
             {income.amount}{currencySymbols[income.currency] || income.currency}
           </p>
-          <p className="w-[200px] text-base font-normal text-defaultText">
+          <p className="w-[220px] text-base font-normal text-defaultText">
             {formatIncomePeriodicity(income.periodicity, income.dayOfMonth, income.dayOfWeek, income.yearlyDay, income.yearlyMonth)}
           </p>
           <p className="w-[200px] text-base font-normal text-defaultText">{income.method}</p>
@@ -106,7 +114,7 @@ const IncomeList = () => {
           </div>
         </div>
       ))}
-
+      </div>
     </div>
   );
 };

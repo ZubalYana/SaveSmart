@@ -503,13 +503,14 @@ export default function Income() {
             borderRadius: '8px',
             outline: 'none',
             padding: '35px',
+            paddingTop: '25px',
             backgroundColor: '#fff',
           },
         }}
         >
           <div className='w-full h-full flex flex-col items-center'>
-            <h3 className='mb-1 text-3xl text-mainBlue font-semibold' style={{ fontFamily: 'Balsamiq Sans' }}>Incomes list</h3>
-            <p className='mb-1 text-lg text-mainBlue font-light'>Regular incomes:</p>
+            <h3 className='mb-3 text-3xl text-mainBlue font-semibold' style={{ fontFamily: 'Balsamiq Sans' }}>Incomes list</h3>
+            <p className='mb-3 text-lg text-mainBlue font-light'>Regular incomes:</p>
             <IncomeList />
           </div>
         </Modal>
