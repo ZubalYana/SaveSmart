@@ -79,6 +79,9 @@ const IncomeList = () => {
 
 
   return (
+    <div className='w-full h-full flex flex-col items-center'>
+                <h3 className='mb-3 text-3xl text-mainBlue font-semibold' style={{ fontFamily: 'Balsamiq Sans' }}>Incomes list</h3>
+                <p className='mb-3 text-lg text-mainBlue font-light'>Regular incomes:</p>
     <div className='w-full'>
       <div className='w-full flex items-center px-6 mb-2'>
         <p className='w-[23%] uppercase text-sm font-medium text-defaultText'>Source</p>
@@ -115,6 +118,7 @@ const IncomeList = () => {
         </div>
       ))}
       </div>
+    </div>
     </div>
   );
 };
