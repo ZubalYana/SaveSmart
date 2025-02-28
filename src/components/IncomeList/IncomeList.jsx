@@ -81,25 +81,32 @@ const IncomeList = () => {
   return (
     <div className='w-full'>
       {regularIncomes.map((income, index) => (
-        <div key={index} className='w-full h-[45px] flex items-center mb-2 bg-accentLightBlue bg-opacity-10 rounded-xl px-3'>
-          <p className='w-[200px] text-base font-medium text-defaultText'>{income.name}</p>
-          <p className='w-[140px] text-base font-normal text-[#1E8A35]'>
+        <div 
+          key={index} 
+          className="w-full h-[45px] flex items-center px-3 rounded-xl bg-accentLightBlue bg-opacity-10 
+                     transition duration-200 hover:bg-accentLightBlue hover:bg-opacity-20 cursor-pointer mb-2"
+        >
+          <p className="w-[200px] text-base font-medium text-defaultText">{income.name}</p>
+          <p className="w-[140px] text-base font-normal text-[#1E8A35]">
             {income.amount}{currencySymbols[income.currency] || income.currency}
           </p>
-          <p className='w-[200px] text-base font-normal text-defaultText'>{formatIncomePeriodicity(income.periodicity, income.dayOfMonth, income.dayOfWeek, income.yearlyDay, income.yearlyMonth)}</p>
-          <p className='w-[200px] text-base font-normal text-defaultText'>{income.method}</p>
-          <div className='w-[60px] flex justify-between'>
-          <PencilIcon 
-            className="cursor-pointer text-defaultText transition-transform duration-200 hover:scale-125 hover:text-blue-500" 
-            size={20} 
-          />
-          <TrashIcon 
-            className="cursor-pointer text-defaultText transition-transform duration-200 hover:scale-125 hover:text-red-500" 
-            size={20} 
-          />
+          <p className="w-[200px] text-base font-normal text-defaultText">
+            {formatIncomePeriodicity(income.periodicity, income.dayOfMonth, income.dayOfWeek, income.yearlyDay, income.yearlyMonth)}
+          </p>
+          <p className="w-[200px] text-base font-normal text-defaultText">{income.method}</p>
+          <div className="w-[60px] flex justify-between">
+            <PencilIcon 
+              className="cursor-pointer text-defaultText transition-transform duration-200 hover:scale-125 hover:text-blue-500" 
+              size={20} 
+            />
+            <TrashIcon 
+              className="cursor-pointer text-defaultText transition-transform duration-200 hover:scale-125 hover:text-red-500" 
+              size={20} 
+            />
           </div>
         </div>
       ))}
+
     </div>
   );
 };
