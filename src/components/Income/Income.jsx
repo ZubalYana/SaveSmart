@@ -253,7 +253,9 @@ export default function Income() {
   
   // const regularIncomes = IncomeList();
   
-  
+  const periodicityOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const savingMethods = ["Cash", "Card", "Bank Transfer", "Mobile Payment", "Cryptocurrency"];
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
