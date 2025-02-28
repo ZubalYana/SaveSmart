@@ -222,6 +222,7 @@ export default function Income() {
   const [isIncomesListModalOpen, setisIncomesListModalOpen] = useState(false);
   const openIncomesListModal = () => setisIncomesListModalOpen(true);
   const closeIncomesListModal = () => setisIncomesListModalOpen(false);
+  const [regularIncomes, setRegularIncomes] = useState([]);
   function getIncomes() {
     const token = localStorage.getItem('token');
     fetch('http://localhost:3000/api/income', { 
@@ -239,16 +240,19 @@ export default function Income() {
     })
     .then(data => {
       console.log('Incomes:', data);  
+  
+      const regular = data.filter(income => income.isRegular);
+      setRegularIncomes(regular);  
     })
     .catch(error => {
       console.error('Error fetching incomes:', error);
     });
   }
+  
 
   useEffect(() => {
     getIncomes();
   }, []);
-  
   
   
   const incomes = useSelector(state => state.income.incomes);
@@ -534,7 +538,17 @@ export default function Income() {
           },
         }}
         >
-
+          <div className='w-full h-full flex flex-col items-center'>
+            <h3 className='mb-1 text-3xl text-mainBlue font-semibold' style={{ fontFamily: 'Balsamiq Sans' }}>Incomes list</h3>
+            <p className='mb-1 text-lg text-mainBlue font-light'>Regular incomes:</p>
+            <div className='w-full'>
+              {regularIncomes.map((income, index) => (
+                <div key={index} className='w-full flex justify-between items-center mb-2'>
+                  <p>{income.name} - {income.amount} {CURRENCY_NAMES[income.currency]}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </Modal>
       </div>
     </LocalizationProvider>
