@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Income.css';
 import Burger from '../Burger/Burger';
+import IncomeList from '../IncomeList/IncomeList';
 import { Plus, ListChecks, Pencil, Clock3, Zap, ArrowLeft } from 'lucide-react';
 import Modal from 'react-modal';
 Modal.setAppElement('#root');
@@ -222,43 +223,38 @@ export default function Income() {
   const [isIncomesListModalOpen, setisIncomesListModalOpen] = useState(false);
   const openIncomesListModal = () => setisIncomesListModalOpen(true);
   const closeIncomesListModal = () => setisIncomesListModalOpen(false);
-  const [regularIncomes, setRegularIncomes] = useState([]);
-  function getIncomes() {
-    const token = localStorage.getItem('token');
-    fetch('http://localhost:3000/api/income', { 
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Incomes:', data);  
+  // const incomes = useSelector(state => state.income.incomes);
+
+  // function IncomeList() {
+  //   const token = localStorage.getItem('token');
+  //   const { data: incomes = [], isLoading, isError } = useQuery({
+  //     queryKey: ['incomes'],
+  //     queryFn: async () => {
+  //       const response = await fetch('http://localhost:3000/api/income', {
+  //         method: 'GET',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': `Bearer ${token}`,
+  //         },
+  //       });
+  //       if (!response.ok) {
+  //         throw new Error('Failed to fetch incomes');
+  //       }
+  //       return response.json();
+  //     },
+  //   });
   
-      const regular = data.filter(income => income.isRegular);
-      setRegularIncomes(regular);  
-    })
-    .catch(error => {
-      console.error('Error fetching incomes:', error);
-    });
-  }
+  //   if (isLoading) return <p>Loading...</p>;
+  //   if (isError) return <p>Error loading incomes</p>;
+  
+  //   const regularIncomes = incomes.filter(income => income.isRegular);
+  //   return regularIncomes;
+  // }
+  
+  // const regularIncomes = IncomeList();
+  
   
 
-  useEffect(() => {
-    getIncomes();
-  }, []);
-  
-  
-  const incomes = useSelector(state => state.income.incomes);
-  const periodicityOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
-  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  const savingMethods = ["Cash", "Card", "Bank Transfer", "Mobile Payment", "Cryptocurrency"];
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className='Income screen xs:p-4 md:p-6 lg:p-7'>
@@ -541,16 +537,10 @@ export default function Income() {
           <div className='w-full h-full flex flex-col items-center'>
             <h3 className='mb-1 text-3xl text-mainBlue font-semibold' style={{ fontFamily: 'Balsamiq Sans' }}>Incomes list</h3>
             <p className='mb-1 text-lg text-mainBlue font-light'>Regular incomes:</p>
-            <div className='w-full'>
-              {regularIncomes.map((income, index) => (
-                <div key={index} className='w-full flex justify-between items-center mb-2'>
-                  <p>{income.name} - {income.amount} {CURRENCY_NAMES[income.currency]}</p>
-                </div>
-              ))}
-            </div>
+            <IncomeList />
           </div>
         </Modal>
       </div>
     </LocalizationProvider>
   );
-}
+};
