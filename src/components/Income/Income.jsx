@@ -120,6 +120,7 @@ const CURRENCY_NAMES = {
   "985": "Polish Złoty (PLN)",
   "986": "Brazilian Real (BRL)"
 }
+import { Snackbar, Alert } from "@mui/material";
 
 //redux imports
 import { useDispatch, useSelector } from "react-redux";
@@ -142,6 +143,7 @@ export default function Income() {
   const [irregularSelectedCurrency, setIrregularSelectedCurrency] = useState("840");
   const [irregularSavingMethod, setIrregularSavingMethod] = useState("");
   const [irregularReceivingSum, setirregularReceivingSum] = useState('');
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const dispatch = useDispatch();
   const openIncomeLoggingModal = () => {
@@ -212,13 +214,14 @@ export default function Income() {
       const savedIncome = await response.json();
       dispatch(addIncome(savedIncome.income)); 
       console.log('Income saved successfully:', savedIncome);
+  
+      setOpenSnackbar(true);
     } catch (error) {
       console.error('Error saving income:', error);
     }
   
     closeIncomeLoggingModal();
   };
-
   
   const [isIncomesListModalOpen, setisIncomesListModalOpen] = useState(false);
   const openIncomesListModal = () => setisIncomesListModalOpen(true);
@@ -329,7 +332,6 @@ export default function Income() {
               ))}
             </Select>
           </FormControl>
-
           {selectedPeriodicity === 'Weekly' && (
             <FormControl sx={{ width: 250 }}>
               <InputLabel id="day-of-week-label">Day of the week</InputLabel>
@@ -345,7 +347,6 @@ export default function Income() {
               </Select>
             </FormControl>
           )}
-
           {selectedPeriodicity === 'Monthly' && (
             <TextField
               id="day-of-month"
@@ -358,7 +359,6 @@ export default function Income() {
               sx={{ width: 250 }}
             />
           )}
-
           {selectedPeriodicity === 'Yearly' && (
             <DatePicker
               views={['month', 'day']}
@@ -380,7 +380,6 @@ export default function Income() {
             variant="outlined"
             sx={{ width: 260 }}
           />
-
           <Autocomplete
             value={selectedCurrency}
             onChange={(event, newValue) => setSelectedCurrency(newValue)}
@@ -391,7 +390,6 @@ export default function Income() {
             )}
             className="w-[300px]"
           />
-
           <Autocomplete
             value={savingMethod}
             onChange={(event, newValue) => setSavingMethod(newValue)}
@@ -510,7 +508,20 @@ export default function Income() {
         >
           <IncomeList />
         </Modal>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={3000}
+          onClose={() => setOpenSnackbar(false)}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+            Income saved successfully!
+           </Alert>
+        </Snackbar>
+
       </div>
     </LocalizationProvider>
+
+    
   );
 };
