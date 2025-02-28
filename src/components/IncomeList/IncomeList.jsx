@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-
+import { PencilIcon, TrashIcon } from 'lucide-react';
 const IncomeList = () => {
   const token = localStorage.getItem('token');
   
@@ -59,7 +59,23 @@ const IncomeList = () => {
       }
       return `${formattedYearlyDay} of ${months[yearlyMonth - 1]}`;
     }
-    }
+  }
+
+  const currencySymbols = {
+    "840": "$",   // US Dollar (USD)
+    "978": "€",   // Euro (EUR)
+    "980": "₴",   // Ukrainian Hryvnia (UAH)
+    "826": "£",   // British Pound (GBP)
+    "392": "¥",   // Japanese Yen (JPY)
+    "756": "CHF", // Swiss Franc (CHF)
+    "124": "C$",  // Canadian Dollar (CAD)
+    "36": "A$",   // Australian Dollar (AUD)
+    "208": "kr",  // Danish Krone (DKK)
+    "752": "kr",  // Swedish Krona (SEK)
+    "203": "Kč",  // Czech Koruna (CZK)
+    "156": "¥",   // Chinese Yuan (CNY)
+   };
+
 
 
   return (
@@ -67,8 +83,21 @@ const IncomeList = () => {
       {regularIncomes.map((income, index) => (
         <div key={index} className='w-full h-[45px] flex items-center mb-2 bg-accentLightBlue bg-opacity-10 rounded-xl px-3'>
           <p className='w-[200px] text-base font-medium text-defaultText'>{income.name}</p>
-          <p className='w-[100px] text-base font-normal text-[#1E8A35]'>{income.amount}</p>
+          <p className='w-[140px] text-base font-normal text-[#1E8A35]'>
+            {income.amount}{currencySymbols[income.currency] || income.currency}
+          </p>
           <p className='w-[200px] text-base font-normal text-defaultText'>{formatIncomePeriodicity(income.periodicity, income.dayOfMonth, income.dayOfWeek, income.yearlyDay, income.yearlyMonth)}</p>
+          <p className='w-[200px] text-base font-normal text-defaultText'>{income.method}</p>
+          <div className='w-[60px] flex justify-between'>
+          <PencilIcon 
+            className="cursor-pointer text-defaultText transition-transform duration-200 hover:scale-125 hover:text-blue-500" 
+            size={20} 
+          />
+          <TrashIcon 
+            className="cursor-pointer text-defaultText transition-transform duration-200 hover:scale-125 hover:text-red-500" 
+            size={20} 
+          />
+          </div>
         </div>
       ))}
     </div>

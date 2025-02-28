@@ -223,35 +223,6 @@ export default function Income() {
   const [isIncomesListModalOpen, setisIncomesListModalOpen] = useState(false);
   const openIncomesListModal = () => setisIncomesListModalOpen(true);
   const closeIncomesListModal = () => setisIncomesListModalOpen(false);
-  // const incomes = useSelector(state => state.income.incomes);
-
-  // function IncomeList() {
-  //   const token = localStorage.getItem('token');
-  //   const { data: incomes = [], isLoading, isError } = useQuery({
-  //     queryKey: ['incomes'],
-  //     queryFn: async () => {
-  //       const response = await fetch('http://localhost:3000/api/income', {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Authorization': `Bearer ${token}`,
-  //         },
-  //       });
-  //       if (!response.ok) {
-  //         throw new Error('Failed to fetch incomes');
-  //       }
-  //       return response.json();
-  //     },
-  //   });
-  
-  //   if (isLoading) return <p>Loading...</p>;
-  //   if (isError) return <p>Error loading incomes</p>;
-  
-  //   const regularIncomes = incomes.filter(income => income.isRegular);
-  //   return regularIncomes;
-  // }
-  
-  // const regularIncomes = IncomeList();
   
   const periodicityOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
