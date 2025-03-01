@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { PencilIcon, TrashIcon } from 'lucide-react';
+import './IncomeList.css';
 const IncomeList = () => {
   const token = localStorage.getItem('token');
   
@@ -79,7 +80,7 @@ const IncomeList = () => {
 
 
   return (
-    <div className='w-full h-full flex flex-col items-center'>
+    <div className='w-full h-full flex flex-col items-center overflow-hidden'>
                 <h3 className='mb-3 text-3xl text-mainBlue font-semibold' style={{ fontFamily: 'Balsamiq Sans' }}>Incomes list</h3>
                 <p className='mb-3 text-lg text-mainBlue font-light'>Regular incomes:</p>
     <div className='w-full'>
@@ -90,7 +91,7 @@ const IncomeList = () => {
         <p className='w-[27%] uppercase text-sm font-medium text-defaultText'>Saving way</p>
         <p className='uppercase text-sm font-medium text-defaultText'>Actions</p>
       </div>
-      <div className='w-full'>
+      <div className='regularIncomesContainer w-full h-[70%] overflow-y-scroll'>
       {regularIncomes.map((income, index) => (
         <div 
           key={index} 

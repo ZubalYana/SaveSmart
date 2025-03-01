@@ -1,0 +1,11 @@
+.regularIncomesContainer::-webkit-scrollbar {
+    width: 6px; 
+}
+.regularIncomesContainer::-webkit-scrollbar-thumb {
+    background-color: #4671f196; 
+    border-radius: 10px;
+}
+.regularIncomesContainer::-webkit-scrollbar-track {
+    background: transparent; 
+}
+  
