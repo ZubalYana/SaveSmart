@@ -161,6 +161,8 @@ export default function Income() {
     setIrregularSelectedCurrency("840");
     setIrregularSavingMethod("");
     setirregularReceivingSum('');
+    setIncomeName('');
+    setIrregularIncomeName('');
   };
   const closeIncomeLoggingModal = () => setisIncomeLoggingModalOpen(false);
   const handleCardSelect = (type) => {
