@@ -91,7 +91,7 @@ const IncomeList = () => {
         <p className='w-[27%] uppercase text-sm font-medium text-defaultText'>Saving way</p>
         <p className='uppercase text-sm font-medium text-defaultText'>Actions</p>
       </div>
-      <div className='regularIncomesContainer w-full h-[70%] overflow-y-scroll'>
+      <div className='regularIncomesContainer w-full h-[60%] overflow-y-scroll'>
       {regularIncomes.map((income, index) => (
         <div 
           key={index} 
