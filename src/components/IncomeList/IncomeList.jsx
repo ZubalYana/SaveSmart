@@ -48,10 +48,8 @@ const IncomeList = () => {
         },
       });
 
-      // Remove deleted income from UI
       queryClient.setQueryData(["incomes"], (old) => old.filter((i) => i._id !== deletedIncome._id));
 
-      // Show Snackbar
       setSnackbarOpen(true);
     } catch (error) {
       console.error("Error deleting income:", error);
@@ -71,7 +69,6 @@ const IncomeList = () => {
         body: JSON.stringify(deletedIncome),
       });
 
-      // Restore income to UI
       queryClient.invalidateQueries(["incomes"]);
     } catch (error) {
       console.error("Error restoring income:", error);
@@ -130,7 +127,6 @@ const IncomeList = () => {
         </div>
       </div>
 
-      {/* Confirmation Dialog */}
       <Dialog open={openConfirm} onClose={handleCloseConfirm}>
         <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent>Are you sure you want to delete this income?</DialogContent>
