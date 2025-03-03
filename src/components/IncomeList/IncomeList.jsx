@@ -81,6 +81,48 @@ const IncomeList = () => {
   if (isError) return <p>Error loading incomes</p>;
 
   const regularIncomes = incomes.filter((income) => income.isRegular);
+  console.log(regularIncomes)
+  
+  const formatIncomePeriodicity = (periodicity, dayOfMonth, dayOfWeek, yearlyDay, yearlyMonth) => {
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    
+    if (periodicity === 'Monthly') {
+      if (dayOfMonth == 1) return `1st of month`;
+      if (dayOfMonth == 2) return `2nd of month`;
+      if (dayOfMonth == 3) return `3rd of month`;
+      return `${dayOfMonth}th of month`;
+    }
+    
+    if (periodicity === 'Daily') return 'Daily';
+    if (periodicity === 'Weekly') return `Every ${dayOfWeek}`;
+    
+    if (periodicity === 'Yearly') {
+      let formattedYearlyDay = `${yearlyDay}th`;
+      if (yearlyDay == 1) formattedYearlyDay = '1st';
+      if (yearlyDay == 2) formattedYearlyDay = '2nd';
+      if (yearlyDay == 3) formattedYearlyDay = '3rd';
+      
+      return `${formattedYearlyDay} of ${months[yearlyMonth - 1]}`;
+    }
+  };
+
+  const currencySymbols = {
+    "840": "$",   // US Dollar (USD)
+    "978": "€",   // Euro (EUR)
+    "980": "₴",   // Ukrainian Hryvnia (UAH)
+    "826": "£",   // British Pound (GBP)
+    "392": "¥",   // Japanese Yen (JPY)
+    "756": "CHF", // Swiss Franc (CHF)
+    "124": "C$",  // Canadian Dollar (CAD)
+    "36": "A$",   // Australian Dollar (AUD)
+    "208": "kr",  // Danish Krone (DKK)
+    "752": "kr",  // Swedish Krona (SEK)
+    "203": "Kč",  // Czech Koruna (CZK)
+    "156": "¥",   // Chinese Yuan (CNY)
+   };
 
   return (
     <div className="w-full h-full flex flex-col items-center overflow-hidden">
@@ -96,7 +138,7 @@ const IncomeList = () => {
           <p className="w-[27%] uppercase text-sm font-medium text-defaultText">Saving way</p>
           <p className="uppercase text-sm font-medium text-defaultText">Actions</p>
         </div>
-        <div className="regularIncomesContainer w-full h-[60%] overflow-y-scroll">
+        <div className="regularIncomesContainer w-full h-[70%] overflow-y-scroll">
           {regularIncomes.map((income) => (
             <div
               key={income._id}
@@ -105,10 +147,10 @@ const IncomeList = () => {
             >
               <p className="w-[200px] text-base font-medium text-defaultText">{income.name}</p>
               <p className="w-[140px] text-base font-normal text-[#1E8A35]">
-                {income.amount}
+                {income.amount}{currencySymbols[income.currency] || ''}
               </p>
               <p className="w-[220px] text-base font-normal text-defaultText">
-                {income.periodicity}
+                {formatIncomePeriodicity(income.periodicity, income.dayOfMonth, income.dayOfWeek, income.yearDay, income.yearMonth)}
               </p>
               <p className="w-[200px] text-base font-normal text-defaultText">{income.method}</p>
               <div className="w-[60px] flex justify-between">
