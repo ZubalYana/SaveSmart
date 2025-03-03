@@ -150,7 +150,7 @@ const IncomeList = () => {
                 {income.amount}{currencySymbols[income.currency] || ''}
               </p>
               <p className="w-[220px] text-base font-normal text-defaultText">
-                {formatIncomePeriodicity(income.periodicity, income.dayOfMonth, income.dayOfWeek, income.yearDay, income.yearMonth)}
+                {formatIncomePeriodicity(income.periodicity, income.dayOfMonth, income.dayOfWeek, income.yearlyDay, income.yearlyMonth)}
               </p>
               <p className="w-[200px] text-base font-normal text-defaultText">{income.method}</p>
               <div className="w-[60px] flex justify-between">
