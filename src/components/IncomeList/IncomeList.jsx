@@ -4,7 +4,7 @@ import { PencilIcon, TrashIcon } from "lucide-react";
 import { Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogTitle, Button } from "@mui/material";
 import "./IncomeList.css";
 
-const IncomeList = () => {
+const IncomeList = ({ setSnackbarOpen, handleUndo }) => {
   const token = localStorage.getItem("token");
   const queryClient = useQueryClient();
   
@@ -24,7 +24,6 @@ const IncomeList = () => {
   });
 
   const [openConfirm, setOpenConfirm] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [deletedIncome, setDeletedIncome] = useState(null);
 
   const handleOpenConfirm = (income) => {
@@ -56,26 +55,7 @@ const IncomeList = () => {
     }
   };
 
-  const handleUndo = async () => {
-    if (!deletedIncome) return;
 
-    try {
-      await fetch("http://localhost:3000/api/income", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(deletedIncome),
-      });
-
-      queryClient.invalidateQueries(["incomes"]);
-    } catch (error) {
-      console.error("Error restoring income:", error);
-    }
-
-    setSnackbarOpen(false);
-  };
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading incomes</p>;
@@ -182,25 +162,7 @@ const IncomeList = () => {
         </DialogActions>
       </Dialog>
 
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={4000}
-        onClose={() => setSnackbarOpen(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }} 
-      >
-        <Alert
-          onClose={() => setSnackbarOpen(false)}
-          severity="success"
-          sx={{ width: "100%" }}
-          action={
-            <Button color="inherit" size="small" onClick={handleUndo}>
-              UNDO
-            </Button>
-          }
-        >
-          Income deleted!
-        </Alert>
-      </Snackbar>
+
 
     </div>
   );

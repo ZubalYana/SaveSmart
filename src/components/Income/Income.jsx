@@ -8,7 +8,7 @@ Modal.setAppElement('#root');
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { Snackbar, Alert } from "@mui/material";
+import { Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogTitle, Button } from "@mui/material";
 import IncomeCreationModal from '../IncomeCreationModal/IncomeCreationModal';
 import { useDispatch } from "react-redux";
 
@@ -30,6 +30,8 @@ export default function Income() {
   const [irregularSavingMethod, setIrregularSavingMethod] = useState("");
   const [irregularReceivingSum, setirregularReceivingSum] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [deletedIncome, setDeletedIncome] = useState(null);
 
   const dispatch = useDispatch();
   const openIncomeLoggingModal = () => {
@@ -51,7 +53,24 @@ export default function Income() {
     setIrregularIncomeName('');
   };
   const closeIncomeLoggingModal = () => setisIncomeLoggingModalOpen(false);
-  
+  const handleUndo = async () => {
+  if (!deletedIncome) return;
+
+  try {
+    await fetch("http://localhost:3000/api/income", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(deletedIncome),
+    });
+
+    setSnackbarOpen(false);
+  } catch (error) {
+    console.error("Error restoring income:", error);
+  }
+};
   const [isIncomesListModalOpen, setisIncomesListModalOpen] = useState(false);
   const openIncomesListModal = () => setisIncomesListModalOpen(true);
   const closeIncomesListModal = () => setisIncomesListModalOpen(false);
@@ -145,7 +164,7 @@ export default function Income() {
           },
         }}
         >
-          <IncomeList />
+          <IncomeList setSnackbarOpen={setSnackbarOpen} handleUndo={handleUndo} />
         </Modal>
 
         <Snackbar
@@ -158,6 +177,26 @@ export default function Income() {
             Income saved successfully!
            </Alert>
         </Snackbar>
+
+        <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }} 
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+          action={
+            <Button color="inherit" size="small" onClick={handleUndo}>
+              UNDO
+            </Button>
+          }
+        >
+          Income deleted!
+        </Alert>
+      </Snackbar>
 
       </div>
     </LocalizationProvider>
