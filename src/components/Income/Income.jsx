@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import { Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogTitle, Button } from "@mui/material";
 import IncomeCreationModal from '../IncomeCreationModal/IncomeCreationModal';
 import { useDispatch } from "react-redux";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Income() {
   const [isIncomeLoggingModalOpen, setisIncomeLoggingModalOpen] = useState(false);
@@ -32,6 +33,7 @@ export default function Income() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [deletedIncome, setDeletedIncome] = useState(null);
+  const queryClient = useQueryClient();
 
   const dispatch = useDispatch();
   const openIncomeLoggingModal = () => {
@@ -54,23 +56,36 @@ export default function Income() {
   };
   const closeIncomeLoggingModal = () => setisIncomeLoggingModalOpen(false);
   const handleUndo = async () => {
-  if (!deletedIncome) return;
-
-  try {
-    await fetch("http://localhost:3000/api/income", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(deletedIncome),
-    });
-
-    setSnackbarOpen(false);
-  } catch (error) {
-    console.error("Error restoring income:", error);
-  }
-};
+    console.log("Deleted income:", deletedIncome);
+    if (!deletedIncome) return;
+  
+    try {
+      const response = await fetch("http://localhost:3000/api/income", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(deletedIncome),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to restore income");
+      }
+  
+      const restoredIncome = await response.json();
+  
+      queryClient.invalidateQueries(["incomes"]);
+  
+      setSnackbarOpen(false);
+      setDeletedIncome(null);
+    } catch (error) {
+      console.error("Error restoring income:", error);
+    }
+  };
+  
+  
+  
   const [isIncomesListModalOpen, setisIncomesListModalOpen] = useState(false);
   const openIncomesListModal = () => setisIncomesListModalOpen(true);
   const closeIncomesListModal = () => setisIncomesListModalOpen(false);
@@ -164,7 +179,8 @@ export default function Income() {
           },
         }}
         >
-          <IncomeList setSnackbarOpen={setSnackbarOpen} handleUndo={handleUndo} />
+          <IncomeList setDeletedIncome={setDeletedIncome} setSnackbarOpen={setSnackbarOpen} />
+
         </Modal>
 
         <Snackbar

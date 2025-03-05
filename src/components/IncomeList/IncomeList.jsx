@@ -4,7 +4,7 @@ import { PencilIcon, TrashIcon } from "lucide-react";
 import { Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogTitle, Button } from "@mui/material";
 import "./IncomeList.css";
 
-const IncomeList = ({ setSnackbarOpen, handleUndo }) => {
+const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
   const token = localStorage.getItem("token");
   const queryClient = useQueryClient();
   
@@ -24,10 +24,10 @@ const IncomeList = ({ setSnackbarOpen, handleUndo }) => {
   });
 
   const [openConfirm, setOpenConfirm] = useState(false);
-  const [deletedIncome, setDeletedIncome] = useState(null);
+  const [localDeletedIncome, setLocalDeletedIncome] = useState(null);
 
   const handleOpenConfirm = (income) => {
-    setDeletedIncome(income);
+    setLocalDeletedIncome(income);
     setOpenConfirm(true);
   };
 
@@ -37,23 +37,25 @@ const IncomeList = ({ setSnackbarOpen, handleUndo }) => {
 
   const handleDeleteIncome = async () => {
     setOpenConfirm(false);
-
+  
     try {
-      await fetch(`http://localhost:3000/api/income/${deletedIncome._id}`, {
+      await fetch(`http://localhost:3000/api/income/${localDeletedIncome._id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
+  
+      queryClient.setQueryData(["incomes"], (old) => old.filter((i) => i._id !== localDeletedIncome._id));
 
-      queryClient.setQueryData(["incomes"], (old) => old.filter((i) => i._id !== deletedIncome._id));
-
+      setDeletedIncome(localDeletedIncome);
       setSnackbarOpen(true);
     } catch (error) {
       console.error("Error deleting income:", error);
     }
   };
+  
 
 
 
@@ -118,7 +120,7 @@ const IncomeList = ({ setSnackbarOpen, handleUndo }) => {
           <p className="w-[27%] uppercase text-sm font-medium text-defaultText">Saving way</p>
           <p className="uppercase text-sm font-medium text-defaultText">Actions</p>
         </div>
-        <div className="regularIncomesContainer w-full h-[70%] overflow-y-scroll">
+        <div className="regularIncomesContainer w-full h-[510px] overflow-y-scroll">
           {regularIncomes.map((income) => (
             <div
               key={income._id}
