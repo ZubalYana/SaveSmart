@@ -370,6 +370,7 @@ const CURRENCY_NAMES = {
       className="w-[250px]"
     />
   </div>
+  
   <div className='w-full flex justify-center mt-7'>
     <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'
     onClick={handleSaveIncome}

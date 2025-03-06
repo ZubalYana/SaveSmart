@@ -65,10 +65,36 @@ router.post('/', async (req, res) => {
   }
 });
 
-
 //edit an income
 router.put('/:id', authenticateToken, async (req, res) => {
   try {
+    const { name, periodicity, dayOfWeek, dayOfMonth, yearlyDate, amount, currency, method } = req.body;
+
+    if (!name || !periodicity || !amount || !currency || !method) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    if (amount <= 0) {
+      return res.status(400).json({ message: 'Income amount must be greater than 0' });
+    }
+
+    const validPeriodicities = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
+    if (!validPeriodicities.includes(periodicity)) {
+      return res.status(400).json({ message: 'Invalid periodicity' });
+    }
+
+    if (periodicity === 'Weekly' && !dayOfWeek) {
+      return res.status(400).json({ message: 'Day of the week is required for weekly income' });
+    }
+
+    if (periodicity === 'Monthly' && (!dayOfMonth || dayOfMonth < 1 || dayOfMonth > 31)) {
+      return res.status(400).json({ message: 'Invalid day of the month for monthly income' });
+    }
+
+    if (periodicity === 'Yearly' && !yearlyDate) {
+      return res.status(400).json({ message: 'Yearly date is required for yearly income' });
+    }
+
     const updatedIncome = await Income.findOneAndUpdate(
       { _id: req.params.id, userId: req.user.userId },
       req.body,
