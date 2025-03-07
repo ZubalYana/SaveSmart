@@ -67,10 +67,14 @@ router.post('/', async (req, res) => {
 
 //edit an income
 router.put('/:id', authenticateToken, async (req, res) => {
-  try {
-    const { name, periodicity, dayOfWeek, dayOfMonth, yearlyDate, amount, currency, method } = req.body;
+  console.log('Request ID:', req.params.id);
+  console.log('User ID:', req.user.userId);
+  console.log('Request Body:', req.body);
 
-    if (!name || !periodicity || !amount || !currency || !method) {
+  try {
+    const { name, isRegular, periodicity, dayOfWeek, dayOfMonth, yearlyDate, amount, currency, method, dateReceived } = req.body;
+
+    if (!name || !amount || !currency || !method) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
@@ -78,26 +82,27 @@ router.put('/:id', authenticateToken, async (req, res) => {
       return res.status(400).json({ message: 'Income amount must be greater than 0' });
     }
 
-    const validPeriodicities = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
-    if (!validPeriodicities.includes(periodicity)) {
-      return res.status(400).json({ message: 'Invalid periodicity' });
-    }
+    const updateData = {
+      name,
+      amount,
+      currency,
+      method,
+      isRegular,
+      periodicity: isRegular ? periodicity : null,
+      dayOfMonth: isRegular && periodicity === 'Monthly' ? dayOfMonth : null,
+      dayOfWeek: isRegular && periodicity === 'Weekly' ? dayOfWeek : null,
+      yearlyDay: isRegular && periodicity === 'Yearly' && yearlyDate ? new Date(yearlyDate).getDate() : null,
+      yearlyMonth: isRegular && periodicity === 'Yearly' && yearlyDate ? new Date(yearlyDate).getMonth() + 1 : null,
+    };
 
-    if (periodicity === 'Weekly' && !dayOfWeek) {
-      return res.status(400).json({ message: 'Day of the week is required for weekly income' });
-    }
-
-    if (periodicity === 'Monthly' && (!dayOfMonth || dayOfMonth < 1 || dayOfMonth > 31)) {
-      return res.status(400).json({ message: 'Invalid day of the month for monthly income' });
-    }
-
-    if (periodicity === 'Yearly' && !yearlyDate) {
-      return res.status(400).json({ message: 'Yearly date is required for yearly income' });
+    // Only set `dateReceived` if it's a one-time income (not regular)
+    if (!isRegular) {
+      updateData.dateReceived = dateReceived;
     }
 
     const updatedIncome = await Income.findOneAndUpdate(
       { _id: req.params.id, userId: req.user.userId },
-      req.body,
+      { $set: updateData },
       { new: true, runValidators: true }
     );
 
@@ -107,9 +112,12 @@ router.put('/:id', authenticateToken, async (req, res) => {
 
     res.json({ message: 'Income updated successfully', income: updatedIncome });
   } catch (error) {
+    console.error('Error updating income:', error);
     res.status(500).json({ message: 'Error updating income', error: error.message });
   }
 });
+
+
 
 //delete an income
 router.delete('/:id', authenticateToken, async (req, res) => {
