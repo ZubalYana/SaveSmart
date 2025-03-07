@@ -67,10 +67,6 @@ router.post('/', async (req, res) => {
 
 //edit an income
 router.put('/:id', authenticateToken, async (req, res) => {
-  console.log('Request ID:', req.params.id);
-  console.log('User ID:', req.user.userId);
-  console.log('Request Body:', req.body);
-
   try {
     const { name, isRegular, periodicity, dayOfWeek, dayOfMonth, yearlyDate, amount, currency, method, dateReceived } = req.body;
 
@@ -95,7 +91,6 @@ router.put('/:id', authenticateToken, async (req, res) => {
       yearlyMonth: isRegular && periodicity === 'Yearly' && yearlyDate ? new Date(yearlyDate).getMonth() + 1 : null,
     };
 
-    // Only set `dateReceived` if it's a one-time income (not regular)
     if (!isRegular) {
       updateData.dateReceived = dateReceived;
     }

@@ -96,7 +96,6 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
   if (isError) return <p>Error loading incomes</p>;
 
   const regularIncomes = incomes.filter((income) => income.isRegular);
-  // console.log(regularIncomes)
   
   const formatIncomePeriodicity = (periodicity, dayOfMonth, dayOfWeek, yearlyDay, yearlyMonth) => {
     const months = [
@@ -310,18 +309,18 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
   <Dialog open={openEditModal} onClose={handleCloseEditModal}>
   <DialogTitle>Edit Income</DialogTitle>
   <DialogContent>
-    <form onSubmit={handleEditSubmit} className="flex flex-col gap-3">
+    <form onSubmit={handleEditSubmit} className="flex flex-col gap-3 pt-2">
       {/* Income Name */}
       <TextField
         label="Income name (e.g. salary, scholarship)"
         variant="outlined"
         value={editingIncome?.name || ""}
         onChange={(e) => setEditingIncome((prev) => ({ ...prev, name: e.target.value }))}
-        className="w-[350px]"
+        className="w-[300px]"
       />
 
       {/* Receiving Periodicity */}
-      <FormControl sx={{ width: 210, mx: 2.5 }}>
+      <FormControl sx={{ width: 300 }}>
         <InputLabel>Receiving periodicity</InputLabel>
         <Select
           value={editingIncome?.periodicity || ""}
@@ -336,7 +335,7 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
 
       {/* Conditional Periodicity Inputs */}
       {editingIncome?.periodicity === "Weekly" && (
-        <FormControl sx={{ width: 250 }}>
+        <FormControl sx={{ width: 300 }}>
           <InputLabel>Day of the week</InputLabel>
           <Select
             value={editingIncome?.dayOfWeek || ""}
@@ -349,7 +348,6 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
           </Select>
         </FormControl>
       )}
-
       {editingIncome?.periodicity === "Monthly" && (
         <TextField
           label="Day of the month (1-31)"
@@ -358,17 +356,16 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
           value={editingIncome?.dayOfMonth || ""}
           onChange={(e) => setEditingIncome((prev) => ({ ...prev, dayOfMonth: e.target.value }))}
           variant="outlined"
-          sx={{ width: 250 }}
+          sx={{ width: 300 }}
         />
       )}
-
       {editingIncome?.periodicity === "Yearly" && (
         <DatePicker
           views={['month', 'day']}
           label="Select specific date"
           value={editingIncome?.yearlyDate || null}
           onChange={(newValue) => setEditingIncome((prev) => ({ ...prev, yearlyDate: newValue }))}
-          renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
+          renderInput={(params) => <TextField {...params} sx={{ width: 300 }} />}
         />
       )}
 
@@ -380,7 +377,7 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
         value={editingIncome?.amount || ""}
         onChange={(e) => setEditingIncome((prev) => ({ ...prev, amount: e.target.value }))}
         variant="outlined"
-        sx={{ width: 260 }}
+        sx={{ width: 300 }}
       />
       
       {/* Currency Selection */}
@@ -399,18 +396,32 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
         onChange={(event, newValue) => setEditingIncome((prev) => ({ ...prev, method: newValue }))}
         options={["Cash", "Card", "Bank Transfer", "Mobile Payment", "Cryptocurrency"]}
         renderInput={(params) => <TextField {...params} label="Saving Method" variant="outlined" />}
-        className="w-[250px]"
+        className="w-[300px]"
       />
 
-      <DialogActions>
-        <Button onClick={handleCloseEditModal} color="primary">Cancel</Button>
-        <Button onClick={handleEditSubmit} type="submit" color="primary">Save</Button>
+      {/* Buttons */}
+      <DialogActions className="flex justify-end gap-2 pt-4">
+        <Button
+          onClick={handleCloseEditModal}
+          variant="outlined"
+          color="error"
+          className="px-4 py-2 rounded-lg hover:bg-red-100"
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          className="px-4 py-2 rounded-lg hover:bg-mainBlue text-white"
+          sx={{ backgroundColor: "#1a73e8" }}
+        >
+          Save
+        </Button>
+
       </DialogActions>
     </form>
   </DialogContent>
 </Dialog>
-
-
 
 </div>
 
