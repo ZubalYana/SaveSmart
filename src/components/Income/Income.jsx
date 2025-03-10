@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './Income.css';
 import Burger from '../Burger/Burger';
 import IncomeList from '../IncomeList/IncomeList';
+import IncomeCreationModal from '../IncomeCreationModal/IncomeCreationModal';
+import IncomeHistory from '../IncomeHistory/IncomeHistory';
 import { Plus, ListChecks } from 'lucide-react';
 import Modal from 'react-modal';
 Modal.setAppElement('#root');
@@ -9,7 +11,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogTitle, Button } from "@mui/material";
-import IncomeCreationModal from '../IncomeCreationModal/IncomeCreationModal';
 import { useDispatch } from "react-redux";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -111,6 +112,7 @@ export default function Income() {
           </button>
         </div>
         <div className='w-full h-[1px] bg-mainBlue mt-3'></div>
+        <IncomeHistory />
 
         <IncomeCreationModal 
           isOpen={isIncomeLoggingModalOpen} 
