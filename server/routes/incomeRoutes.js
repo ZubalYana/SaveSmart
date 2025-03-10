@@ -112,12 +112,10 @@ router.put('/:id', authenticateToken, async (req, res) => {
   }
 });
 
-
-
 //delete an income
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {
-    const deletedIncome = await Income.findOneAndDelete({ _id: req.params.id, userId: req.user.userId });
+    const deletedIncome = await Income.findByIdAndDelete(req.params.id);
 
     if (!deletedIncome) {
       return res.status(404).json({ message: 'Income not found' });

@@ -46,7 +46,6 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
   };
   const handleDeleteIncome = async () => {
     setOpenConfirm(false);
-  
     try {
       await fetch(`http://localhost:3000/api/income/${localDeletedIncome._id}`, {
         method: "DELETE",
