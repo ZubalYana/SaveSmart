@@ -421,7 +421,7 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
       </DialogActions>
     </form>
   </DialogContent>
-</Dialog>
+  </Dialog>
 
 </div>
 

@@ -110,6 +110,7 @@ export default function Income() {
             Incomes list
           </button>
         </div>
+        <div className='w-full h-[1px] bg-mainBlue mt-3'></div>
 
         <IncomeCreationModal 
           isOpen={isIncomeLoggingModalOpen} 
