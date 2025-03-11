@@ -182,7 +182,7 @@ const CURRENCY_NAMES = {
     const isRegular = selectedIncomeType === "Regular income";
   
     const incomeData = {
-      name: isRegular ? incomeName : irregularIncomeName,
+      name: incomeName,
       amount: isRegular ? receivingSum : irregularReceivingSum,
       currency: isRegular ? selectedCurrency : irregularSelectedCurrency,
       method: isRegular ? savingMethod : irregularSavingMethod,
@@ -190,9 +190,8 @@ const CURRENCY_NAMES = {
       periodicity: isRegular ? selectedPeriodicity : null,
       dayOfMonth: isRegular && selectedPeriodicity === "Monthly" ? dayOfMonth : null,
       dayOfWeek: isRegular && selectedPeriodicity === "Weekly" ? dayOfWeek : null,
-      // Ensure all date fields are converted to strings
       yearlyDate: isRegular && selectedPeriodicity === "Yearly" ? yearlyDate.toISOString() : null,
-      dateReceived: isRegular ? null : receivedIncome.toISOString(), // Convert to string here
+      dateReceived: isRegular ? null : (receivedIncome ? dayjs(receivedIncome).toISOString() : null),
     };
   
     console.log("Saving income data:", incomeData);
@@ -374,7 +373,7 @@ const CURRENCY_NAMES = {
   value={savingMethod}
   onChange={(e, newValue) => handleSavingMethodChange(newValue)}
   options={savingMethods}
-  getOptionLabel={(option) => option} // Ensure the label is a string
+  getOptionLabel={(option) => option} 
   renderInput={(params) => (
     <TextField {...params} label="Saving Method" variant="outlined" />
   )}
@@ -415,7 +414,7 @@ const CURRENCY_NAMES = {
       type="number"
       inputProps={{ min: 1 }}
       value={irregularReceivingSum}
-      onChange={(e) => setirregularReceivingSum(Number(e.target.value))}
+      onChange={(e) => dispatch(setIncomeState({ irregularReceivingSum: Number(e.target.value) }))}
       variant="outlined"
       sx={{ width: 260 }}
     />
@@ -432,15 +431,16 @@ const CURRENCY_NAMES = {
       className="w-[300px]"
     />
 
-    <Autocomplete
-      value={irregularSavingMethod}
-      onChange={handleSavingMethodChange}
-      options={savingMethods}
-      renderInput={(params) => (
-        <TextField {...params} label="Saving Method" variant="outlined" />
-      )}
-      className="w-[250px]"
-    />
+<Autocomplete
+  value={savingMethod}
+  onChange={(e, newValue) => handleSavingMethodChange(newValue)}
+  options={savingMethods}
+  getOptionLabel={(option) => option} 
+  renderInput={(params) => (
+    <TextField {...params} label="Saving Method" variant="outlined" />
+  )}
+  className="w-[250px]"
+/>
   </div>
   <div className='w-full flex justify-center mt-7'>
     <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'
