@@ -1,22 +1,41 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import dayjs from 'dayjs';
 
 const initialState = {
-  incomes: []
+  isIncomeLoggingModalOpen: false,
+  selectedIncomeType: null,
+  modalStep: 1,
+  incomeName: '',
+  irregularIncomeName: '',
+  selectedPeriodicity: '',
+  dayOfMonth: '',
+  yearlyDate: dayjs(),
+  dayOfWeek: '',
+  selectedCurrency: "840",
+  savingMethod: "",
+  receivingSum: '',
+  receivedIncome: dayjs(),
+  irregularSelectedCurrency: "840",
+  irregularSavingMethod: "",
+  irregularReceivingSum: '',
+  openSnackbar: false,
+  deletedIncome: null,
+  startDate: null,
+  endDate: null
 };
 
 const incomeSlice = createSlice({
-  name: "income",
-  initialState: { incomes: [] },
+  name: 'income',
+  initialState,
   reducers: {
-    addIncome: (state, action) => {
-      // console.log("Reducer received:", action.payload);
-      state.incomes.push(action.payload);
+    setIncomeState: (state, action) => {
+      return { ...state, ...action.payload };
     },
-    removeIncome: (state, action) => {
-      state.incomes = state.incomes.filter(income => income.id !== action.payload);
-    }
-  }
+    resetIncomeState: (state) => {
+      return initialState;
+    },
+  },
 });
 
-export const { addIncome, removeIncome } = incomeSlice.actions;
+export const { setIncomeState, resetIncomeState } = incomeSlice.actions;
 export default incomeSlice.reducer;
