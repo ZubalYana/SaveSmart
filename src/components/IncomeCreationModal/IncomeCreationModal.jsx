@@ -14,6 +14,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setIncomeState } from '../../redux/slices/incomeSlice';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+
 const CURRENCY_NAMES = {
     "8": "Albanian Lek (ALL)",
     "12": "Algerian Dinar (DZD)",
@@ -172,7 +174,10 @@ const CURRENCY_NAMES = {
   const handleReceivingSumChange = (e) => {
     dispatch(setIncomeState({ receivingSum: e.target.value }));
   };
-
+  const handleReceivedIncomeChange = (newValue) => {
+    dispatch(setIncomeState({ receivedIncome: newValue })); 
+  };
+  
   const handleSaveIncome = async () => {
     const isRegular = selectedIncomeType === "Regular income";
   
@@ -390,27 +395,31 @@ const CURRENCY_NAMES = {
 {selectedIncomeType === 'Irregular income' && (
 <div className="irregularIncomeInputs w-full mt-7">
   <div className='w-full flex justify-between'>
-    <TextField id="outlined-basic" label="Income source ( e.g. sold a car, birthday gift )" variant="outlined" className='w-[530px]' value={irregularIncomeName} onChange={handleIncomeNameChange}  />
+    <TextField id="outlined-basic" label="Income source ( e.g. sold a car, birthday gift )" variant="outlined" className='w-[530px]' value={incomeName} onChange={handleIncomeNameChange}  />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
     <DatePicker
-      views={['month', 'day']}
-      label="Received at:"
-      value={receivedIncome}
-      onChange={(newValue) => setReceivedIncome(newValue)}
-      renderInput={(params) => <TextField {...params} sx={{ width: 300 }} />}
-      sx={{ width: 300 }}
-    />
+  views={['month', 'day']}
+  label="Received at:"
+  value={receivedIncome ? dayjs(receivedIncome) : null} 
+  onChange={(newValue) => setReceivedIncome(newValue)}
+  renderInput={(params) => <TextField {...params} sx={{ width: 300 }} />}
+  sx={{ width: 300 }}
+/>
+</LocalizationProvider>
+
   </div>
   <div className='w-full flex justify-between mt-4'>
-    <TextField
+  <TextField
       id="receiving-sum"
       label="Receiving sum"
       type="number"
       inputProps={{ min: 1 }}
       value={irregularReceivingSum}
-      onChange={handleReceivingSumChange}
+      onChange={(e) => setirregularReceivingSum(Number(e.target.value))}
       variant="outlined"
       sx={{ width: 260 }}
     />
+
 
     <Autocomplete
       value={irregularSelectedCurrency}
