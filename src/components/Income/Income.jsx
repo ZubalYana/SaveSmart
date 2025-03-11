@@ -11,51 +11,46 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogTitle, Button } from "@mui/material";
-import { useDispatch } from "react-redux";
 import { useQueryClient } from "@tanstack/react-query";
-
+import { useSelector, useDispatch } from 'react-redux';
+import { setIncomeState } from '../../redux/slices/incomeSlice';
+import { setOpenSnackbar } from '../../redux/slices/incomeSlice';
 export default function Income() {
-  const [isIncomeLoggingModalOpen, setisIncomeLoggingModalOpen] = useState(false);
-  const [selectedIncomeType, setSelectedIncomeType] = useState(null);
-  const [modalStep, setModalStep] = useState(1);
-  const [incomeName, setIncomeName] = useState('');
-  const [irregularIncomeName, setIrregularIncomeName] = useState('');
-  const [selectedPeriodicity, setSelectedPeriodicity] = useState('');
-  const [dayOfMonth, setDayOfMonth] = useState('');
-  const [yearlyDate, setYearlyDate] = useState(dayjs());
-  const [dayOfWeek, setDayOfWeek] = useState('');
-  const [selectedCurrency, setSelectedCurrency] = useState("840");
-  const [savingMethod, setSavingMethod] = useState("");
-  const [receivingSum, setReceivingSum] = useState('');
-  const [receivedIncome, setReceivedIncome] = useState(dayjs());
-  const [irregularSelectedCurrency, setIrregularSelectedCurrency] = useState("840");
-  const [irregularSavingMethod, setIrregularSavingMethod] = useState("");
-  const [irregularReceivingSum, setirregularReceivingSum] = useState('');
-  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [deletedIncome, setDeletedIncome] = useState(null);
   const queryClient = useQueryClient();
 
   const dispatch = useDispatch();
+  const {
+    isIncomeLoggingModalOpen,
+    openSnackbar,
+  } = useSelector((state) => state.income);
+
   const openIncomeLoggingModal = () => {
-    setisIncomeLoggingModalOpen(true);
-    setSelectedIncomeType(null);
-    setModalStep(1);
-    setSelectedPeriodicity('');
-    setDayOfMonth('');
-    setYearlyDate(dayjs());
-    setDayOfWeek('');
-    setSelectedCurrency(null);
-    setSavingMethod('');
-    setReceivingSum('');
-    setSelectedCurrency("840");;
-    setIrregularSelectedCurrency("840");
-    setIrregularSavingMethod("");
-    setirregularReceivingSum('');
-    setIncomeName('');
-    setIrregularIncomeName('');
+    dispatch(setIncomeState({
+      isIncomeLoggingModalOpen: true,
+      selectedIncomeType: null,
+      modalStep: 1,
+      selectedPeriodicity: '',
+      dayOfMonth: '',
+      yearlyDate: dayjs().toISOString(), // Correct conversion
+      dayOfWeek: '',
+      selectedCurrency: "840",
+      savingMethod: '',
+      receivingSum: '',
+      irregularSelectedCurrency: "840",
+      irregularSavingMethod: '',
+      irregularReceivingSum: '',
+      incomeName: '',
+      irregularIncomeName: '',
+      receivedIncome: dayjs().toISOString() // Convert receivedIncome to string
+    }));
   };
-  const closeIncomeLoggingModal = () => setisIncomeLoggingModalOpen(false);
+  
+
+  const closeIncomeLoggingModal = () => {
+    dispatch(setIncomeState({ isIncomeLoggingModalOpen: false }));
+  };
   const handleUndo = async () => {
     console.log("Deleted income:", deletedIncome);
     if (!deletedIncome) return;
@@ -115,42 +110,10 @@ export default function Income() {
         <IncomeHistory />
 
         <IncomeCreationModal 
-          isOpen={isIncomeLoggingModalOpen} 
-          onClose={closeIncomeLoggingModal} 
-          selectedIncomeType={selectedIncomeType}
-          setSelectedIncomeType={setSelectedIncomeType}
-          modalStep={modalStep}
-          setModalStep={setModalStep}
-          incomeName={incomeName}
-          setIncomeName={setIncomeName}
-          irregularIncomeName={irregularIncomeName}
-          setIrregularIncomeName={setIrregularIncomeName}
-          selectedPeriodicity={selectedPeriodicity}
-          setSelectedPeriodicity={setSelectedPeriodicity}
-          dayOfMonth={dayOfMonth}
-          setDayOfMonth={setDayOfMonth}
-          yearlyDate={yearlyDate}
-          setYearlyDate={setYearlyDate}
-          dayOfWeek={dayOfWeek}
-          setDayOfWeek={setDayOfWeek}
-          selectedCurrency={selectedCurrency}
-          setSelectedCurrency={setSelectedCurrency}
-          savingMethod={savingMethod}
-          setSavingMethod={setSavingMethod}
-          receivingSum={receivingSum}
-          setReceivingSum={setReceivingSum}
-          receivedIncome={receivedIncome}
-          setReceivedIncome={setReceivedIncome}
-          dispatch={dispatch}
-          irregularSelectedCurrency={irregularSelectedCurrency}
-          setIrregularSelectedCurrency={setIrregularSelectedCurrency}
-          irregularSavingMethod={irregularSavingMethod}
-          setIrregularSavingMethod={setIrregularSavingMethod}
-          irregularReceivingSum={irregularReceivingSum}
-          setirregularReceivingSum={setirregularReceivingSum}
-          openSnackbar={openSnackbar}
-          setOpenSnackbar={setOpenSnackbar}
-        />
+      isOpen={isIncomeLoggingModalOpen} 
+      onClose={closeIncomeLoggingModal} 
+      dispatch={dispatch}
+    />
 
         <Modal
         isOpen={isIncomesListModalOpen}
@@ -187,15 +150,19 @@ export default function Income() {
         </Modal>
 
         <Snackbar
-          open={openSnackbar}
-          autoHideDuration={3000}
-          onClose={() => setOpenSnackbar(false)}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        >
-          <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
-            Income saved successfully!
-           </Alert>
-        </Snackbar>
+  open={openSnackbar}
+  autoHideDuration={3000}
+  onClose={() => dispatch(setOpenSnackbar(false))}
+  anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+>
+  <Alert 
+    onClose={() => dispatch(setOpenSnackbar(false))} 
+    severity="success" 
+    sx={{ width: '100%' }}
+  >
+    Income saved successfully!
+  </Alert>
+</Snackbar>
 
         <Snackbar
         open={snackbarOpen}

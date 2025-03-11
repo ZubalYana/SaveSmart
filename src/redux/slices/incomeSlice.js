@@ -21,7 +21,8 @@ const initialState = {
   openSnackbar: false,
   deletedIncome: null,
   startDate: null,
-  endDate: null
+  endDate: null,
+  openSnackbar: false,
 };
 
 const incomeSlice = createSlice({
@@ -29,13 +30,29 @@ const incomeSlice = createSlice({
   initialState,
   reducers: {
     setIncomeState: (state, action) => {
-      return { ...state, ...action.payload };
+      const payload = action.payload;
+
+      if (payload.yearlyDate && payload.yearlyDate.isDayjs) {
+        payload.yearlyDate = payload.yearlyDate.toISOString();
+      }
+      if (payload.receivedIncome && payload.receivedIncome.isDayjs) {
+        payload.receivedIncome = payload.receivedIncome.toISOString();
+      }
+      if (payload.startDate && payload.startDate.isDayjs) {
+        payload.startDate = payload.startDate.toISOString();
+      }
+      if (payload.endDate && payload.endDate.isDayjs) {
+        payload.endDate = payload.endDate.toISOString();
+      }
+
+      return { ...state, ...payload };
     },
-    resetIncomeState: (state) => {
-      return initialState;
+    resetIncomeState: () => initialState,
+    setOpenSnackbar: (state, action) => {
+      state.openSnackbar = action.payload;
     },
   },
 });
 
-export const { setIncomeState, resetIncomeState } = incomeSlice.actions;
+export const { setIncomeState, resetIncomeState, setOpenSnackbar } = incomeSlice.actions;
 export default incomeSlice.reducer;

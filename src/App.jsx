@@ -17,8 +17,12 @@ import Goals from './components/Goals/Goals';
 import EmergencyFunds from './components/EmergencyFunds/EmergencyFunds';
 import FinancialNews from './components/FinancialNews/FinancialNews';
 import MyProfile from './components/MyProfile/MyProfile';
+
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 function App() {
   return (
+    <Provider store={store}>
     <Router>
       <Routes>
         <Route element={<ProtectedRoute />}>
@@ -42,6 +46,7 @@ function App() {
         <Route path="/auth/reset-password" element={<ResetPassword />} />
       </Routes>
     </Router>
+    </Provider>
   );
 }
 

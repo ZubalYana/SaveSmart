@@ -10,7 +10,10 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { addIncome } from "../../redux/slices/incomeSlice";
+import { useSelector, useDispatch } from 'react-redux';
+import { setIncomeState } from '../../redux/slices/incomeSlice';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 const CURRENCY_NAMES = {
     "8": "Albanian Lek (ALL)",
     "12": "Algerian Dinar (DZD)",
@@ -115,64 +118,59 @@ const CURRENCY_NAMES = {
     "985": "Polish Złoty (PLN)",
     "986": "Brazilian Real (BRL)"
   }
-  export default function IncomeCreationModal({
-    isOpen,
-    onClose,
-    selectedIncomeType,
-    setSelectedIncomeType,
-    modalStep,
-    setModalStep,
-    incomeName,
-    setIncomeName,
-    irregularIncomeName,
-    setIrregularIncomeName,
-    selectedPeriodicity,
-    setSelectedPeriodicity,
-    dayOfMonth,
-    setDayOfMonth,
-    yearlyDate,
-    setYearlyDate,
-    dayOfWeek,
-    setDayOfWeek,
-    selectedCurrency,
-    setSelectedCurrency,
-    savingMethod,
-    setSavingMethod,
-    receivingSum,
-    setReceivingSum,
-    receivedIncome,
-    setReceivedIncome,
-    dispatch,
-    irregularSelectedCurrency,
-    setIrregularSelectedCurrency,
-    irregularSavingMethod,
-    setIrregularSavingMethod,
-    irregularReceivingSum,
-    setirregularReceivingSum,
-    openSnackbar,
-    setOpenSnackbar
-}) {
+  export default function IncomeCreationModal({ isOpen, onClose }) {
 
     const periodicityOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const savingMethods = ["Cash", "Card", "Bank Transfer", "Mobile Payment", "Cryptocurrency"];
+    
+    const dispatch = useDispatch();
+  const {
+    selectedIncomeType,
+    modalStep,
+    incomeName,
+    selectedPeriodicity,
+    dayOfMonth,
+    yearlyDate,
+    dayOfWeek,
+    selectedCurrency,
+    savingMethod,
+    receivingSum,
+    receivedIncome,
+    irregularSelectedCurrency,
+    irregularSavingMethod,
+    irregularReceivingSum,
+  } = useSelector((state) => state.income);
 
+  
   const closeIncomeLoggingModal = () => {
-    onClose(); 
+    onClose();
   };
+
   const handleCardSelect = (type) => {
-    setSelectedIncomeType(type);
-    setModalStep(2);
+    dispatch(setIncomeState({ selectedIncomeType: type, modalStep: 2 }));
   };
+
   const handleGoBack = () => {
-    setModalStep(1);
-    setSelectedIncomeType(null);
+    dispatch(setIncomeState({ modalStep: 1, selectedIncomeType: null }));
   };
+
   const handlePeriodicityChange = (event) => {
-    setSelectedPeriodicity(event.target.value);
+    dispatch(setIncomeState({ selectedPeriodicity: event.target.value }));
   };
+
   const handleDayOfWeekChange = (event) => {
-    setDayOfWeek(event.target.value);
+    dispatch(setIncomeState({ dayOfWeek: event.target.value }));
+  };
+
+  const handleIncomeNameChange = (e) => {
+    dispatch(setIncomeState({ incomeName: e.target.value }));
+  };
+  const handleSavingMethodChange = (newValue) => {
+    dispatch(setIncomeState({ savingMethod: newValue }));
+  };
+  const handleReceivingSumChange = (e) => {
+    dispatch(setIncomeState({ receivingSum: e.target.value }));
   };
 
   const handleSaveIncome = async () => {
@@ -187,19 +185,20 @@ const CURRENCY_NAMES = {
       periodicity: isRegular ? selectedPeriodicity : null,
       dayOfMonth: isRegular && selectedPeriodicity === "Monthly" ? dayOfMonth : null,
       dayOfWeek: isRegular && selectedPeriodicity === "Weekly" ? dayOfWeek : null,
-      yearlyDate: isRegular && selectedPeriodicity === "Yearly" ? yearlyDate.format('YYYY-MM-DD') : null,
-      dateReceived: isRegular ? null : receivedIncome.format('YYYY-MM-DD'),
+      // Ensure all date fields are converted to strings
+      yearlyDate: isRegular && selectedPeriodicity === "Yearly" ? yearlyDate.toISOString() : null,
+      dateReceived: isRegular ? null : receivedIncome.toISOString(), // Convert to string here
     };
   
     console.log("Saving income data:", incomeData);
   
     try {
-      const token = localStorage.getItem('token'); 
-      const response = await fetch('http://localhost:3000/api/income', { 
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3000/api/income', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(incomeData),
       });
@@ -210,21 +209,23 @@ const CURRENCY_NAMES = {
       }
   
       const savedIncome = await response.json();
-      dispatch(addIncome(savedIncome.income)); 
+      dispatch(setIncomeState({ savedIncome: savedIncome.income }));
       console.log('Income saved successfully:', savedIncome);
   
-      setOpenSnackbar(true);
+      dispatch(setIncomeState({ openSnackbar: true }));
     } catch (error) {
       console.error('Error saving income:', error);
     }
   
     closeIncomeLoggingModal();
   };
+  
+  
 
   return (
     <Modal
     isOpen={isOpen}
-    onRequestClose={onClose}
+    onRequestClose={closeIncomeLoggingModal}
     contentLabel="Creating incomes modal"
     style={{
       overlay: {
@@ -287,7 +288,7 @@ const CURRENCY_NAMES = {
 {selectedIncomeType === 'Regular income' && (
 <div className="regularIncomeInputs w-full mt-7">
   <div className='w-full flex'>
-    <TextField id="outlined-basic" label="Income name (e.g. salary, scholarship)" variant="outlined" className='w-[350px]' value={incomeName} onChange={(e) => setIncomeName(e.target.value)} />
+    <TextField id="outlined-basic" label="Income name (e.g. salary, scholarship)" variant="outlined" className='w-[350px]' value={incomeName} onChange={handleIncomeNameChange} />
 
     <FormControl sx={{ width: 210, mx: 2.5 }}>
       <InputLabel id="periodicity-label">Receiving periodicity</InputLabel>
@@ -330,13 +331,17 @@ const CURRENCY_NAMES = {
       />
     )}
     {selectedPeriodicity === 'Yearly' && (
-      <DatePicker
-        views={['month', 'day']}
-        label="Select specific date"
-        value={yearlyDate}
-        onChange={(newValue) => setYearlyDate(newValue)}
-        renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
-      />
+
+<LocalizationProvider dateAdapter={AdapterDayjs}>
+<DatePicker
+  views={['month', 'day']}
+  label="Select specific date"
+  value={yearlyDate}
+  onChange={(newValue) => setYearlyDate(newValue?.toISOString())} // Convert to serializable string
+  renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
+/>
+
+</LocalizationProvider>
     )}
   </div>
   <div className='w-full flex justify-between mt-4'>
@@ -346,7 +351,7 @@ const CURRENCY_NAMES = {
       type="number"
       inputProps={{ min: 1 }}
       value={receivingSum}
-      onChange={(e) => setReceivingSum(e.target.value)}
+      onChange={handleReceivingSumChange}
       variant="outlined"
       sx={{ width: 260 }}
     />
@@ -360,15 +365,16 @@ const CURRENCY_NAMES = {
       )}
       className="w-[300px]"
     />
-    <Autocomplete
-      value={savingMethod}
-      onChange={(event, newValue) => setSavingMethod(newValue)}
-      options={savingMethods}
-      renderInput={(params) => (
-        <TextField {...params} label="Saving Method" variant="outlined" />
-      )}
-      className="w-[250px]"
-    />
+<Autocomplete
+  value={savingMethod}
+  onChange={(e, newValue) => handleSavingMethodChange(newValue)}
+  options={savingMethods}
+  getOptionLabel={(option) => option} // Ensure the label is a string
+  renderInput={(params) => (
+    <TextField {...params} label="Saving Method" variant="outlined" />
+  )}
+  className="w-[250px]"
+/>
   </div>
   
   <div className='w-full flex justify-center mt-7'>
@@ -384,7 +390,7 @@ const CURRENCY_NAMES = {
 {selectedIncomeType === 'Irregular income' && (
 <div className="irregularIncomeInputs w-full mt-7">
   <div className='w-full flex justify-between'>
-    <TextField id="outlined-basic" label="Income source ( e.g. sold a car, birthday gift )" variant="outlined" className='w-[530px]' value={irregularIncomeName} onChange={(e) => setIrregularIncomeName(e.target.value)}  />
+    <TextField id="outlined-basic" label="Income source ( e.g. sold a car, birthday gift )" variant="outlined" className='w-[530px]' value={irregularIncomeName} onChange={handleIncomeNameChange}  />
     <DatePicker
       views={['month', 'day']}
       label="Received at:"
@@ -401,7 +407,7 @@ const CURRENCY_NAMES = {
       type="number"
       inputProps={{ min: 1 }}
       value={irregularReceivingSum}
-      onChange={(e) => setirregularReceivingSum(Number(e.target.value))}
+      onChange={handleReceivingSumChange}
       variant="outlined"
       sx={{ width: 260 }}
     />
@@ -419,7 +425,7 @@ const CURRENCY_NAMES = {
 
     <Autocomplete
       value={irregularSavingMethod}
-      onChange={(event, newValue) => setIrregularSavingMethod(newValue)}
+      onChange={handleSavingMethodChange}
       options={savingMethods}
       renderInput={(params) => (
         <TextField {...params} label="Saving Method" variant="outlined" />
