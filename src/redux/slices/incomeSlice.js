@@ -32,9 +32,13 @@ const incomeSlice = createSlice({
     setIncomeState: (state, action) => {
       const payload = action.payload;
 
-      if (payload.yearlyDate && payload.yearlyDate.isDayjs) {
+      if (payload.yearlyDate && dayjs.isDayjs(payload.yearlyDate)) {
         payload.yearlyDate = payload.yearlyDate.toISOString();
+      } else if (payload.yearlyDate && typeof payload.yearlyDate === 'string') {
+        payload.yearlyDate = dayjs(payload.yearlyDate).toISOString(); 
       }
+      
+      
       if (payload.receivedIncome && payload.receivedIncome.isDayjs) {
         payload.receivedIncome = payload.receivedIncome.toISOString();
       }

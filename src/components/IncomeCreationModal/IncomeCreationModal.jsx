@@ -140,8 +140,9 @@ const CURRENCY_NAMES = {
     receivingSum,
     receivedIncome,
     irregularSelectedCurrency,
-    irregularSavingMethod,
     irregularReceivingSum,
+    startDate, 
+    endDate,
   } = useSelector((state) => state.income);
 
   
@@ -192,7 +193,8 @@ const CURRENCY_NAMES = {
       periodicity: isRegular ? selectedPeriodicity : null,
       dayOfMonth: isRegular && selectedPeriodicity === "Monthly" ? dayOfMonth : null,
       dayOfWeek: isRegular && selectedPeriodicity === "Weekly" ? dayOfWeek : null,
-      yearlyDate: isRegular && selectedPeriodicity === "Yearly" ? yearlyDate.toISOString() : null,
+      yearlyDate: isRegular && selectedPeriodicity === "Yearly"
+      ? (dayjs.isDayjs(yearlyDate) ? yearlyDate.toISOString() : dayjs(yearlyDate).toISOString()) : null,
       dateReceived: isRegular ? null : (receivedIncome ? dayjs(receivedIncome).toISOString() : null),
     };
   
@@ -292,7 +294,7 @@ const CURRENCY_NAMES = {
 <p className='text-base text-defaultText'>Fill in the required information for your income.</p>
 
 {selectedIncomeType === 'Regular income' && (
-<div className="regularIncomeInputs w-full mt-7">
+<div className="regularIncomeInputs w-full mt-7 h-auto">
   <div className='w-full flex'>
     <TextField id="outlined-basic" label="Income name (e.g. salary, scholarship)" variant="outlined" className='w-[350px]' value={incomeName} onChange={handleIncomeNameChange} />
 
@@ -336,19 +338,18 @@ const CURRENCY_NAMES = {
         sx={{ width: 250 }}
       />
     )}
-    {selectedPeriodicity === 'Yearly' && (
+{selectedPeriodicity === 'Yearly' && (
+  <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <DatePicker
+      views={['month', 'day']}
+      label="Select specific date"
+      value={yearlyDate ? dayjs(yearlyDate) : null} 
+      onChange={(newValue) => setYearlyDate(newValue ? newValue.toISOString() : null)} 
+      renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
+    />
+  </LocalizationProvider>
+)}
 
-<LocalizationProvider dateAdapter={AdapterDayjs}>
-<DatePicker
-  views={['month', 'day']}
-  label="Select specific date"
-  value={yearlyDate}
-  onChange={(newValue) => setYearlyDate(newValue?.toISOString())} // Convert to serializable string
-  renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
-/>
-
-</LocalizationProvider>
-    )}
   </div>
   <div className='w-full flex justify-between mt-4'>
     <TextField
@@ -382,6 +383,26 @@ const CURRENCY_NAMES = {
   className="w-[250px]"
 />
   </div>
+
+<div className='flex mt-4'>
+  <LocalizationProvider dateAdapter={AdapterDayjs}>
+<DatePicker
+  views={['month', 'day', 'year']}
+  label="Start date"
+  value={startDate}
+  onChange={(newValue) => setStartDate(newValue?.toISOString())} 
+  renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
+/>
+<DatePicker
+  views={['month', 'day', 'year']}
+  label="End date ( optional )"
+  value={endDate}
+  onChange={(newValue) => setEndDate(newValue?.toISOString())} 
+  renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
+  className='ml-4'
+/>
+</LocalizationProvider>
+</div>
   
   <div className='w-full flex justify-center mt-7'>
     <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'
