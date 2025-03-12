@@ -17,9 +17,9 @@ router.get('/', authenticateToken, async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     console.log(req.body);
-    const { name, amount, currency, method, isRegular, periodicity, dayOfMonth, dayOfWeek, dateReceived, yearlyDate } = req.body;
+    const { name, amount, currency, method, isRegular, periodicity, dayOfMonth, dayOfWeek, dateReceived, yearlyDate, startDate, endDate } = req.body;
 
-    if (!name ||!amount || !currency || !method || (isRegular && !periodicity) || (!isRegular && !dateReceived)) {
+    if (!name || !amount || !currency || !method || (isRegular && !periodicity) || (!isRegular && !dateReceived)) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
@@ -56,6 +56,8 @@ router.post('/', async (req, res) => {
       yearlyDay,
       yearlyMonth,
       dateReceived: isRegular ? null : dateReceived,
+      startDate: startDate ? new Date(startDate) : null,
+      endDate: endDate ? new Date(endDate) : null,
     });
 
     await newIncome.save();
@@ -65,6 +67,7 @@ router.post('/', async (req, res) => {
     res.status(500).json({ message: 'Error adding income', error: error.message });
   }
 });
+
 
 //edit an income
 router.put('/:id', authenticateToken, async (req, res) => {

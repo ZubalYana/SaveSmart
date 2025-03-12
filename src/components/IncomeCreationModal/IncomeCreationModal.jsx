@@ -194,8 +194,11 @@ const CURRENCY_NAMES = {
       dayOfMonth: isRegular && selectedPeriodicity === "Monthly" ? dayOfMonth : null,
       dayOfWeek: isRegular && selectedPeriodicity === "Weekly" ? dayOfWeek : null,
       yearlyDate: isRegular && selectedPeriodicity === "Yearly"
-      ? (dayjs.isDayjs(yearlyDate) ? yearlyDate.toISOString() : dayjs(yearlyDate).toISOString()) : null,
+        ? (dayjs.isDayjs(yearlyDate) ? yearlyDate.toISOString() : dayjs(yearlyDate).toISOString())
+        : null,
       dateReceived: isRegular ? null : (receivedIncome ? dayjs(receivedIncome).toISOString() : null),
+      startDate: startDate ? startDate : null,
+      endDate: endDate ? endDate : null,
     };
   
     console.log("Saving income data:", incomeData);
@@ -227,6 +230,7 @@ const CURRENCY_NAMES = {
   
     closeIncomeLoggingModal();
   };
+  
   
   
 
@@ -385,25 +389,24 @@ const CURRENCY_NAMES = {
 />
   </div>
 
-<div className='flex mt-4'>
+  <div className='flex mt-4'>
   <LocalizationProvider dateAdapter={AdapterDayjs}>
-<DatePicker
-  views={['month', 'day', 'year']}
-  label="Start date"
-  value={startDate}
-  onChange={(newValue) => setStartDate(newValue?.toISOString())} 
-  renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
-/>
-<DatePicker
-  views={['month', 'day', 'year']}
-  label="End date ( optional )"
-  value={endDate}
-  onChange={(newValue) => setEndDate(newValue?.toISOString())} 
-  renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
-  className='ml-4'
-/>
-</LocalizationProvider>
+    <DatePicker
+      label="Start date"
+      value={startDate ? dayjs(startDate) : null}
+      onChange={(newValue) => dispatch(setIncomeState({ startDate: newValue?.toISOString() }))}
+      renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
+    />
+    <DatePicker
+      label="End date (optional)"
+      value={endDate ? dayjs(endDate) : null}
+      onChange={(newValue) => dispatch(setIncomeState({ endDate: newValue?.toISOString() }))}
+      renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
+      className='ml-4'
+    />
+  </LocalizationProvider>
 </div>
+
   
   <div className='w-full flex justify-center mt-7'>
     <button className='uppercase w-[230px] h-[60px] flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-base font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'
