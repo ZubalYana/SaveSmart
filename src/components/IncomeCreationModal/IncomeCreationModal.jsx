@@ -338,7 +338,7 @@ const CURRENCY_NAMES = {
         sx={{ width: 250 }}
       />
     )}
-{selectedPeriodicity === 'Yearly' && (
+    {selectedPeriodicity === 'Yearly' && (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
     <DatePicker
       views={['month', 'day']}
@@ -348,7 +348,7 @@ const CURRENCY_NAMES = {
       renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
     />
   </LocalizationProvider>
-)}
+    )}
 
   </div>
   <div className='w-full flex justify-between mt-4'>
@@ -362,16 +362,17 @@ const CURRENCY_NAMES = {
       variant="outlined"
       sx={{ width: 260 }}
     />
-    <Autocomplete
-      value={selectedCurrency}
-      onChange={(event, newValue) => setSelectedCurrency(newValue)}
-      options={Object.keys(CURRENCY_NAMES)}
-      getOptionLabel={(option) => CURRENCY_NAMES[option] || `Unknown (${option})`}
-      renderInput={(params) => (
-        <TextField {...params} label="Saving currency" variant="outlined" />
-      )}
-      className="w-[300px]"
-    />
+<Autocomplete
+  value={selectedCurrency}
+  onChange={(event, newValue) => dispatch(setIncomeState({ selectedCurrency: newValue }))}
+  options={Object.keys(CURRENCY_NAMES)}
+  getOptionLabel={(option) => CURRENCY_NAMES[option] || `Unknown (${option})`}
+  renderInput={(params) => (
+    <TextField {...params} label="Saving currency" variant="outlined" />
+  )}
+  className="w-[300px]"
+/>
+
 <Autocomplete
   value={savingMethod}
   onChange={(e, newValue) => handleSavingMethodChange(newValue)}
@@ -441,18 +442,17 @@ const CURRENCY_NAMES = {
       variant="outlined"
       sx={{ width: 260 }}
     />
+<Autocomplete
+  value={irregularSelectedCurrency}
+  onChange={(event, newValue) => dispatch(setIncomeState({ irregularSelectedCurrency: newValue }))}
+  options={Object.keys(CURRENCY_NAMES)}
+  getOptionLabel={(option) => CURRENCY_NAMES[option] || `Unknown (${option})`}
+  renderInput={(params) => (
+    <TextField {...params} label="Saving currency" variant="outlined" />
+  )}
+  className="w-[300px]"
+/>
 
-
-    <Autocomplete
-      value={irregularSelectedCurrency}
-      onChange={(event, newValue) => setSelectedCurrency(newValue)}
-      options={Object.keys(CURRENCY_NAMES)}
-      getOptionLabel={(option) => CURRENCY_NAMES[option] || `Unknown (${option})`}
-      renderInput={(params) => (
-        <TextField {...params} label="Saving currency" variant="outlined" />
-      )}
-      className="w-[300px]"
-    />
 
 <Autocomplete
   value={savingMethod}

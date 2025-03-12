@@ -38,7 +38,6 @@ const incomeSlice = createSlice({
         payload.yearlyDate = dayjs(payload.yearlyDate).toISOString(); 
       }
       
-      
       if (payload.receivedIncome && payload.receivedIncome.isDayjs) {
         payload.receivedIncome = payload.receivedIncome.toISOString();
       }
