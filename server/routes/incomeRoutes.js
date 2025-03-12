@@ -16,6 +16,7 @@ router.get('/', authenticateToken, async (req, res) => {
 //create a new income
 router.post('/', async (req, res) => {
   try {
+    console.log(req.body);
     const { name, amount, currency, method, isRegular, periodicity, dayOfMonth, dayOfWeek, dateReceived, yearlyDate } = req.body;
 
     if (!name ||!amount || !currency || !method || (isRegular && !periodicity) || (!isRegular && !dateReceived)) {

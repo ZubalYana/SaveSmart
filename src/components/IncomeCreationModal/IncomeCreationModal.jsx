@@ -169,8 +169,10 @@ const CURRENCY_NAMES = {
     dispatch(setIncomeState({ incomeName: e.target.value }));
   };
   const handleSavingMethodChange = (newValue) => {
+    console.log("Selected Saving Method:", newValue);  
     dispatch(setIncomeState({ savingMethod: newValue }));
   };
+  
   const handleReceivingSumChange = (e) => {
     dispatch(setIncomeState({ receivingSum: e.target.value }));
   };
@@ -185,7 +187,7 @@ const CURRENCY_NAMES = {
       name: incomeName,
       amount: isRegular ? receivingSum : irregularReceivingSum,
       currency: isRegular ? selectedCurrency : irregularSelectedCurrency,
-      method: isRegular ? savingMethod : irregularSavingMethod,
+      method: savingMethod,
       isRegular,
       periodicity: isRegular ? selectedPeriodicity : null,
       dayOfMonth: isRegular && selectedPeriodicity === "Monthly" ? dayOfMonth : null,
