@@ -331,16 +331,16 @@ const CURRENCY_NAMES = {
       </FormControl>
     )}
     {selectedPeriodicity === 'Monthly' && (
-      <TextField
-        id="day-of-month"
-        label="Day of the month (1-31)"
-        type="number"
-        inputProps={{ min: 1, max: 31 }}
-        value={dayOfMonth}
-        onChange={(e) => setDayOfMonth(e.target.value)}
-        variant="outlined"
-        sx={{ width: 250 }}
-      />
+  <TextField
+    id="day-of-month"
+    label="Day of the month (1-31)"
+    type="number"
+    inputProps={{ min: 1, max: 31 }}
+    value={dayOfMonth}
+    onChange={(e) => dispatch(setIncomeState({ dayOfMonth: e.target.value }))}
+    variant="outlined"
+    sx={{ width: 250 }}
+  />
     )}
     {selectedPeriodicity === 'Yearly' && (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
