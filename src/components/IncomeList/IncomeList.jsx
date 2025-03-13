@@ -322,19 +322,21 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
 
   <Dialog open={openEditModal} onClose={handleCloseEditModal}>
   <DialogTitle>Edit Income</DialogTitle>
-  <DialogContent>
-    <form onSubmit={handleEditSubmit} className="flex flex-col gap-3 pt-2">
-      {/* Income Name */}
+  <DialogContent className="w-[600px]">
+    <form onSubmit={handleEditSubmit} className="flex flex-col pt-2">
+      <div className="flex">
+      <div className="w-[50%] flex flex-col gap-5">
+        {/* Income Name */}
       <TextField
         label="Income name (e.g. salary, scholarship)"
         variant="outlined"
         value={editingIncome?.name || ""}
         onChange={(e) => setEditingIncome((prev) => ({ ...prev, name: e.target.value }))}
-        className="w-[300px]"
+        className="w-[260px]"
       />
 
       {/* Receiving Periodicity */}
-      <FormControl sx={{ width: 300 }}>
+      <FormControl sx={{ width: 260 }}>
         <InputLabel>Receiving periodicity</InputLabel>
         <Select
           value={editingIncome?.periodicity || ""}
@@ -349,7 +351,7 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
 
       {/* Conditional Periodicity Inputs */}
       {editingIncome?.periodicity === "Weekly" && (
-        <FormControl sx={{ width: 300 }}>
+        <FormControl sx={{ width: 260 }}>
           <InputLabel>Day of the week</InputLabel>
           <Select
             value={editingIncome?.dayOfWeek || ""}
@@ -370,7 +372,7 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
           value={editingIncome?.dayOfMonth || ""}
           onChange={(e) => setEditingIncome((prev) => ({ ...prev, dayOfMonth: e.target.value }))}
           variant="outlined"
-          sx={{ width: 300 }}
+          sx={{ width: 260 }}
         />
       )}
       {editingIncome?.periodicity === "Yearly" && (
@@ -379,39 +381,10 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
           label="Select specific date"
           value={editingIncome?.yearlyDate || null}
           onChange={(newValue) => setEditingIncome((prev) => ({ ...prev, yearlyDate: newValue }))}
-          renderInput={(params) => <TextField {...params} sx={{ width: 300 }} />}
+          renderInput={(params) => <TextField {...params} sx={{ maxWidth: 260 }} />}
+          className="w-[260px]"
         />
       )}
-
-      {/* Receiving Sum */}
-      <TextField
-        label="Receiving sum"
-        type="number"
-        inputProps={{ min: 1 }}
-        value={editingIncome?.amount || ""}
-        onChange={(e) => setEditingIncome((prev) => ({ ...prev, amount: e.target.value }))}
-        variant="outlined"
-        sx={{ width: 300 }}
-      />
-      
-      {/* Currency Selection */}
-      <Autocomplete
-        value={editingIncome?.currency || ""}
-        onChange={(event, newValue) => setEditingIncome((prev) => ({ ...prev, currency: newValue }))}
-        options={Object.keys(CURRENCY_NAMES)}
-        getOptionLabel={(option) => CURRENCY_NAMES[option] || `Unknown (${option})`}
-        renderInput={(params) => <TextField {...params} label="Saving currency" variant="outlined" />}
-        className="w-[300px]"
-      />
-
-      {/* Saving Method */}
-      <Autocomplete
-        value={editingIncome?.method || ""}
-        onChange={(event, newValue) => setEditingIncome((prev) => ({ ...prev, method: newValue }))}
-        options={["Cash", "Card", "Bank Transfer", "Mobile Payment", "Cryptocurrency"]}
-        renderInput={(params) => <TextField {...params} label="Saving Method" variant="outlined" />}
-        className="w-[300px]"
-      />
 
       {/* Start Date */}
       {console.log(editingIncome)}
@@ -419,6 +392,7 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
   label="Start Date"
   value={dayjs(editingIncome?.startDate) || null}
   onChange={(newValue) => setEditingIncome((prev) => ({ ...prev, startDate: newValue }))}
+  className="w-[260px]"
 />
 
 {/* End Date */}
@@ -428,14 +402,46 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
   onChange={(newValue) =>
     setEditingIncome((prev) => ({ ...prev, endDate: newValue || null }))
   }
+  className="w-[260px]"
   slotProps={{
     textField: {
       error: false, 
     },
   }}
 />
+      </div>
+      <div className="w-[50%] flex flex-col gap-5 items-end">
+        {/* Receiving Sum */}
+        <TextField
+        label="Receiving sum"
+        type="number"
+        inputProps={{ min: 1 }}
+        value={editingIncome?.amount || ""}
+        onChange={(e) => setEditingIncome((prev) => ({ ...prev, amount: e.target.value }))}
+        variant="outlined"
+        sx={{ width: 260 }}
+      />
+      
+      {/* Currency Selection */}
+      <Autocomplete
+        value={editingIncome?.currency || ""}
+        onChange={(event, newValue) => setEditingIncome((prev) => ({ ...prev, currency: newValue }))}
+        options={Object.keys(CURRENCY_NAMES)}
+        getOptionLabel={(option) => CURRENCY_NAMES[option] || `Unknown (${option})`}
+        renderInput={(params) => <TextField {...params} label="Saving currency" variant="outlined" />}
+        className="w-[260px]"
+      />
 
-
+      {/* Saving Method */}
+      <Autocomplete
+        value={editingIncome?.method || ""}
+        onChange={(event, newValue) => setEditingIncome((prev) => ({ ...prev, method: newValue }))}
+        options={["Cash", "Card", "Bank Transfer", "Mobile Payment", "Cryptocurrency"]}
+        renderInput={(params) => <TextField {...params} label="Saving Method" variant="outlined" />}
+        className="w-[260px]"
+      />
+      </div>
+      </div>
 
       {/* Buttons */}
       <DialogActions className="flex justify-end gap-2 pt-4">
