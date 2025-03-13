@@ -33,7 +33,7 @@ export default function Income() {
       modalStep: 1,
       selectedPeriodicity: '',
       dayOfMonth: '',
-      yearlyDate: dayjs().toISOString(), // Correct conversion
+      yearlyDate: dayjs().toISOString(), 
       dayOfWeek: '',
       selectedCurrency: "840",
       savingMethod: '',
@@ -43,7 +43,9 @@ export default function Income() {
       irregularReceivingSum: '',
       incomeName: '',
       irregularIncomeName: '',
-      receivedIncome: dayjs().toISOString() // Convert receivedIncome to string
+      receivedIncome: dayjs().toISOString(),
+      startDate: null,
+      endDate: null,
     }));
   };
   
