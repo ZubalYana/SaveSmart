@@ -64,6 +64,7 @@ export default function IncomeHistory() {
         <p className="text-base font-medium text-defaultText uppercase">Amount</p>
       </div>
 
+      <div className="historyCon w-full max-h-[450px] overflow-y-auto">
       {isLoading ? (
         <p>Loading...</p>
       ) : isError ? (
@@ -78,6 +79,8 @@ export default function IncomeHistory() {
           </div>
         ))
       )}
+      </div>
+
     </div>
   );
 }

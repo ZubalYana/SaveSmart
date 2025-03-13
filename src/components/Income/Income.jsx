@@ -162,7 +162,7 @@ export default function Income() {
   >
     Income saved successfully!
   </Alert>
-</Snackbar>
+        </Snackbar>
 
         <Snackbar
         open={snackbarOpen}
@@ -182,7 +182,7 @@ export default function Income() {
         >
           Income deleted!
         </Alert>
-      </Snackbar>
+        </Snackbar>
 
       </div>
     </LocalizationProvider>
