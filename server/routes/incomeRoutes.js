@@ -72,7 +72,10 @@ router.post('/', async (req, res) => {
 //edit an income
 router.put('/:id', authenticateToken, async (req, res) => {
   try {
-    const { name, isRegular, periodicity, dayOfWeek, dayOfMonth, yearlyDate, amount, currency, method, dateReceived } = req.body;
+    const { 
+      name, isRegular, periodicity, dayOfWeek, dayOfMonth, yearlyDate, 
+      amount, currency, method, dateReceived, startDate, endDate 
+    } = req.body;
 
     if (!name || !amount || !currency || !method) {
       return res.status(400).json({ message: 'Missing required fields' });
@@ -93,11 +96,15 @@ router.put('/:id', authenticateToken, async (req, res) => {
       dayOfWeek: isRegular && periodicity === 'Weekly' ? dayOfWeek : null,
       yearlyDay: isRegular && periodicity === 'Yearly' && yearlyDate ? new Date(yearlyDate).getDate() : null,
       yearlyMonth: isRegular && periodicity === 'Yearly' && yearlyDate ? new Date(yearlyDate).getMonth() + 1 : null,
+      startDate: startDate ? new Date(startDate) : null, 
+      endDate: endDate ? new Date(endDate) : null,
     };
 
     if (!isRegular) {
       updateData.dateReceived = dateReceived;
     }
+
+    Object.keys(updateData).forEach((key) => updateData[key] === undefined && delete updateData[key]);
 
     const updatedIncome = await Income.findOneAndUpdate(
       { _id: req.params.id, userId: req.user.userId },
@@ -115,6 +122,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
     res.status(500).json({ message: 'Error updating income', error: error.message });
   }
 });
+
 
 //delete an income
 router.delete('/:id', authenticateToken, async (req, res) => {
