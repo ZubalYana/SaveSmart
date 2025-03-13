@@ -424,9 +424,17 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
 {/* End Date */}
 <DatePicker
   label="End Date"
-  value={dayjs(editingIncome?.endDate) || null}
-  onChange={(newValue) => setEditingIncome((prev) => ({ ...prev, endDate: newValue }))}
+  value={editingIncome?.endDate ? dayjs(editingIncome.endDate) : null} 
+  onChange={(newValue) =>
+    setEditingIncome((prev) => ({ ...prev, endDate: newValue || null }))
+  }
+  slotProps={{
+    textField: {
+      error: false, 
+    },
+  }}
 />
+
 
 
       {/* Buttons */}
