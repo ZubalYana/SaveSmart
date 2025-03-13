@@ -12,6 +12,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
   const token = localStorage.getItem("token");
@@ -411,6 +412,22 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
         renderInput={(params) => <TextField {...params} label="Saving Method" variant="outlined" />}
         className="w-[300px]"
       />
+
+      {/* Start Date */}
+      {console.log(editingIncome)}
+<DatePicker
+  label="Start Date"
+  value={dayjs(editingIncome?.startDate) || null}
+  onChange={(newValue) => setEditingIncome((prev) => ({ ...prev, startDate: newValue }))}
+/>
+
+{/* End Date */}
+<DatePicker
+  label="End Date"
+  value={dayjs(editingIncome?.endDate) || null}
+  onChange={(newValue) => setEditingIncome((prev) => ({ ...prev, endDate: newValue }))}
+/>
+
 
       {/* Buttons */}
       <DialogActions className="flex justify-end gap-2 pt-4">
