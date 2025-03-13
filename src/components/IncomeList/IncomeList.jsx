@@ -259,11 +259,11 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
         <p className="w-[27%] uppercase text-sm font-medium text-defaultText">Saving way</p>
         <p className="uppercase text-sm font-medium text-defaultText">Actions</p>
       </div>
-      <div className="regularIncomesContainer w-full h-[510px] overflow-y-scroll">
+      <div className="regularIncomesContainer w-full h-[260px] overflow-y-auto">
         {regularIncomes.map((income) => (
           <div
             key={income._id}
-            className="w-full h-[45px] flex items-center px-3 rounded-xl bg-accentLightBlue bg-opacity-10 
+            className="w-[99%] h-[45px] flex items-center px-3 rounded-xl bg-accentLightBlue bg-opacity-10 
                      transition duration-200 hover:bg-accentLightBlue hover:bg-opacity-20 cursor-pointer mb-2"
           >
             <p className="w-[200px] text-base font-medium text-defaultText">{income.name}</p>
