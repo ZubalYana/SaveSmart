@@ -255,12 +255,13 @@ const CURRENCY_NAMES = {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: '60%',
-        height: '62%',
+        height: selectedIncomeType === "Regular income" ? "72%" : "62%",
         overflow: 'auto',
         borderRadius: '8px',
         outline: 'none',
         padding: '35px',
         backgroundColor: '#fff',
+        transition: "height 0.3s ease-in-out",
       },
     }}
   >
@@ -350,6 +351,7 @@ const CURRENCY_NAMES = {
       value={yearlyDate ? dayjs(yearlyDate) : null} 
       onChange={(newValue) => setYearlyDate(newValue ? newValue.toISOString() : null)} 
       renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
+      className="w-[250px]"
     />
   </LocalizationProvider>
     )}
@@ -389,7 +391,7 @@ const CURRENCY_NAMES = {
 />
   </div>
 
-  <div className='flex mt-4'>
+  <div className='flex w-[538px] justify-between mt-4'>
   <LocalizationProvider dateAdapter={AdapterDayjs}>
     <DatePicker
       label="Start date"
@@ -402,7 +404,6 @@ const CURRENCY_NAMES = {
       value={endDate ? dayjs(endDate) : null}
       onChange={(newValue) => dispatch(setIncomeState({ endDate: newValue?.toISOString() }))}
       renderInput={(params) => <TextField {...params} sx={{ width: 250 }} />}
-      className='ml-4'
     />
   </LocalizationProvider>
 </div>
