@@ -376,28 +376,41 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
         />
       )}
       {editingIncome?.periodicity === "Yearly" && (
-        <DatePicker
-          views={['month', 'day']}
-          label="Select specific date"
-          value={editingIncome?.yearlyDate || null}
-          onChange={(newValue) => setEditingIncome((prev) => ({ ...prev, yearlyDate: newValue }))}
-          renderInput={(params) => <TextField {...params} sx={{ maxWidth: 260 }} />}
-          className="w-[260px]"
-        />
+  <DatePicker
+    views={["month", "day"]}
+    label="Select specific date"
+    value={
+      editingIncome?.yearlyDate ||
+      (editingIncome?.yearlyMonth !== null &&
+        editingIncome?.yearlyDay !== null
+        ? dayjs().month(editingIncome.yearlyMonth - 1).date(editingIncome.yearlyDay)
+        : null)
+    }
+    onChange={(newValue) =>
+      setEditingIncome((prev) => ({
+        ...prev,
+        yearlyDate: newValue,
+        yearlyMonth: newValue?.month() + 1, 
+        yearlyDay: newValue?.date(),
+      }))
+    }
+    renderInput={(params) => <TextField {...params} sx={{ maxWidth: 260 }} />}
+    className="w-[260px]"
+  />
       )}
 
+
       {/* Start Date */}
-      {console.log(editingIncome)}
-<DatePicker
-  label="Start Date"
+      <DatePicker
+       label="Start Date"
   value={dayjs(editingIncome?.startDate) || null}
   onChange={(newValue) => setEditingIncome((prev) => ({ ...prev, startDate: newValue }))}
   className="w-[260px]"
-/>
+      />
 
-{/* End Date */}
-<DatePicker
-  label="End Date"
+      {/* End Date */}
+      <DatePicker
+       label="End Date"
   value={editingIncome?.endDate ? dayjs(editingIncome.endDate) : null} 
   onChange={(newValue) =>
     setEditingIncome((prev) => ({ ...prev, endDate: newValue || null }))
@@ -407,8 +420,8 @@ const IncomeList = ({ setDeletedIncome, setSnackbarOpen }) => {
     textField: {
       error: false, 
     },
-  }}
-/>
+       }}
+      />
       </div>
       <div className="w-[50%] flex flex-col gap-5 items-end">
         {/* Receiving Sum */}
