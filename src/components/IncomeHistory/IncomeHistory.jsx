@@ -32,13 +32,13 @@ export default function IncomeHistory() {
 
     while (currentDate.isBefore(finalEndDate) || currentDate.isSame(finalEndDate)) {
       if (periodicity === "Daily") {
-        entries.push({ date: currentDate.format("YYYY-MM-DD"), amount, name, type: "Regular" });
+        entries.push({ date: currentDate.format("MM/DD/YYYY"), amount, name, type: "Regular" });
         currentDate = currentDate.add(1, "day");
       } else if (periodicity === "Monthly" && currentDate.date() === dayOfMonth) {
-        entries.push({ date: currentDate.format("YYYY-MM-DD"), amount, name, type: "Regular" });
+        entries.push({ date: currentDate.format("MM/DD/YYYY"), amount, name, type: "Regular" });
         currentDate = currentDate.add(1, "month");
       } else if (periodicity === "Yearly" && currentDate.date() === yearlyDay && currentDate.month() + 1 === yearlyMonth) {
-        entries.push({ date: currentDate.format("YYYY-MM-DD"), amount, name, type: "Regular" });
+        entries.push({ date: currentDate.format("MM/DD/YYYY"), amount, name, type: "Regular" });
         currentDate = currentDate.add(1, "year");
       } else {
         currentDate = currentDate.add(1, "day");
@@ -144,11 +144,11 @@ export default function IncomeHistory() {
 
       <div className="historyCon w-full max-h-[450px] overflow-y-auto">
         {sortedIncomes.map((income, index) => (
-          <div key={index} className="w-full flex justify-between px-[30px] py-2 border-b">
-            <p className="text-base">{income.name}</p>
+          <div key={index} className="w-[99%] h-[45px] flex items-center justify-between px-[30px] rounded-xl bg-accentLightBlue bg-opacity-10 transition duration-200 hover:bg-accentLightBlue hover:bg-opacity-20 cursor-pointer mb-2">
+            <p className="text-base font-medium text-defaultText">{income.name}</p>
             <p className="text-base">{income.type}</p>
-            <p className="text-base">{income.date || dayjs(income.createdAt).format("YYYY-MM-DD")}</p>
-            <p className="text-base">${income.amount}</p>
+            <p className="text-base">{income.date || dayjs(income.createdAt).format("MM/DD/YYYY")}</p>
+            <p className="text-base font-normal text-[#1E8A35]">+{income.amount}$</p>
           </div>
         ))}
       </div>
