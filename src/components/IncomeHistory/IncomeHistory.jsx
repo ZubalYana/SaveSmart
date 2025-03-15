@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import "./IncomeHistory.css";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 export default function IncomeHistory() {
   const token = localStorage.getItem("token");
@@ -121,19 +122,22 @@ export default function IncomeHistory() {
       <h1 className="text-xl font-semibold uppercase text-mainBlue">Income History</h1>
 
       <div className="w-full px-[30px] mt-4 flex justify-end">
-        <select
-          className="border px-2 py-1 rounded text-defaultText"
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-        >
-          <option value="date-newest">Sort by Date (Newest to Oldest)</option>
-          <option value="date-oldest">Sort by Date (Oldest to Newest)</option>
-          <option value="amount-high">Sort by Amount (High to Low)</option>
-          <option value="amount-low">Sort by Amount (Low to High)</option>
-          <option value="type-irregular">Sort by Type (Regular First)</option>
-          <option value="type-regular">Sort by Type (Iregular First)</option>
-        </select>
-      </div>
+  <FormControl size="small" variant="outlined" sx={{ minWidth: 220 }}>
+    <InputLabel>Sort By</InputLabel>
+    <Select
+      value={sortBy}
+      onChange={(e) => setSortBy(e.target.value)}
+      label="Sort By"
+    >
+      <MenuItem value="date-newest">Date (Newest to Oldest)</MenuItem>
+      <MenuItem value="date-oldest">Date (Oldest to Newest)</MenuItem>
+      <MenuItem value="amount-high">Amount (High to Low)</MenuItem>
+      <MenuItem value="amount-low">Amount (Low to High)</MenuItem>
+      <MenuItem value="type-irregular">Type (Regular First)</MenuItem>
+      <MenuItem value="type-regular">Type (Irregular First)</MenuItem>
+    </Select>
+  </FormControl>
+</div>
 
       <div className="w-full flex justify-between px-[30px] mt-4 border-b pb-2">
         <p className="text-base font-medium text-defaultText uppercase">Source</p>
