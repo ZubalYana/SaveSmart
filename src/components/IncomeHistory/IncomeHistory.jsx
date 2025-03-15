@@ -7,9 +7,9 @@ export default function IncomeHistory() {
   const token = localStorage.getItem("token");
   const today = dayjs();
   const queryClient = useQueryClient();
-  const [sortBy, setSortBy] = useState("date-newest"); 
+  const [sortBy, setSortBy] = useState("date-newest");
 
-  const { data: incomes = [], isLoading, isError } = useQuery({
+  const { data: incomes = [], isLoading, isError, error } = useQuery({
     queryKey: ["incomes"],
     queryFn: async () => {
       const response = await fetch("http://localhost:3000/api/income", {
@@ -88,6 +88,33 @@ export default function IncomeHistory() {
       return 0;
     });
   }, [irregularIncomes, regularIncomeHistory, sortBy]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full flex flex-col items-center mt-5">
+        <h1 className="text-xl font-semibold uppercase text-mainBlue">Income History</h1>
+        <p>Loading...</p> 
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="w-full flex flex-col items-center mt-5">
+        <h1 className="text-xl font-semibold uppercase text-mainBlue">Income History</h1>
+        <p>Error: {error.message}</p> 
+      </div>
+    );
+  }
+
+  if (incomes.length === 0) {
+    return (
+      <div className="w-full flex flex-col items-center mt-5">
+        <h1 className="text-xl font-semibold uppercase text-mainBlue">Income History</h1>
+        <p>No data available.</p> 
+      </div>
+    );
+  }
 
   return (
     <div className="w-full flex flex-col items-center mt-5">
