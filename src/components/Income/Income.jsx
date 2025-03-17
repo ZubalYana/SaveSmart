@@ -4,6 +4,7 @@ import Burger from '../Burger/Burger';
 import IncomeList from '../IncomeList/IncomeList';
 import IncomeCreationModal from '../IncomeCreationModal/IncomeCreationModal';
 import IncomeHistory from '../IncomeHistory/IncomeHistory';
+import IncomeLineChart from '../IncomeLineChart/IncomeLineChart';
 import { Plus, ListChecks } from 'lucide-react';
 import Modal from 'react-modal';
 Modal.setAppElement('#root');
@@ -92,6 +93,11 @@ export default function Income() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className='Income screen xs:p-4 md:p-6 lg:p-7'>
         <Burger />
+        <div className='w-full flex'>
+          <div className='w-[50%] mb-5'>
+          <IncomeLineChart />
+          </div>
+        </div>
         <div className='w-[360px] flex justify-between'>
           <button
             className='uppercase p-4 flex bg-accentLightBlue rounded-xl items-center justify-center text-sm font-medium text-customWhite transition-all duration-300 hover:bg-btnBgShade-500 hover:shadow-lg hover:scale-105 hover:bg-opacity-80'
