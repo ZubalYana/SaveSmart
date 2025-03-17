@@ -2,8 +2,9 @@ import React, { useMemo, useState } from "react";
 import "./IncomeHistory.css";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-
+import { FormControl, InputLabel } from "@mui/material";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { Select, MenuItem, IconButton } from "@mui/material";
 export default function IncomeHistory() {
   const token = localStorage.getItem("token");
   const today = dayjs();
@@ -118,17 +119,34 @@ export default function IncomeHistory() {
   }
 
   return (
-    <div className="w-full flex flex-col items-center mt-5">
+    <div className="w-full flex flex-col items-center mt-5 relative">
       <h1 className="text-xl font-semibold uppercase text-mainBlue">Income History</h1>
-
-      <div className="w-full px-[30px] mt-4 flex justify-end">
-  <FormControl size="small" variant="outlined" sx={{ minWidth: 220 }}>
-    <InputLabel>Sort By</InputLabel>
+      
+      <div className="absolute top-0 right-0">
+  <FormControl 
+    size="small" 
+    variant="standard" 
+    sx={{ 
+      minWidth: 120, 
+      display: "flex", 
+      flexDirection: "row", 
+      alignItems: "center", 
+      gap: 0.3
+    }}
+  >
+    <FilterAltIcon fontSize="small" /> 
     <Select
       value={sortBy}
       onChange={(e) => setSortBy(e.target.value)}
-      label="Sort By"
+      displayEmpty
+      disableUnderline
+      sx={{
+        fontSize: "0.875rem", // Smaller text
+        "&.MuiOutlinedInput-root": { border: "none" }, // Remove outlined border
+        "& .MuiSelect-select": { padding: "6px 8px" },
+      }}
     >
+      <MenuItem value="" disabled>Sort By</MenuItem>
       <MenuItem value="date-newest">Date (Newest to Oldest)</MenuItem>
       <MenuItem value="date-oldest">Date (Oldest to Newest)</MenuItem>
       <MenuItem value="amount-high">Amount (High to Low)</MenuItem>
@@ -139,7 +157,8 @@ export default function IncomeHistory() {
   </FormControl>
 </div>
 
-      <div className="w-full flex justify-between px-[30px] mt-4 border-b pb-2">
+
+      <div className="w-full flex justify-between px-[30px] mt-6 border-b pb-2">
         <p className="text-base font-medium text-defaultText uppercase">Source</p>
         <p className="text-base font-medium text-defaultText uppercase">Type</p>
         <p className="text-base font-medium text-defaultText uppercase">Date</p>
@@ -157,10 +176,10 @@ export default function IncomeHistory() {
         ))}
       </div>
 
-      <div className="w-full flex justify-between px-[30px] mt-4">
+      {/* <div className="w-full flex justify-between px-[30px] mt-4">
         <h2 className="text-lg font-bold">Total Income:</h2>
         <h2 className="text-lg font-bold">${totalIncome.toFixed(2)}</h2>
-      </div>
+      </div> */}
     </div>
   );
 }
