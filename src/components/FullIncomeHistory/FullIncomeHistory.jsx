@@ -4,6 +4,8 @@ import dayjs from "dayjs";
 import { FormControl, InputLabel } from "@mui/material";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Select, MenuItem, IconButton } from "@mui/material";
+import { PencilIcon, TrashIcon } from "lucide-react";
+
 export default function IncomeHistory() {
   const token = localStorage.getItem("token");
   const today = dayjs();
@@ -98,7 +100,6 @@ export default function IncomeHistory() {
       </div>
     );
   }
-
   if (isError) {
     return (
       <div className="w-full flex flex-col items-center mt-5">
@@ -107,7 +108,6 @@ export default function IncomeHistory() {
       </div>
     );
   }
-
   if (incomes.length === 0) {
     return (
       <div className="w-full flex flex-col items-center mt-5">
@@ -162,6 +162,7 @@ export default function IncomeHistory() {
         <p className="text-base font-medium text-defaultText uppercase">Type</p>
         <p className="text-base font-medium text-defaultText uppercase">Date</p>
         <p className="text-base font-medium text-defaultText uppercase">Amount</p>
+        <p className="text-base font-medium text-defaultText uppercase">Actions</p>
       </div>
 
       <div className="historyCon w-full max-h-[370px] overflow-y-auto">
@@ -171,14 +172,22 @@ export default function IncomeHistory() {
             <p className="text-base">{income.type}</p>
             <p className="text-base">{income.date || dayjs(income.createdAt).format("MM/DD/YYYY")}</p>
             <p className="text-base font-normal text-[#1E8A35]">+{income.amount}$</p>
+            <div className="w-[55px] flex justify-between">
+              <PencilIcon
+                className="cursor-pointer text-defaultText transition-transform duration-200 hover:scale-125 hover:text-blue-500"
+                size={20}
+                onClick={() => handleOpenEdit(income)}
+              />
+              <TrashIcon
+                className="cursor-pointer text-defaultText transition-transform duration-200 hover:scale-125 hover:text-red-500"
+                size={20}
+                onClick={() => handleOpenConfirm(income)}
+              />
+            </div>
           </div>
+          
         ))}
       </div>
-
-      {/* <div className="w-full flex justify-between px-[30px] mt-4">
-        <h2 className="text-lg font-bold">Total Income:</h2>
-        <h2 className="text-lg font-bold">${totalIncome.toFixed(2)}</h2>
-      </div> */}
     </div>
   );
 }
