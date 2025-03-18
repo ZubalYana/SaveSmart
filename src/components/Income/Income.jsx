@@ -4,6 +4,7 @@ import Burger from '../Burger/Burger';
 import IncomeList from '../IncomeList/IncomeList';
 import IncomeCreationModal from '../IncomeCreationModal/IncomeCreationModal';
 import IncomeHistory from '../IncomeHistory/IncomeHistory';
+import FullIncomeHistory from '../FullIncomeHistory/FullIncomeHistory';
 import IncomeLineChartContainer from '../IncomeLineChartContainer/IncomeLineChartContainer';
 import { Plus, ListChecks, History } from 'lucide-react';
 import Modal from 'react-modal';
@@ -104,13 +105,17 @@ export default function Income() {
   });
   console.log(incomes);
 
+  const [isFullIncomeHistoryModalOpen, setisFullIncomeHistoryModalOpen] = useState(false);
+  const openFullIncomeHistoryModal = () => setisFullIncomeHistoryModalOpen(true);
+  const closeFullIncomeHistoryModal = () => setisFullIncomeHistoryModalOpen(false);
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className='Income screen xs:p-4 md:p-6 lg:p-7'>
         <Burger />
-        <div className='w-full flex'>
+        {/* <div className='w-full flex'>
         <IncomeLineChartContainer />
-        </div>
+        </div> */}
         <div className='w-[530px] flex justify-between'>
           <button
             className='uppercase p-4 flex bg-accentLightBlue rounded-xl items-center justify-center text-sm font-medium text-customWhite transition-all duration-300 hover:bg-btnBgShade-500 hover:shadow-lg hover:scale-105 hover:bg-opacity-80'
@@ -128,6 +133,7 @@ export default function Income() {
           </button>
           <button 
           className='uppercase p-4 flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-sm font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'
+          onClick={openFullIncomeHistoryModal}
           >
             <History className='mr-2' />
             Full history
@@ -173,6 +179,42 @@ export default function Income() {
         }}
         >
           <IncomeList setDeletedIncome={setDeletedIncome} setSnackbarOpen={setSnackbarOpen} />
+
+        </Modal>
+
+        <Modal
+        isOpen={isFullIncomeHistoryModalOpen}
+        onRequestClose={closeFullIncomeHistoryModal}
+        contentLabel="Full income history modal"
+        style={{
+          overlay: {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 1000
+          },
+          content: {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '70%',
+            minHeight: '62%',
+            maxHeight: '80%',
+            height: 'fit-content',
+            overflow: 'hidden',
+            borderRadius: '8px',
+            outline: 'none',
+            padding: '35px',
+            paddingTop: '25px',
+            backgroundColor: '#fff',
+          },
+        }}
+        >
+          <FullIncomeHistory />
 
         </Modal>
 

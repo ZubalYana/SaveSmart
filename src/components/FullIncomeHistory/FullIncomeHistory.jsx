@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import "./IncomeHistory.css";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { FormControl, InputLabel } from "@mui/material";
@@ -119,7 +118,7 @@ export default function IncomeHistory() {
   }
 
   return (
-    <div className="w-full flex flex-col items-center mt-5 relative">
+    <div className="w-full flex flex-col items-center relative">
       <h1 className="text-xl font-semibold uppercase text-mainBlue">Income History</h1>
       
       <div className="absolute top-0 right-0">
@@ -165,7 +164,7 @@ export default function IncomeHistory() {
         <p className="text-base font-medium text-defaultText uppercase">Amount</p>
       </div>
 
-      <div className="historyCon w-full max-h-[450px] overflow-y-auto">
+      <div className="historyCon w-full max-h-[370px] overflow-y-auto">
         {sortedIncomes.map((income, index) => (
           <div key={index} className="w-[99%] h-[45px] flex items-center justify-between px-[30px] rounded-xl bg-accentLightBlue bg-opacity-10 transition duration-200 hover:bg-accentLightBlue hover:bg-opacity-20 cursor-pointer mb-2">
             <p className="text-base font-medium text-defaultText">{income.name}</p>
