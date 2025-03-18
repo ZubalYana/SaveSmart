@@ -63,4 +63,14 @@ router.post('/login', async (req, res) => {
   }
 });
 
+//get user info
+router.get('/user', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    res.json({ name: user.username, email: user.email, password: user.password, dateOfBirth: user.dateOfBirth, subscribedToNewsletter: user.subscribedToNewsletter, heardFrom: user.heardFrom, purposeOfUsage: user.purposeOfUsage, createdAt: user.createdAt });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch user info', error: error.message });
+  }
+});
+
 module.exports = router;
