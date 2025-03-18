@@ -5,7 +5,7 @@ import IncomeList from '../IncomeList/IncomeList';
 import IncomeCreationModal from '../IncomeCreationModal/IncomeCreationModal';
 import IncomeHistory from '../IncomeHistory/IncomeHistory';
 import IncomeLineChartContainer from '../IncomeLineChartContainer/IncomeLineChartContainer';
-import { Plus, ListChecks } from 'lucide-react';
+import { Plus, ListChecks, History } from 'lucide-react';
 import Modal from 'react-modal';
 Modal.setAppElement('#root');
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -111,7 +111,7 @@ export default function Income() {
         <div className='w-full flex'>
         <IncomeLineChartContainer />
         </div>
-        <div className='w-[360px] flex justify-between'>
+        <div className='w-[530px] flex justify-between'>
           <button
             className='uppercase p-4 flex bg-accentLightBlue rounded-xl items-center justify-center text-sm font-medium text-customWhite transition-all duration-300 hover:bg-btnBgShade-500 hover:shadow-lg hover:scale-105 hover:bg-opacity-80'
             onClick={openIncomeLoggingModal}
@@ -125,6 +125,12 @@ export default function Income() {
           >
             <ListChecks className='mr-2' />
             Incomes list
+          </button>
+          <button 
+          className='uppercase p-4 flex bg-accentLightBlue text-defaultText bg-opacity-30 rounded-xl items-center justify-center text-sm font-medium transition-all duration-300 hover:bg-btnBgShade-500 hover:text-customWhite hover:shadow-lg hover:scale-105 hover:bg-opacity-80'
+          >
+            <History className='mr-2' />
+            Full history
           </button>
         </div>
         <div className='w-full h-[1px] bg-mainBlue mt-3'></div>
