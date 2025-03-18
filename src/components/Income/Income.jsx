@@ -4,7 +4,7 @@ import Burger from '../Burger/Burger';
 import IncomeList from '../IncomeList/IncomeList';
 import IncomeCreationModal from '../IncomeCreationModal/IncomeCreationModal';
 import IncomeHistory from '../IncomeHistory/IncomeHistory';
-import IncomeLineChart from '../IncomeLineChart/IncomeLineChart';
+import IncomeLineChartContainer from '../IncomeLineChartContainer/IncomeLineChartContainer';
 import { Plus, ListChecks } from 'lucide-react';
 import Modal from 'react-modal';
 Modal.setAppElement('#root');
@@ -12,7 +12,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogTitle, Button } from "@mui/material";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery,useQueryClient } from "@tanstack/react-query";
 import { useSelector, useDispatch } from 'react-redux';
 import { setIncomeState } from '../../redux/slices/incomeSlice';
 import { setOpenSnackbar } from '../../redux/slices/incomeSlice';
@@ -20,7 +20,8 @@ export default function Income() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [deletedIncome, setDeletedIncome] = useState(null);
   const queryClient = useQueryClient();
-
+  const token = localStorage.getItem("token");
+  
   const dispatch = useDispatch();
   const {
     isIncomeLoggingModalOpen,
@@ -83,20 +84,32 @@ export default function Income() {
     }
   };
   
-  
-  
   const [isIncomesListModalOpen, setisIncomesListModalOpen] = useState(false);
   const openIncomesListModal = () => setisIncomesListModalOpen(true);
   const closeIncomesListModal = () => setisIncomesListModalOpen(false);
+
+  const { data: incomes = [], isLoading, isError, error } = useQuery({
+    queryKey: ["incomes"],
+    queryFn: async () => {
+      const response = await fetch("http://localhost:3000/api/income", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) throw new Error("Failed to fetch incomes");
+      return response.json();
+    },
+  });
+  console.log(incomes);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className='Income screen xs:p-4 md:p-6 lg:p-7'>
         <Burger />
         <div className='w-full flex'>
-          <div className='w-[50%] mb-5'>
-          <IncomeLineChart />
-          </div>
+        <IncomeLineChartContainer />
         </div>
         <div className='w-[360px] flex justify-between'>
           <button
