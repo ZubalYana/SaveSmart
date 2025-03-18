@@ -1,60 +1,70 @@
-import React from 'react'
-import IncomeLineChart from '../IncomeLineChart/IncomeLineChart'
-import { useQuery,useQueryClient } from "@tanstack/react-query";
+import React from "react";
+import IncomeLineChart from "../IncomeLineChart/IncomeLineChart";
+import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
 
 export default function IncomeLineChartContainer() {
-    const { data: incomes = [], isLoading, isError, error } = useQuery({
-        queryKey: ["incomes"],
-        queryFn: async () => {
-          const response = await fetch("http://localhost:3000/api/income", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          if (!response.ok) throw new Error("Failed to fetch incomes");
-          return response.json();
+  const { data: incomes = [], isLoading, isError } = useQuery({
+    queryKey: ["incomes"],
+    queryFn: async () => {
+      const response = await fetch("http://localhost:3000/api/income", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
-      console.log(incomes);
+      if (!response.ok) throw new Error("Failed to fetch incomes");
+      return response.json();
+    },
+  });
 
-      const data = [
-        { name: "Page A", pv: 2400, amt: 2400 },
-        { name: "Page B", pv: 1398, amt: 2210 },
-        { name: "Page C", pv: 9800, amt: 2290 },
-        { name: "Page D", pv: 3908, amt: 2000 },
-        { name: "Page E", pv: 4800, amt: 2181 },
-        { name: "Page F", pv: 3800, amt: 2500 },
-        { name: "Page G", pv: 4300, amt: 2100 },
-      ];
+  console.log("Fetched incomes:", incomes);
 
+  const currentYear = dayjs().year();
+  const currentMonth = dayjs().month() + 1; 
 
-        // const generateRegularIncomeHistory = (income) => {
-        //   const { startDate, endDate, periodicity, amount, name, dayOfMonth, yearlyDay, yearlyMonth } = income;
-        //   const entries = [];
-        //   let currentDate = dayjs(startDate);
-        //   const finalEndDate = endDate ? dayjs(endDate) : today;
-      
-        //   while (currentDate.isBefore(finalEndDate) || currentDate.isSame(finalEndDate)) {
-        //     if (periodicity === "Daily") {
-        //       entries.push({ date: currentDate.format("MM/DD/YYYY"), amount, name, type: "Regular" });
-        //       currentDate = currentDate.add(1, "day");
-        //     } else if (periodicity === "Monthly" && currentDate.date() === dayOfMonth) {
-        //       entries.push({ date: currentDate.format("MM/DD/YYYY"), amount, name, type: "Regular" });
-        //       currentDate = currentDate.add(1, "month");
-        //     } else if (periodicity === "Yearly" && currentDate.date() === yearlyDay && currentDate.month() + 1 === yearlyMonth) {
-        //       entries.push({ date: currentDate.format("MM/DD/YYYY"), amount, name, type: "Regular" });
-        //       currentDate = currentDate.add(1, "year");
-        //     } else {
-        //       currentDate = currentDate.add(1, "day");
-        //     }
-        //   }
-        //   return entries;
-        // };
+  const incomeByDay = {};
+
+  incomes.forEach((income) => {
+    const isRegular = income.isRegular;
+    if (!isRegular) {
+      const date = income.dateReceived || income.createdAt;
+      if (!date) return;
+      const dayLabel = dayjs(date).format("MMM D");
+
+      if (!incomeByDay[dayLabel]) incomeByDay[dayLabel] = 0;
+      incomeByDay[dayLabel] += income.amount;
+    }
+  });
+
+  incomes.forEach((income) => {
+    if (income.isRegular && income.periodicity === "Monthly") {
+      const salaryDate = dayjs(`${currentYear}-${currentMonth}-${income.dayOfMonth}`);
+
+      if (salaryDate.isValid()) {
+        const dayLabel = salaryDate.format("MMM D");
+        if (!incomeByDay[dayLabel]) incomeByDay[dayLabel] = 0;
+        incomeByDay[dayLabel] += income.amount;
+      }
+    }
+  });
+
+  console.log("Aggregated incomes by day:", incomeByDay);
+
+  const chartData = Object.entries(incomeByDay)
+    .map(([day, total]) => ({
+      name: day,
+      pv: total,
+      dayNum: parseInt(day.split(" ")[1]),
+    }))
+    .sort((a, b) => a.dayNum - b.dayNum);
+
+  console.log("Final chart data:", chartData);
+
   return (
-    <div className='w-[50%] mb-5'>
-    <IncomeLineChart data={data} />
+    <div className="w-[50%] mb-5">
+      <IncomeLineChart data={chartData} />
     </div>
-  )
+  );
 }
