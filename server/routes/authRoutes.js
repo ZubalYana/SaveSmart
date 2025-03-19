@@ -4,6 +4,20 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/UserModel');
 const authenticateToken = require('../middleware/authMiddleware');
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../cloudinaryConfig");
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "profile_pictures",
+    allowed_formats: ["jpg", "png", "jpeg"],
+    transformation: [{ width: 200, height: 200, crop: "fill" }], 
+  },
+});
+
+const upload = multer({ storage });
 
 //register
 router.post('/register', async (req, res) => {
@@ -72,5 +86,21 @@ router.get('/user', authenticateToken, async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch user info', error: error.message });
   }
 });
+
+//upload profile picture
+router.post("/upload-profile", authenticateToken, upload.single("profilePicture"), async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.profilePicture = req.file.path; 
+    await user.save();
+
+    res.json({ message: "Profile picture updated", profilePicture: user.profilePicture });
+  } catch (error) {
+    res.status(500).json({ message: "Error uploading image", error: error.message });
+  }
+});
+
 
 module.exports = router;
