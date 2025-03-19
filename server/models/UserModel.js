@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     subscribedToNewsletter: Boolean,
     heardFrom: String,
     purposeOfUsage: String,
+    profilePicture: { type: String, default: "/defaultUserPicture.svg" },
     createdAt: { type: Date, default: Date.now },
 })
 
