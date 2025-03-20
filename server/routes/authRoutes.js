@@ -81,18 +81,36 @@ router.post('/login', async (req, res) => {
 router.get('/user', authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
-    res.json({ name: user.username, email: user.email, password: user.password, dateOfBirth: user.dateOfBirth, subscribedToNewsletter: user.subscribedToNewsletter, heardFrom: user.heardFrom, purposeOfUsage: user.purposeOfUsage, createdAt: user.createdAt });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.json({
+      name: user.username,
+      email: user.email,
+      password: user.password,
+      dateOfBirth: user.dateOfBirth,
+      subscribedToNewsletter: user.subscribedToNewsletter,
+      heardFrom: user.heardFrom,
+      purposeOfUsage: user.purposeOfUsage,
+      profilePicture: user.profilePicture,  
+      createdAt: user.createdAt,
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch user info', error: error.message });
+    res.status(500).json({ message: "Failed to fetch user info", error: error.message });
   }
 });
+
 
 //upload profile picture
 router.post("/upload-profile", authenticateToken, upload.single("profilePicture"), async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
     const user = await User.findById(req.user.userId);
     if (!user) return res.status(404).json({ message: "User not found" });
 
+    console.log(req.file.path)
     user.profilePicture = req.file.path; 
     await user.save();
 
@@ -101,6 +119,7 @@ router.post("/upload-profile", authenticateToken, upload.single("profilePicture"
     res.status(500).json({ message: "Error uploading image", error: error.message });
   }
 });
+
 
 
 module.exports = router;
