@@ -170,16 +170,16 @@ export default function IncomeHistory() {
           <div key={index} className="w-[99%] h-[45px] flex items-center justify-between px-[30px] rounded-xl bg-accentLightBlue bg-opacity-10 transition duration-200 hover:bg-accentLightBlue hover:bg-opacity-20 cursor-pointer mb-2">
             <p className="text-base font-medium text-defaultText">{income.name}</p>
             <p className="text-base">{income.type}</p>
-            <p className="text-base">{income.date || dayjs(income.createdAt).format("MM/DD/YYYY")}</p>
+            <p className="text-base">{dayjs(income.dateReceived || income.date).format("MM/DD/YYYY")}</p>
             <p className="text-base font-normal text-[#1E8A35]">+{income.amount}$</p>
           </div>
         ))}
       </div>
 
-      {/* <div className="w-full flex justify-between px-[30px] mt-4">
+      <div className="w-full flex justify-between px-[30px] mt-4">
         <h2 className="text-lg font-bold">Total Income:</h2>
         <h2 className="text-lg font-bold">${totalIncome.toFixed(2)}</h2>
-      </div> */}
+      </div>
     </div>
   );
 }

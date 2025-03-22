@@ -178,8 +178,9 @@ const CURRENCY_NAMES = {
     dispatch(setIncomeState({ receivingSum: e.target.value }));
   };
   const handleReceivedIncomeChange = (newValue) => {
-    dispatch(setIncomeState({ receivedIncome: newValue })); 
-  };
+    dispatch(setIncomeState({ receivedIncome: newValue ? newValue.toISOString() : null }));
+};
+
   
   const handleSaveIncome = async () => {
     const isRegular = selectedIncomeType === "Regular income";
@@ -428,7 +429,7 @@ const CURRENCY_NAMES = {
   views={['month', 'day']}
   label="Received at:"
   value={receivedIncome ? dayjs(receivedIncome) : null} 
-  onChange={(newValue) => setReceivedIncome(newValue)}
+  onChange={(newValue) => handleReceivedIncomeChange(newValue)}
   renderInput={(params) => <TextField {...params} sx={{ width: 300 }} />}
   sx={{ width: 300 }}
 />
