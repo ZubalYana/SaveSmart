@@ -33,34 +33,44 @@ export default function MyProfile() {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-
+    if (!file) {
+      console.log("No file selected.");
+      return;
+    }
+  
     const formData = new FormData();
     formData.append("profilePicture", file);
-
+  
+    console.log("Uploading file:", file);
+    console.log("FormData:", formData.get("profilePicture")); 
+  
     try {
       const response = await fetch("http://localhost:3000/api/auth/upload-profile", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
+  
+      console.log("Response status:", response.status);
       
       const text = await response.text(); 
+      console.log("Server response:", text);
+  
       try {
-        const data = JSON.parse(text); 
+        const data = JSON.parse(text);
         if (response.ok) {
           setProfilePic(data.profilePicture);
         } else {
           console.error("Image upload failed:", data.message);
         }
       } catch (jsonError) {
-        console.error("Server did not return valid JSON:", text); 
+        console.error("Server did not return valid JSON:", text);
       }
-      
     } catch (error) {
       console.error("Error uploading image:", error);
     }
   };
+  
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;

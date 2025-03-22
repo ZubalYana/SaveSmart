@@ -55,7 +55,7 @@ export default function IncomeLineChartContainer() {
   const chartData = Object.entries(incomeByDay)
     .map(([day, total]) => ({
       name: day,
-      pv: total,
+      amout: total,
       dayNum: parseInt(day.split(" ")[1]),
     }))
     .sort((a, b) => a.dayNum - b.dayNum);

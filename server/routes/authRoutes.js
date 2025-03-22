@@ -103,19 +103,29 @@ router.get('/user', authenticateToken, async (req, res) => {
 //upload profile picture
 router.post("/upload-profile", authenticateToken, upload.single("profilePicture"), async (req, res) => {
   try {
+    console.log("Received request to upload profile picture");
+
     if (!req.file) {
+      console.log("No file uploaded");
       return res.status(400).json({ message: "No file uploaded" });
     }
 
-    const user = await User.findById(req.user.userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    console.log("Uploaded file:", req.file);
 
-    console.log(req.file.path)
-    user.profilePicture = req.file.path; 
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      console.log("User not found");
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.profilePicture = req.file.path;
     await user.save();
 
+    console.log("Profile picture updated:", user.profilePicture);
     res.json({ message: "Profile picture updated", profilePicture: user.profilePicture });
+
   } catch (error) {
+    console.error("Upload error:", error); 
     res.status(500).json({ message: "Error uploading image", error: error.message });
   }
 });

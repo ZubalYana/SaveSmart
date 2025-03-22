@@ -113,9 +113,9 @@ export default function Income() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className='Income screen xs:p-4 md:p-6 lg:p-7'>
         <Burger />
-        {/* <div className='w-full flex'>
+        <div className='w-full flex'>
         <IncomeLineChartContainer />
-        </div> */}
+        </div>
         <div className='w-[530px] flex justify-between'>
           <button
             className='uppercase p-4 flex bg-accentLightBlue rounded-xl items-center justify-center text-sm font-medium text-customWhite transition-all duration-300 hover:bg-btnBgShade-500 hover:shadow-lg hover:scale-105 hover:bg-opacity-80'

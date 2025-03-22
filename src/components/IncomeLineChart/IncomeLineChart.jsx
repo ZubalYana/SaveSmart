@@ -30,7 +30,7 @@ export default class IncomeLineChart extends PureComponent {
             <Legend />
             <Line
               type="monotone"
-              dataKey="pv"
+              dataKey="amout"
               stroke="#8884d8"
               activeDot={{ r: 8 }}
             />
