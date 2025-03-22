@@ -111,7 +111,7 @@ export default function Income() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className='Income screen xs:p-4 md:p-6 lg:p-7'>
+      <div className='Income screen xs:p-4 md:p-6 lg:p-7 overflow-hidden'>
         <Burger />
         <div className='w-full flex'>
         <IncomeLineChartContainer />

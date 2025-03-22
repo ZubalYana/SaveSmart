@@ -122,7 +122,7 @@ export default function IncomeHistory() {
   }
 
   return (
-    <div className="w-full flex flex-col items-center mt-5 relative">
+    <div className="w-full flex flex-col items-center mt-5 relative h-[240px]">
       <h1 className="text-xl font-semibold uppercase text-mainBlue">Income History</h1>
       
       <div className="absolute top-0 right-0">
@@ -179,10 +179,10 @@ export default function IncomeHistory() {
         ))}
       </div>
 
-      <div className="w-full flex justify-between px-[30px] mt-4">
+      {/* <div className="w-full flex justify-between px-[30px] mt-4">
         <h2 className="text-lg font-bold">Total Income:</h2>
         <h2 className="text-lg font-bold">${totalIncome.toFixed(2)}</h2>
-      </div>
+      </div> */}
     </div>
   );
 }
