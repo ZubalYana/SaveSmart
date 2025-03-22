@@ -31,7 +31,7 @@ export default class IncomeLineChart extends PureComponent {
             <Line
               type="monotone"
               dataKey="amout"
-              stroke="#8884d8"
+              stroke="#1E3A8A"
               activeDot={{ r: 8 }}
             />
           </LineChart>
