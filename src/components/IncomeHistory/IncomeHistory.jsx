@@ -72,25 +72,28 @@ export default function IncomeHistory() {
 
   const sortedIncomes = useMemo(() => {
     const allIncomes = [...irregularIncomes, ...regularIncomeHistory];
-
+  
     return allIncomes.sort((a, b) => {
+      const dateA = dayjs(a.dateReceived || a.date);
+      const dateB = dayjs(b.dateReceived || b.date);
+  
       if (sortBy === "date-oldest") {
-        return dayjs(a.date).diff(dayjs(b.date)); 
+        return dateA.diff(dateB);
       } else if (sortBy === "date-newest") {
-        return dayjs(b.date).diff(dayjs(a.date)); 
+        return dateB.diff(dateA);
       } else if (sortBy === "amount-high") {
-        return b.amount - a.amount; 
+        return b.amount - a.amount;
       } else if (sortBy === "amount-low") {
         return a.amount - b.amount;
       } else if (sortBy === "type-regular") {
-        return a.type.localeCompare(b.type); 
+        return a.type.localeCompare(b.type);
       } else if (sortBy === "type-irregular") {
         return b.type.localeCompare(a.type);
       }
       return 0;
     });
   }, [irregularIncomes, regularIncomeHistory, sortBy]);
-
+  
   if (isLoading) {
     return (
       <div className="w-full flex flex-col items-center mt-5">
