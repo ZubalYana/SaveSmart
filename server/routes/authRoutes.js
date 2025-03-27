@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "profile_pictures",
-    allowed_formats: ["jpg", "png", "jpeg"],
+    allowed_formats: ["jpg", "png", "jpeg", "webp"],
     transformation: [{ width: 200, height: 200, crop: "fill" }], 
   },
 });
@@ -103,32 +103,33 @@ router.get('/user', authenticateToken, async (req, res) => {
 //upload profile picture
 router.post("/upload-profile", authenticateToken, upload.single("profilePicture"), async (req, res) => {
   try {
-    console.log("Received request to upload profile picture");
+    console.log("📩 Received request to upload profile picture");
 
     if (!req.file) {
-      console.log("No file uploaded");
+      console.log("❌ No file uploaded");
       return res.status(400).json({ message: "No file uploaded" });
     }
 
-    console.log("Uploaded file:", req.file);
+    console.log("✅ Uploaded file:", req.file);
 
     const user = await User.findById(req.user.userId);
     if (!user) {
-      console.log("User not found");
+      console.log("❌ User not found");
       return res.status(404).json({ message: "User not found" });
     }
 
     user.profilePicture = req.file.path;
     await user.save();
 
-    console.log("Profile picture updated:", user.profilePicture);
-    res.json({ message: "Profile picture updated", profilePicture: user.profilePicture });
+    console.log("✅ Profile picture updated:", user.profilePicture);
+    return res.json({ message: "Profile picture updated", profilePicture: user.profilePicture });
 
   } catch (error) {
-    console.error("Upload error:", error); 
-    res.status(500).json({ message: "Error uploading image", error: error.message });
+    console.error("❌ Upload error:", error); 
+    return res.status(500).json({ message: "Error uploading image", error: error.message });
   }
 });
+
 
 
 

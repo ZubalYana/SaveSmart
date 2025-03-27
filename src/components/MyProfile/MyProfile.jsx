@@ -42,34 +42,35 @@ export default function MyProfile() {
     formData.append("profilePicture", file);
   
     console.log("Uploading file:", file);
-    console.log("FormData:", formData.get("profilePicture")); 
   
     try {
       const response = await fetch("http://localhost:3000/api/auth/upload-profile", {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` }, 
         body: formData,
       });
   
       console.log("Response status:", response.status);
-      
-      const text = await response.text(); 
-      console.log("Server response:", text);
+  
+      const text = await response.text();
+      console.log("Raw server response:", text);
   
       try {
         const data = JSON.parse(text);
         if (response.ok) {
+          console.log("Profile Picture URL:", data.profilePicture);
           setProfilePic(data.profilePicture);
         } else {
-          console.error("Image upload failed:", data.message);
+          console.error("Upload failed:", data.message);
         }
       } catch (jsonError) {
-        console.error("Server did not return valid JSON:", text);
+        console.error("Failed to parse JSON. Raw response:", text);
       }
     } catch (error) {
       console.error("Error uploading image:", error);
     }
   };
+  
   
 
   if (isLoading) return <p>Loading...</p>;
