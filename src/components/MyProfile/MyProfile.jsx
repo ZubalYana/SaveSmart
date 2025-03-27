@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, Box } from "@mui/material";
+import { Avatar, Box, CircularProgress, Alert, Snackbar } from "@mui/material"; // Import Snackbar for alert
 import { useQuery } from "@tanstack/react-query";
 import Burger from "../Burger/Burger";
 import LogoutButton from "../LogoutButton/LogoutButton";
@@ -24,6 +24,8 @@ export default function MyProfile() {
   });
 
   const [profilePic, setProfilePic] = useState("/userPicLayout.svg");
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false); // State for success message
 
   useEffect(() => {
     if (user?.profilePicture) {
@@ -33,33 +35,28 @@ export default function MyProfile() {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (!file) {
-      console.log("No file selected.");
-      return;
-    }
-  
+    if (!file) return;
+
+    const tempURL = URL.createObjectURL(file);
+    setProfilePic(tempURL);
+    setIsUploading(true);
+
     const formData = new FormData();
     formData.append("profilePicture", file);
-  
-    console.log("Uploading file:", file);
-  
+
     try {
       const response = await fetch("http://localhost:3000/api/auth/upload-profile", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` }, 
         body: formData,
       });
-  
-      console.log("Response status:", response.status);
-  
+
       const text = await response.text();
-      console.log("Raw server response:", text);
-  
       try {
         const data = JSON.parse(text);
         if (response.ok) {
-          console.log("Profile Picture URL:", data.profilePicture);
           setProfilePic(data.profilePicture);
+          setUploadSuccess(true);
         } else {
           console.error("Upload failed:", data.message);
         }
@@ -68,10 +65,10 @@ export default function MyProfile() {
       }
     } catch (error) {
       console.error("Error uploading image:", error);
+    } finally {
+      setIsUploading(false);
     }
   };
-  
-  
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
@@ -85,9 +82,23 @@ export default function MyProfile() {
     : "N/A";
 
   return (
-    <div className="MyProfile screen xs:p-4 md:p-6 lg:p-7 text-defaultText">
+    <div className="MyProfile screen xs:p-4 md:p-6 lg:p-7 text-defaultText relative">
       <Burger />
       <h1 className="text-xl font-medium text-black">User Profile</h1>
+
+      {isUploading && ( 
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 10,
+          }}
+        >
+          <CircularProgress size={50} />
+        </Box>
+      )}
 
       <Box display="flex" alignItems="center" mt={4} mb={5}>
         <input
@@ -135,6 +146,18 @@ export default function MyProfile() {
       </Box>
 
       <LogoutButton />
+
+      {/* Snackbar Alert for Success Message */}
+      <Snackbar
+        open={uploadSuccess}
+        autoHideDuration={3000}
+        onClose={() => setUploadSuccess(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={() => setUploadSuccess(false)} severity="success" sx={{ width: "100%" }}>
+          Profile picture updated successfully!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
