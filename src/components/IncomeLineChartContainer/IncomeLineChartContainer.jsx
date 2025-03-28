@@ -22,7 +22,7 @@ export default function IncomeLineChartContainer() {
   console.log("Fetched incomes:", incomes);
 
   const currentYear = dayjs().year();
-  const currentMonth = dayjs().month() + 1; 
+  const currentMonth = dayjs().month() + 1;
 
   const incomeByDay = {};
 
@@ -63,7 +63,7 @@ export default function IncomeLineChartContainer() {
   console.log("Final chart data:", chartData);
 
   return (
-    <div className="w-[50%] mb-5">
+    <div className="w-[60%] mb-5">
       <IncomeLineChart data={chartData} />
     </div>
   );

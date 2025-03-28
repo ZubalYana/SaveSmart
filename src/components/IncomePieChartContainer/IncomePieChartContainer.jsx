@@ -32,7 +32,7 @@ export default function IncomePieChartContainer() {
     );
 
     return (
-        <div className="w-[50%] mb-5">
+        <div className="w-[40%] mb-5">
             <IncomePieChart data={incomeData} />
         </div>
     );
