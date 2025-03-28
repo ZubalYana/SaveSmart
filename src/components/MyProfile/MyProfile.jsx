@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, Box, CircularProgress, Alert, Snackbar } from "@mui/material"; // Import Snackbar for alert
+import { Avatar, Box, CircularProgress, Alert, Snackbar } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import Burger from "../Burger/Burger";
 import LogoutButton from "../LogoutButton/LogoutButton";
@@ -86,19 +86,25 @@ export default function MyProfile() {
       <Burger />
       <h1 className="text-xl font-medium text-black">User Profile</h1>
 
-      {isUploading && ( 
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            zIndex: 10,
-          }}
-        >
-          <CircularProgress size={50} />
-        </Box>
-      )}
+      {isUploading && (
+  <Box
+    sx={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "rgba(0, 0, 0, 0.5)", 
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 1000,
+    }}
+  >
+    <CircularProgress size={50} sx={{ color: "#1E3A8A" }} />
+  </Box>
+)}
+
 
       <Box display="flex" alignItems="center" mt={4} mb={5}>
         <input
