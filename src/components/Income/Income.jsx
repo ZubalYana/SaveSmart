@@ -6,6 +6,7 @@ import IncomeCreationModal from '../IncomeCreationModal/IncomeCreationModal';
 import IncomeHistory from '../IncomeHistory/IncomeHistory';
 import FullIncomeHistory from '../FullIncomeHistory/FullIncomeHistory';
 import IncomeLineChartContainer from '../IncomeLineChartContainer/IncomeLineChartContainer';
+import IncomePieChartContainer from '../IncomePieChartContainer/IncomePieChartContainer';
 import { Plus, ListChecks, History } from 'lucide-react';
 import Modal from 'react-modal';
 Modal.setAppElement('#root');
@@ -115,6 +116,7 @@ export default function Income() {
         <Burger />
         <div className='w-full flex'>
           <IncomeLineChartContainer />
+          <IncomePieChartContainer />
         </div>
         <div className='w-[530px] flex justify-between'>
           <button

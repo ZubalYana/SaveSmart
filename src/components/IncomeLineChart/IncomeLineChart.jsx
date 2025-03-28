@@ -13,7 +13,7 @@ import {
 
 
 export default class IncomeLineChart extends PureComponent {
-  
+
   render() {
     const { data } = this.props;
     return (
