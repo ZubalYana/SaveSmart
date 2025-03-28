@@ -19,8 +19,6 @@ export default function IncomeLineChartContainer() {
     },
   });
 
-  console.log("Fetched incomes:", incomes);
-
   const currentYear = dayjs().year();
   const currentMonth = dayjs().month() + 1;
 
@@ -50,7 +48,6 @@ export default function IncomeLineChartContainer() {
     }
   });
 
-  console.log("Aggregated incomes by day:", incomeByDay);
 
   const chartData = Object.entries(incomeByDay)
     .map(([day, total]) => ({
@@ -60,7 +57,6 @@ export default function IncomeLineChartContainer() {
     }))
     .sort((a, b) => a.dayNum - b.dayNum);
 
-  console.log("Final chart data:", chartData);
 
   return (
     <div className="w-[60%] mb-5">
