@@ -13,7 +13,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "profile_pictures",
     allowed_formats: ["jpg", "png", "jpeg", "webp"],
-    transformation: [{ width: 200, height: 200, crop: "fill" }], 
+    transformation: [{ width: 200, height: 200, crop: "fill" }],
   },
 });
 
@@ -91,7 +91,7 @@ router.get('/user', authenticateToken, async (req, res) => {
       subscribedToNewsletter: user.subscribedToNewsletter,
       heardFrom: user.heardFrom,
       purposeOfUsage: user.purposeOfUsage,
-      profilePicture: user.profilePicture,  
+      profilePicture: user.profilePicture,
       createdAt: user.createdAt,
     });
   } catch (error) {
@@ -125,7 +125,7 @@ router.post("/upload-profile", authenticateToken, upload.single("profilePicture"
     return res.json({ message: "Profile picture updated", profilePicture: user.profilePicture });
 
   } catch (error) {
-    console.error("❌ Upload error:", error); 
+    console.error("❌ Upload error:", error);
     return res.status(500).json({ message: "Error uploading image", error: error.message });
   }
 });

@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { FormControl, InputLabel } from "@mui/material";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Select, MenuItem, IconButton } from "@mui/material";
-export default function IncomeHistory() {
+export default function IncomeHistory({ onClick }) {
   const token = localStorage.getItem("token");
   const today = dayjs();
   const queryClient = useQueryClient();
@@ -72,11 +72,11 @@ export default function IncomeHistory() {
 
   const sortedIncomes = useMemo(() => {
     const allIncomes = [...irregularIncomes, ...regularIncomeHistory];
-  
+
     return allIncomes.sort((a, b) => {
       const dateA = dayjs(a.dateReceived || a.date);
       const dateB = dayjs(b.dateReceived || b.date);
-  
+
       if (sortBy === "date-oldest") {
         return dateA.diff(dateB);
       } else if (sortBy === "date-newest") {
@@ -93,12 +93,12 @@ export default function IncomeHistory() {
       return 0;
     });
   }, [irregularIncomes, regularIncomeHistory, sortBy]);
-  
+
   if (isLoading) {
     return (
       <div className="w-full flex flex-col items-center mt-5">
         <h1 className="text-xl font-semibold uppercase text-mainBlue">Income History</h1>
-        <p>Loading...</p> 
+        <p>Loading...</p>
       </div>
     );
   }
@@ -107,7 +107,7 @@ export default function IncomeHistory() {
     return (
       <div className="w-full flex flex-col items-center mt-5">
         <h1 className="text-xl font-semibold uppercase text-mainBlue">Income History</h1>
-        <p>Error: {error.message}</p> 
+        <p>Error: {error.message}</p>
       </div>
     );
   }
@@ -116,49 +116,49 @@ export default function IncomeHistory() {
     return (
       <div className="w-full flex flex-col items-center mt-5">
         <h1 className="text-xl font-semibold uppercase text-mainBlue">Income History</h1>
-        <p>No data available.</p> 
+        <p>No data available.</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full flex flex-col items-center mt-5 relative h-[240px]">
+    <div className="w-full flex flex-col items-center mt-5 relative h-[240px]" onClick={onClick}>
       <h1 className="text-xl font-semibold uppercase text-mainBlue">Income History</h1>
-      
+
       <div className="absolute top-0 right-0">
-  <FormControl 
-    size="small" 
-    variant="standard" 
-    sx={{ 
-      minWidth: 120, 
-      display: "flex", 
-      flexDirection: "row", 
-      alignItems: "center", 
-      gap: 0.3
-    }}
-  >
-    <FilterAltIcon fontSize="small" /> 
-    <Select
-      value={sortBy}
-      onChange={(e) => setSortBy(e.target.value)}
-      displayEmpty
-      disableUnderline
-      sx={{
-        fontSize: "0.875rem", 
-        "&.MuiOutlinedInput-root": { border: "none" }, 
-        "& .MuiSelect-select": { padding: "6px 8px" },
-      }}
-    >
-      <MenuItem value="" disabled>Sort By</MenuItem>
-      <MenuItem value="date-newest">Date (Newest to Oldest)</MenuItem>
-      <MenuItem value="date-oldest">Date (Oldest to Newest)</MenuItem>
-      <MenuItem value="amount-high">Amount (High to Low)</MenuItem>
-      <MenuItem value="amount-low">Amount (Low to High)</MenuItem>
-      <MenuItem value="type-irregular">Type (Regular First)</MenuItem>
-      <MenuItem value="type-regular">Type (Irregular First)</MenuItem>
-    </Select>
-  </FormControl>
-</div>
+        <FormControl
+          size="small"
+          variant="standard"
+          sx={{
+            minWidth: 120,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 0.3
+          }}
+        >
+          <FilterAltIcon fontSize="small" />
+          <Select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            displayEmpty
+            disableUnderline
+            sx={{
+              fontSize: "0.875rem",
+              "&.MuiOutlinedInput-root": { border: "none" },
+              "& .MuiSelect-select": { padding: "6px 8px" },
+            }}
+          >
+            <MenuItem value="" disabled>Sort By</MenuItem>
+            <MenuItem value="date-newest">Date (Newest to Oldest)</MenuItem>
+            <MenuItem value="date-oldest">Date (Oldest to Newest)</MenuItem>
+            <MenuItem value="amount-high">Amount (High to Low)</MenuItem>
+            <MenuItem value="amount-low">Amount (Low to High)</MenuItem>
+            <MenuItem value="type-irregular">Type (Regular First)</MenuItem>
+            <MenuItem value="type-regular">Type (Irregular First)</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
 
 
       <div className="w-full flex justify-between px-[30px] mt-6 pb-2">

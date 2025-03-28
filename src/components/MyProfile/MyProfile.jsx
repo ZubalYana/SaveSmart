@@ -47,7 +47,7 @@ export default function MyProfile() {
     try {
       const response = await fetch("http://localhost:3000/api/auth/upload-profile", {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` }, 
+        headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
 
@@ -75,10 +75,10 @@ export default function MyProfile() {
 
   const formattedBirthday = user?.dateOfBirth
     ? new Date(user.dateOfBirth).toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    })
     : "N/A";
 
   return (
@@ -87,23 +87,23 @@ export default function MyProfile() {
       <h1 className="text-xl font-medium text-black">User Profile</h1>
 
       {isUploading && (
-  <Box
-    sx={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100vw",
-      height: "100vh",
-      backgroundColor: "rgba(0, 0, 0, 0.5)", 
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      zIndex: 1000,
-    }}
-  >
-    <CircularProgress size={50} sx={{ color: "#1E3A8A" }} />
-  </Box>
-)}
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <CircularProgress size={50} sx={{ color: "#1E3A8A" }} />
+        </Box>
+      )}
 
 
       <Box display="flex" alignItems="center" mt={4} mb={5}>
@@ -153,7 +153,6 @@ export default function MyProfile() {
 
       <LogoutButton />
 
-      {/* Snackbar Alert for Success Message */}
       <Snackbar
         open={uploadSuccess}
         autoHideDuration={3000}
