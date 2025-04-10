@@ -1,19 +1,33 @@
 import React, { useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { FormControl } from "@mui/material";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { Select, MenuItem } from "@mui/material";
 import { PencilIcon, TrashIcon } from "lucide-react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  OutlinedInput,
+  Autocomplete,
+} from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function IncomeHistory() {
   const token = localStorage.getItem("token");
   const today = dayjs();
   const queryClient = useQueryClient();
   const [sortBy, setSortBy] = useState("date-newest");
-  const [editIncome, setEditIncome] = useState(null);
   const [incomeToDelete, setIncomeToDelete] = useState(null);
-
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [editingIncome, setEditingIncome] = useState(null);
 
   const { data: incomes = [], isLoading, isError, error } = useQuery({
     queryKey: ["incomes"],
@@ -29,6 +43,125 @@ export default function IncomeHistory() {
       return response.json();
     },
   });
+
+  const currencySymbols = {
+    "840": "$",   // US Dollar (USD)
+    "978": "€",   // Euro (EUR)
+    "980": "₴",   // Ukrainian Hryvnia (UAH)
+    "826": "£",   // British Pound (GBP)
+    "392": "¥",   // Japanese Yen (JPY)
+    "756": "CHF", // Swiss Franc (CHF)
+    "124": "C$",  // Canadian Dollar (CAD)
+    "36": "A$",   // Australian Dollar (AUD)
+    "208": "kr",  // Danish Krone (DKK)
+    "752": "kr",  // Swedish Krona (SEK)
+    "203": "Kč",  // Czech Koruna (CZK)
+    "156": "¥",   // Chinese Yuan (CNY)
+  };
+  const CURRENCY_NAMES = {
+    "8": "Albanian Lek (ALL)",
+    "12": "Algerian Dinar (DZD)",
+    "32": "Argentine Peso (ARS)",
+    "36": "Australian Dollar (AUD)",
+    "48": "Bahraini Dinar (BHD)",
+    "50": "Bangladeshi Taka (BDT)",
+    "51": "Armenian Dram (AMD)",
+    "68": "Bolivian Boliviano (BOB)",
+    "72": "Botswana Pula (BWP)",
+    "96": "Brunei Dollar (BND)",
+    "108": "Burundi Franc (BIF)",
+    "116": "Cambodian Riel (KHR)",
+    "124": "Canadian Dollar (CAD)",
+    "144": "Sri Lankan Rupee (LKR)",
+    "152": "Chilean Peso (CLP)",
+    "156": "Chinese Yuan (CNY)",
+    "170": "Colombian Peso (COP)",
+    "188": "Costa Rican Colón (CRC)",
+    "191": "Croatian Kuna (HRK)",
+    "192": "Cuban Peso (CUP)",
+    "203": "Czech Koruna (CZK)",
+    "208": "Danish Krone (DKK)",
+    "230": "Ethiopian Birr (ETB)",
+    "262": "Djiboutian Franc (DJF)",
+    "270": "Gambian Dalasi (GMD)",
+    "324": "Guinean Franc (GNF)",
+    "344": "Hong Kong Dollar (HKD)",
+    "352": "Icelandic Króna (ISK)",
+    "356": "Indian Rupee (INR)",
+    "360": "Indonesian Rupiah (IDR)",
+    "368": "Iraqi Dinar (IQD)",
+    "376": "Israeli New Shekel (ILS)",
+    "392": "Japanese Yen (JPY)",
+    "398": "Kazakhstani Tenge (KZT)",
+    "400": "Jordanian Dinar (JOD)",
+    "404": "Kenyan Shilling (KES)",
+    "410": "South Korean Won (KRW)",
+    "414": "Kuwaiti Dinar (KWD)",
+    "417": "Kyrgyzstani Som (KGS)",
+    "418": "Lao Kip (LAK)",
+    "422": "Lebanese Pound (LBP)",
+    "434": "Libyan Dinar (LYD)",
+    "454": "Malawian Kwacha (MWK)",
+    "458": "Malaysian Ringgit (MYR)",
+    "480": "Mauritian Rupee (MUR)",
+    "484": "Mexican Peso (MXN)",
+    "496": "Mongolian Tögrög (MNT)",
+    "504": "Moroccan Dirham (MAD)",
+    "512": "Omani Rial (OMR)",
+    "524": "Nepalese Rupee (NPR)",
+    "554": "New Zealand Dollar (NZD)",
+    "566": "Nigerian Naira (NGN)",
+    "578": "Norwegian Krone (NOK)",
+    "586": "Pakistani Rupee (PKR)",
+    "600": "Paraguayan Guaraní (PYG)",
+    "604": "Peruvian Sol (PEN)",
+    "608": "Philippine Peso (PHP)",
+    "634": "Qatari Riyal (QAR)",
+    "643": "Russian Ruble (RUB)",
+    "682": "Saudi Riyal (SAR)",
+    "690": "Seychellois Rupee (SCR)",
+    "694": "Sierra Leonean Leone (SLL)",
+    "702": "Singapore Dollar (SGD)",
+    "704": "Vietnamese Đồng (VND)",
+    "710": "South African Rand (ZAR)",
+    "716": "Zimbabwean Dollar (ZWL)",
+    "748": "Eswatini Lilangeni (SZL)",
+    "752": "Swedish Krona (SEK)",
+    "756": "Swiss Franc (CHF)",
+    "764": "Thai Baht (THB)",
+    "784": "UAE Dirham (AED)",
+    "788": "Tunisian Dinar (TND)",
+    "800": "Ugandan Shilling (UGX)",
+    "818": "Egyptian Pound (EGP)",
+    "826": "British Pound Sterling (GBP)",
+    "834": "Tanzanian Shilling (TZS)",
+    "840": "US Dollar (USD)",
+    "858": "Uruguayan Peso (UYU)",
+    "860": "Uzbekistani Som (UZS)",
+    "886": "Yemeni Rial (YER)",
+    "901": "Taiwan Dollar (TWD)",
+    "928": "Venezuelan Bolívar (VES)",
+    "931": "Aruban Florin (AWG)",
+    "933": "Belarusian Ruble (BYN)",
+    "936": "Ghanaian Cedi (GHS)",
+    "941": "Serbian Dinar (RSD)",
+    "943": "Mozambican Metical (MZN)",
+    "946": "Romanian Leu (RON)",
+    "949": "Turkish Lira (TRY)",
+    "950": "CFA Franc BEAC (XAF)",
+    "952": "CFA Franc BCEAO (XOF)",
+    "968": "Surinamese Dollar (SRD)",
+    "969": "Malagasy Ariary (MGA)",
+    "971": "Afghan Afghani (AFN)",
+    "972": "Tajikistani Somoni (TJS)",
+    "973": "Congolese Franc (CDF)",
+    "975": "Bulgarian Lev (BGN)",
+    "976": "Macedonian Denar (MKD)",
+    "978": "Euro (EUR)",
+    "980": "Ukrainian Hryvnia (UAH)",
+    "985": "Polish Złoty (PLN)",
+    "986": "Brazilian Real (BRL)"
+  }
 
   const generateRegularIncomeHistory = (income) => {
     const { startDate, endDate, periodicity, amount, name, dayOfMonth, yearlyDay, yearlyMonth } = income;
@@ -121,15 +254,19 @@ export default function IncomeHistory() {
   }
 
   const handleOpenEdit = (income) => {
-    setEditIncome(income);
+    setEditingIncome(income);
+    setOpenEditModal(true);
   };
 
-  const handleCloseEdit = () => {
-    setEditIncome(null);
+  const handleCloseEditModal = () => {
+    setEditingIncome(null);
+    setOpenEditModal(false);
   };
+
 
   const handleOpenConfirm = (income) => {
     setIncomeToDelete(income);
+    setOpenConfirm(true);
   };
 
   const handleCloseConfirm = () => {
@@ -152,6 +289,7 @@ export default function IncomeHistory() {
 
       queryClient.invalidateQueries(["incomes"]);
       setIncomeToDelete(null);
+      setOpenConfirm(false);
     } catch (err) {
       console.error("Delete error:", err);
     }
@@ -203,6 +341,15 @@ export default function IncomeHistory() {
       console.error("Update error:", error);
     }
   };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    if (!editingIncome) return;
+
+    await handleUpdateIncome(editingIncome);
+    handleCloseEditModal();
+  };
+
 
 
 
@@ -279,46 +426,237 @@ export default function IncomeHistory() {
         ))}
       </div>
 
-      {incomeToDelete && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-          <div className="bg-white p-5 rounded-lg shadow-lg">
-            <p>Are you sure you want to delete "{incomeToDelete.name}"?</p>
-            <div className="mt-4 flex gap-3 justify-end">
-              <button onClick={handleDeleteIncome} className="text-red-600">Yes, Delete</button>
-              <button onClick={handleCloseConfirm}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-      {editIncome && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-          <div className="bg-white p-5 rounded-lg shadow-lg w-[300px]">
-            <p className="text-lg font-semibold mb-2">Edit Income</p>
-            <input
-              type="text"
-              className="w-full border p-1 mb-2"
-              value={editIncome.name}
-              onChange={(e) => setEditIncome({ ...editIncome, name: e.target.value })}
-            />
-            <input
-              type="number"
-              className="w-full border p-1 mb-2"
-              value={editIncome.amount}
-              onChange={(e) => setEditIncome({ ...editIncome, amount: e.target.value })}
-            />
-            <div className="mt-2 flex gap-3 justify-end">
-              <button
-                className="text-green-600"
-                onClick={() => handleUpdateIncome(editIncome)}
+      {/* Deletion Confirmation Modal */}
+      <Dialog open={openConfirm} onClose={handleCloseConfirm}>
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>Are you sure you want to delete this income?</DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseConfirm} color="primary">Cancel</Button>
+          <Button onClick={handleDeleteIncome} color="error">Delete</Button>
+        </DialogActions>
+      </Dialog>
 
+      {/* Edit Income Modal */}
+      <Dialog open={openEditModal} onClose={handleCloseEditModal}>
+        <DialogTitle>Edit Income</DialogTitle>
+        <DialogContent className="w-[600px]">
+          <form onSubmit={handleEditSubmit} className="flex flex-col pt-2">
+            <div className="flex">
+              {/* Left Column */}
+              <div className="w-[50%] flex flex-col gap-5">
+                {/* Income Name */}
+                <TextField
+                  label="Income name (e.g. salary, scholarship)"
+                  variant="outlined"
+                  value={editingIncome?.name || ""}
+                  onChange={(e) =>
+                    setEditingIncome((prev) => ({ ...prev, name: e.target.value }))
+                  }
+                  className="w-[260px]"
+                />
+
+                {/* Receiving Periodicity */}
+                <FormControl sx={{ width: 260 }}>
+                  <InputLabel>Receiving periodicity</InputLabel>
+                  <Select
+                    value={editingIncome?.periodicity || ""}
+                    onChange={(e) =>
+                      setEditingIncome((prev) => ({
+                        ...prev,
+                        periodicity: e.target.value,
+                        // Reset other fields on change
+                        dayOfWeek: null,
+                        dayOfMonth: "",
+                        yearlyDate: null,
+                        yearlyMonth: null,
+                        yearlyDay: null,
+                      }))
+                    }
+                    input={<OutlinedInput label="Receiving periodicity" />}
+                  >
+                    {["Daily", "Weekly", "Monthly", "Yearly"].map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                {/* Periodicity Specific Inputs */}
+                {editingIncome?.periodicity === "Weekly" && (
+                  <FormControl sx={{ width: 260 }}>
+                    <InputLabel>Day of the week</InputLabel>
+                    <Select
+                      value={editingIncome?.dayOfWeek || ""}
+                      onChange={(e) =>
+                        setEditingIncome((prev) => ({
+                          ...prev,
+                          dayOfWeek: e.target.value,
+                        }))
+                      }
+                      input={<OutlinedInput label="Day of the week" />}
+                    >
+                      {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(
+                        (day) => (
+                          <MenuItem key={day} value={day}>
+                            {day}
+                          </MenuItem>
+                        )
+                      )}
+                    </Select>
+                  </FormControl>
+                )}
+
+                {editingIncome?.periodicity === "Monthly" && (
+                  <TextField
+                    label="Day of the month (1-31)"
+                    type="number"
+                    inputProps={{ min: 1, max: 31 }}
+                    value={editingIncome?.dayOfMonth || ""}
+                    onChange={(e) =>
+                      setEditingIncome((prev) => ({
+                        ...prev,
+                        dayOfMonth: e.target.value,
+                      }))
+                    }
+                    variant="outlined"
+                    sx={{ width: 260 }}
+                  />
+                )}
+
+                {editingIncome?.periodicity === "Yearly" && (
+                  <DatePicker
+                    views={["month", "day"]}
+                    label="Select specific date"
+                    value={
+                      editingIncome?.yearlyDate ||
+                      (editingIncome?.yearlyMonth !== null &&
+                        editingIncome?.yearlyDay !== null
+                        ? dayjs().month(editingIncome.yearlyMonth - 1).date(editingIncome.yearlyDay)
+                        : null)
+                    }
+                    onChange={(newValue) =>
+                      setEditingIncome((prev) => ({
+                        ...prev,
+                        yearlyDate: newValue,
+                        yearlyMonth: newValue?.month() + 1,
+                        yearlyDay: newValue?.date(),
+                      }))
+                    }
+                    renderInput={(params) => (
+                      <TextField {...params} sx={{ maxWidth: 260 }} />
+                    )}
+                    className="w-[260px]"
+                  />
+                )}
+
+                {/* Start Date */}
+                <DatePicker
+                  label="Start Date"
+                  value={dayjs(editingIncome?.startDate) || null}
+                  onChange={(newValue) =>
+                    setEditingIncome((prev) => ({ ...prev, startDate: newValue }))
+                  }
+                  className="w-[260px]"
+                />
+
+                {/* End Date */}
+                <DatePicker
+                  label="End Date"
+                  value={editingIncome?.endDate ? dayjs(editingIncome.endDate) : null}
+                  onChange={(newValue) =>
+                    setEditingIncome((prev) => ({
+                      ...prev,
+                      endDate: newValue || null,
+                    }))
+                  }
+                  className="w-[260px]"
+                  slotProps={{
+                    textField: {
+                      error: false,
+                    },
+                  }}
+                />
+              </div>
+
+              {/* Right Column */}
+              <div className="w-[50%] flex flex-col gap-5 items-end">
+                {/* Receiving Sum */}
+                <TextField
+                  label="Receiving sum"
+                  type="number"
+                  inputProps={{ min: 1 }}
+                  value={editingIncome?.amount || ""}
+                  onChange={(e) =>
+                    setEditingIncome((prev) => ({
+                      ...prev,
+                      amount: e.target.value,
+                    }))
+                  }
+                  variant="outlined"
+                  sx={{ width: 260 }}
+                />
+
+                {/* Currency Selection */}
+                <Autocomplete
+                  value={editingIncome?.currency || ""}
+                  onChange={(event, newValue) =>
+                    setEditingIncome((prev) => ({
+                      ...prev,
+                      currency: newValue,
+                    }))
+                  }
+                  options={Object.keys(CURRENCY_NAMES)}
+                  getOptionLabel={(option) =>
+                    CURRENCY_NAMES[option] || `Unknown (${option})`
+                  }
+                  renderInput={(params) => (
+                    <TextField {...params} label="Saving currency" variant="outlined" />
+                  )}
+                  className="w-[260px]"
+                />
+
+                {/* Saving Method */}
+                <Autocomplete
+                  value={editingIncome?.method || ""}
+                  onChange={(event, newValue) =>
+                    setEditingIncome((prev) => ({
+                      ...prev,
+                      method: newValue,
+                    }))
+                  }
+                  options={["Cash", "Card", "Bank Transfer", "Mobile Payment", "Cryptocurrency"]}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Saving Method" variant="outlined" />
+                  )}
+                  className="w-[260px]"
+                />
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <DialogActions className="flex justify-end gap-2 pt-4">
+              <Button
+                onClick={handleCloseEditModal}
+                variant="outlined"
+                color="error"
+                className="px-4 py-2 rounded-lg hover:bg-red-100"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                className="px-4 py-2 rounded-lg hover:bg-mainBlue text-white"
+                sx={{ backgroundColor: "#1a73e8" }}
               >
                 Save
-              </button>
-              <button onClick={handleCloseEdit}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
+              </Button>
+            </DialogActions>
+          </form>
+        </DialogContent>
+      </Dialog>
+
 
     </div>
   );
