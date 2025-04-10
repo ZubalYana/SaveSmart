@@ -271,6 +271,7 @@ export default function IncomeHistory() {
 
   const handleCloseConfirm = () => {
     setIncomeToDelete(null);
+    setOpenConfirm(false);
   };
 
   const handleDeleteIncome = async () => {
